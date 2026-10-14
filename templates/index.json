@@ -323,6 +323,28 @@
     "proof_trust_results_6GMbdf": {
       "type": "proof-trust-results",
       "blocks": {
+        "review_card_NVV6pf": {
+          "type": "review_card",
+          "settings": {
+            "image": "shopify://shop_images/5b57a226b8f1996f77b2b959b3a514a654c99b0f.png",
+            "quote": "“Covered all grays. No nasty smell. Didn’t stain my skin. Finally an easy to use solution.”",
+            "author": "Kara P., Nashville, TN",
+            "pill_before": "BEFORE",
+            "pill_after": "AFTER",
+            "verified_text": "Verified Buyer"
+          }
+        },
+        "review_card_yCFfQe": {
+          "type": "review_card",
+          "settings": {
+            "image": "shopify://shop_images/17918ed2b86185902cd2c6f1cddb44d8a2c868b3_1.png",
+            "quote": "“Quick and easy. Color looks really good. No staining on hairline or face / ears. Love this product.”",
+            "author": "Priadashni T., Boston, MA",
+            "pill_before": "BEFORE",
+            "pill_after": "AFTER",
+            "verified_text": "Verified Buyer"
+          }
+        },
         "review_card_zrcNtF": {
           "type": "review_card",
           "settings": {
@@ -333,10 +355,24 @@
             "pill_after": "AFTER",
             "verified_text": "Verified Buyer"
           }
+        },
+        "review_card_NbkpJF": {
+          "type": "review_card",
+          "settings": {
+            "image": "shopify://shop_images/06e5d3792e48996fbc4e0ca731c9c87df266afec.jpg",
+            "quote": "“Covered my grays in 10 minutes, no mess and no strong smell! Very happy with my order!”",
+            "author": "Laura T., Austin, TX",
+            "pill_before": "BEFORE",
+            "pill_after": "AFTER",
+            "verified_text": "Verified Buyer"
+          }
         }
       },
       "block_order": [
-        "review_card_zrcNtF"
+        "review_card_NVV6pf",
+        "review_card_yCFfQe",
+        "review_card_zrcNtF",
+        "review_card_NbkpJF"
       ],
       "name": "Proof & Trust Results",
       "settings": {
