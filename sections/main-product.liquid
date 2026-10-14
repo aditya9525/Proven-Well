@@ -528,7 +528,7 @@
                     {%- if qty == 2 -%}+ Free Shipping{%- elsif qty >= 3 -%}+ Free Conditioner{%- endif -%}
                   </span>
                 </div>
-                <span class="bundle-price-each">{{ var_price | money }} Each</span>
+               <span class="bundle-price-each">{{ var_price | divided_by: qty | money }} Each</span>
               </div>
             {%- endfor -%}
           {%- else -%}
@@ -1272,7 +1272,7 @@
           var isAvailable = card.getAttribute('data-available') !== 'false';
 
           if (selectedVariantId && variantId) selectedVariantId.value = variantId;
-          if (selectedQuantityInput) selectedQuantityInput.value = qty;
+          if (selectedQuantityInput) selectedQuantityInput.value = 1;
           if (currentPriceEl && price) currentPriceEl.textContent = formatPrice(price);
           if (comparePriceEl && compare) comparePriceEl.textContent = formatPrice(compare);
           if (discountPills.length > 0 && save) {
