@@ -633,14 +633,17 @@
       # Per-bottle price is identical to total for 1 bottle
       assign v1_price_per_bottle = v1_total
 
-      # Compare-at price for 1 Bottle
-      assign v1_compare_total = v1.compare_at_price | default: bundle_product.compare_at_price
+      # Compare-at price for 1 Bottle (matching main-product.liquid)
+      assign v1_compare_total = v1.compare_at_price | default: bundle_product.compare_at_price | default: 490000
       if v1_compare_total == blank or v1_compare_total <= v1_total
         assign v1_compare_total = 490000
       endif
+      if v1_compare_total <= v1_total
+        assign v1_compare_total = v1_total | times: 1.4 | round
+      endif
       assign v1_compare_per_bottle = v1_compare_total
 
-      # Saving percentage for 1 Bottle
+      # Saving percentage for 1 Bottle (matching main-product.liquid)
       assign v1_save = 29
       if v1_compare_total > v1_total
         assign v1_save = v1_compare_total | minus: v1_total | times: 100.0 | divided_by: v1_compare_total | round
@@ -654,28 +657,33 @@
       elsif v2 != blank and v2.price > 0 and v2.id != v1.id
         assign v2_total = v2.price
       else
-        # Fallback if no separate 2-bottle variant: 590000 or 40% discount off compare total
+        # Fallback if no separate 2-bottle variant: 590000
         assign v2_total = 590000
-        if v1_compare_per_bottle > 0
-          assign v2_total = v1_compare_per_bottle | times: 2 | times: 60 | divided_by: 100 | round
-        endif
       endif
       # Calculate per-bottle price dynamically from the variant total price (total / 2)
       assign v2_price_per_bottle = v2_total | times: 1.0 | divided_by: 2 | round
 
-      # Compare-at price for 2 Bottles
-      if v2.compare_at_price != blank and v2.compare_at_price > v1_compare_per_bottle
-        assign v2_compare_total = v2.compare_at_price
-        assign v2_compare_per_bottle = v2_compare_total | times: 1.0 | divided_by: 2 | round
-      elsif v2.compare_at_price != blank and v2.compare_at_price > 0
-        assign v2_compare_per_bottle = v2.compare_at_price
-        assign v2_compare_total = v2_compare_per_bottle | times: 2
-      else
-        assign v2_compare_per_bottle = v1_compare_per_bottle
-        assign v2_compare_total = v1_compare_per_bottle | times: 2
+      # Compare-at price for 2 Bottles (matching main-product.liquid: 980000 total)
+      assign v2_compare_val = v2.compare_at_price
+      if v2 == blank or v2.id == v1.id or v2_compare_val == blank or v2_compare_val <= v2_price_per_bottle
+        assign v2_compare_val = 980000
       endif
 
-      # Saving percentage for 2 Bottles
+      # Determine if variant compare_at_price is pack total (e.g. 980000) or per-bottle (e.g. 490000)
+      if v2_compare_val > v1_compare_per_bottle
+        assign v2_compare_total = v2_compare_val
+        assign v2_compare_per_bottle = v2_compare_total | times: 1.0 | divided_by: 2 | round
+      else
+        assign v2_compare_per_bottle = v2_compare_val
+        assign v2_compare_total = v2_compare_per_bottle | times: 2
+      endif
+
+      if v2_compare_total <= v2_total
+        assign v2_compare_total = v2_total | times: 1.4 | round
+        assign v2_compare_per_bottle = v2_compare_total | times: 1.0 | divided_by: 2 | round
+      endif
+
+      # Saving percentage for 2 Bottles (matching main-product.liquid)
       assign v2_save = 40
       if v2_compare_total > v2_total
         assign v2_save = v2_compare_total | minus: v2_total | times: 100.0 | divided_by: v2_compare_total | round
@@ -694,28 +702,33 @@
       elsif v3 != blank and v3.price > 0 and v3.id != v1.id and v3.id != v2.id
         assign v3_total = v3.price
       else
-        # Fallback if no separate 3-bottle variant: 699900 or 52% discount off compare total
+        # Fallback if no separate 3-bottle variant: 699900
         assign v3_total = 699900
-        if v1_compare_per_bottle > 0
-          assign v3_total = v1_compare_per_bottle | times: 3 | times: 48 | divided_by: 100 | round
-        endif
       endif
       # Calculate per-bottle price dynamically from the variant total price (total / 3)
       assign v3_price_per_bottle = v3_total | times: 1.0 | divided_by: 3 | round
 
-      # Compare-at price for 3 Bottles
-      if v3.compare_at_price != blank and v3.compare_at_price > v1_compare_per_bottle
-        assign v3_compare_total = v3.compare_at_price
-        assign v3_compare_per_bottle = v3_compare_total | times: 1.0 | divided_by: 3 | round
-      elsif v3.compare_at_price != blank and v3.compare_at_price > 0
-        assign v3_compare_per_bottle = v3.compare_at_price
-        assign v3_compare_total = v3_compare_per_bottle | times: 3
-      else
-        assign v3_compare_per_bottle = v1_compare_per_bottle
-        assign v3_compare_total = v1_compare_per_bottle | times: 3
+      # Compare-at price for 3 Bottles (matching main-product.liquid: 1470000 total)
+      assign v3_compare_val = v3.compare_at_price
+      if v3 == blank or v3.id == v1.id or v3.id == v2.id or v3_compare_val == blank or v3_compare_val <= v3_price_per_bottle
+        assign v3_compare_val = 1470000
       endif
 
-      # Saving percentage for 3 Bottles
+      # Determine if variant compare_at_price is pack total (e.g. 1470000) or per-bottle (e.g. 490000)
+      if v3_compare_val > v1_compare_per_bottle
+        assign v3_compare_total = v3_compare_val
+        assign v3_compare_per_bottle = v3_compare_total | times: 1.0 | divided_by: 3 | round
+      else
+        assign v3_compare_per_bottle = v3_compare_val
+        assign v3_compare_total = v3_compare_per_bottle | times: 3
+      endif
+
+      if v3_compare_total <= v3_total
+        assign v3_compare_total = v3_total | times: 1.4 | round
+        assign v3_compare_per_bottle = v3_compare_total | times: 1.0 | divided_by: 3 | round
+      endif
+
+      # Saving percentage for 3 Bottles (matching main-product.liquid)
       assign v3_save = 52
       if v3_compare_total > v3_total
         assign v3_save = v3_compare_total | minus: v3_total | times: 100.0 | divided_by: v3_compare_total | round
@@ -794,11 +807,9 @@
           <div class="bundle-card-info">
             <h3 class="bundle-item-title">{{ bundle_1_title }}</h3>
             <div class="bundle-price-row">
-              {%- if v1_compare_per_bottle != blank and v1_compare_per_bottle > v1_price_per_bottle -%}
-                <span class="bundle-price-compare">
-                  {{- v1_compare_per_bottle | money_without_trailing_zeros | remove: '.00' -}}
-                </span>
-              {%- endif -%}
+              <span class="bundle-price-compare">
+                {{- v1_compare_per_bottle | money_without_trailing_zeros | remove: '.00' -}}
+              </span>
               <span class="bundle-price-current">{{ v1_price_per_bottle | money_without_trailing_zeros | remove: '.00' }}</span>
               <span class="bundle-price-unit">/ bottle</span>
             </div>
@@ -849,6 +860,7 @@
           data-variant-id="{{ v1.id }}"
           data-bundle-qty="{{ v1_add_qty }}"
           data-bundle-price="{{ v1_total }}"
+          data-bundle-compare="{{ v1_compare_total }}"
           {% if default_bundle_color != blank %}data-bundle-color="{{ default_bundle_color | escape }}"{% endif %}
           aria-label="Add {{ bundle_1_title | escape }} bundle to cart"
           {% if v1 != blank and v1.available == false %}disabled{% endif %}
@@ -889,11 +901,9 @@
             </div>
             <h3 class="bundle-item-title bundle-title-light">{{ bundle_2_title }}</h3>
             <div class="bundle-price-row">
-              {%- if v2_compare_per_bottle != blank and v2_compare_per_bottle > v2_price_per_bottle -%}
-                <span class="bundle-price-compare bundle-light">
-                  {{- v2_compare_per_bottle | money_without_trailing_zeros | remove: '.00' -}}
-                </span>
-              {%- endif -%}
+              <span class="bundle-price-compare bundle-light">
+                {{- v2_compare_per_bottle | money_without_trailing_zeros | remove: '.00' -}}
+              </span>
               <span class="bundle-price-current bundle-light">
                 {{- v2_price_per_bottle | money_without_trailing_zeros | remove: '.00' -}}
               </span>
@@ -946,6 +956,7 @@
           data-variant-id="{{ v2.id | default: v1.id }}"
           data-bundle-qty="{{ v2_add_qty }}"
           data-bundle-price="{{ v2_total }}"
+          data-bundle-compare="{{ v2_compare_total }}"
           {% if default_bundle_color != blank %}data-bundle-color="{{ default_bundle_color | escape }}"{% endif %}
           aria-label="Add {{ bundle_2_title | escape }} bundle to cart"
           {% if v2 != blank and v2.available == false %}disabled{% endif %}
@@ -986,11 +997,9 @@
             </div>
             <h3 class="bundle-item-title">{{ bundle_3_title }}</h3>
             <div class="bundle-price-row">
-              {%- if v3_compare_per_bottle != blank and v3_compare_per_bottle > v3_price_per_bottle -%}
-                <span class="bundle-price-compare">
-                  {{- v3_compare_per_bottle | money_without_trailing_zeros | remove: '.00' -}}
-                </span>
-              {%- endif -%}
+              <span class="bundle-price-compare">
+                {{- v3_compare_per_bottle | money_without_trailing_zeros | remove: '.00' -}}
+              </span>
               <span class="bundle-price-current">{{ v3_price_per_bottle | money_without_trailing_zeros | remove: '.00' }}</span>
               <span class="bundle-price-unit">/ bottle</span>
             </div>
@@ -1041,6 +1050,7 @@
           data-variant-id="{{ v3.id | default: v1.id }}"
           data-bundle-qty="{{ v3_add_qty }}"
           data-bundle-price="{{ v3_total }}"
+          data-bundle-compare="{{ v3_compare_total }}"
           {% if default_bundle_color != blank %}data-bundle-color="{{ default_bundle_color | escape }}"{% endif %}
           aria-label="Add {{ bundle_3_title | escape }} bundle to cart"
           {% if v3 != blank and v3.available == false %}disabled{% endif %}
