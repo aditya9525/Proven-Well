@@ -7440,7 +7440,7 @@ body {
 
 .proof-trust-title {
   width: 100%;
-  max-width: 657px;
+  /* max-width: 657px; */
   font-family: 'Lato', sans-serif;
   font-style: normal;
   font-weight: 600;
