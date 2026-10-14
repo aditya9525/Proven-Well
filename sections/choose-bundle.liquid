@@ -639,8 +639,11 @@
       assign v1_price_per_bottle = v1_total
 
       # Compare-at price for 1 Bottle
-      assign v1_compare_total = v1.compare_at_price
-      if v1_compare_total == blank or v1_compare_total <= v1_total
+      if section.settings.bundle_1_compare != blank
+        assign v1_compare_total = section.settings.bundle_1_compare | times: 100
+      elsif v1.compare_at_price > v1_total
+        assign v1_compare_total = v1.compare_at_price
+      else
         assign v1_compare_total = 0
       endif
       assign v1_compare_per_bottle = v1_compare_total
@@ -669,7 +672,10 @@
       assign v2_price_per_bottle = v2_total | times: 1.0 | divided_by: 2 | round
 
       # Compare-at price for 2 Bottles
-      if v2 != blank and v2.id != v1.id and v2.compare_at_price != blank and v2.compare_at_price > v2_total
+      if section.settings.bundle_2_compare != blank
+        assign v2_compare_total = section.settings.bundle_2_compare | times: 100
+        assign v2_compare_per_bottle = v2_compare_total | times: 1.0 | divided_by: 2 | round
+      elsif v2 != blank and v2.id != v1.id and v2.compare_at_price > v2_total
         assign v2_compare_total = v2.compare_at_price
         assign v2_compare_per_bottle = v2_compare_total | times: 1.0 | divided_by: 2 | round
       else
@@ -706,12 +712,12 @@
       assign v3_price_per_bottle = v3_total | times: 1.0 | divided_by: 3 | round
 
       # Compare-at price for 3 Bottles
-      if v3.compare_at_price != blank and v3.compare_at_price > v1_compare_per_bottle
+      if section.settings.bundle_3_compare != blank
+        assign v3_compare_total = section.settings.bundle_3_compare | times: 100
+        assign v3_compare_per_bottle = v3_compare_total | times: 1.0 | divided_by: 3 | round
+      elsif v3 != blank and v3.id != v1.id and v3.id != v2.id and v3.compare_at_price > v3_total
         assign v3_compare_total = v3.compare_at_price
         assign v3_compare_per_bottle = v3_compare_total | times: 1.0 | divided_by: 3 | round
-      elsif v3.compare_at_price != blank and v3.compare_at_price > 0
-        assign v3_compare_per_bottle = v3.compare_at_price
-        assign v3_compare_total = v3_compare_per_bottle | times: 3
       else
         assign v3_compare_per_bottle = v1_compare_per_bottle
         assign v3_compare_total = v1_compare_per_bottle | times: 3
@@ -1366,6 +1372,12 @@
       "id": "bundle_1_title",
       "label": "1 Bottle title",
       "default": "1 Bottle"
+    },
+    {
+      "type": "number",
+      "id": "bundle_1_compare",
+      "label": "1 Bottle compare-at (total)",
+      "info": "e.g. 4500. Leave blank to use Shopify compare-at price."
     },
     {
       "type": "number",
