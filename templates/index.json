@@ -1,1 +1,595 @@
-{"sections":{"product_list_fa6P9H":{"type":"product-list","blocks":{"static-header":{"type":"_product-list-content","name":"t:names.header","static":true,"settings":{"content_direction":"row","vertical_on_mobile":false,"horizontal_alignment":"space-between","vertical_alignment":"flex-end","align_baseline":true,"horizontal_alignment_flex_direction_column":"flex-start","vertical_alignment_flex_direction_column":"center","gap":12,"width":"fill","custom_width":100,"width_mobile":"fill","custom_width_mobile":100,"height":"fit","custom_height":100,"background_media":"none","background_color":"","video_position":"cover","background_image_position":"cover","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"product_list_text_YFtzcL":{"type":"_product-list-text","name":"t:names.collection_title","settings":{"text":"<h3>{{ closest.collection.title }}<\/h3>","width":"fit-content","max_width":"normal","alignment":"left","type_preset":"h4","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","text_color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"product_list_button_MWeP9V":{"type":"_product-list-button","name":"t:names.product_list_button","settings":{"label":"View all","open_in_new_tab":false,"style_class":"link","custom_button_background":"{{ settings.color_palette.foreground }}","custom_button_text":"{{ settings.color_palette.background }}","custom_button_border":"{{ settings.color_palette.background }}","link_text_color":"","width":"fit-content","custom_width":100,"width_mobile":"fit-content","custom_width_mobile":100},"blocks":{}}},"block_order":["product_list_text_YFtzcL","product_list_button_MWeP9V"]},"static-product-card":{"type":"_product-card","name":"t:names.product_card","static":true,"settings":{"product_card_gap":4,"background_color":"","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"product_card_gallery_677WP3":{"type":"_product-card-gallery","name":"t:names.product_card_media","settings":{"image_ratio":"adapt","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"product_title_YXxMTj":{"type":"product-title","name":"t:names.product_title","settings":{"width":"100%","max_width":"normal","alignment":"left","type_preset":"rte","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","text_color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":4,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"price_JQzVV4":{"type":"price","name":"t:names.product_price","settings":{"show_sale_price_first":true,"show_installments":false,"show_tax_info":false,"type_preset":"h6","width":"100%","alignment":"left","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","text_color":"","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}}},"block_order":["product_card_gallery_677WP3","product_title_YXxMTj","price_JQzVV4"]}},"disabled":true,"name":"t:names.product_list","settings":{"collection":"all","layout_type":"grid","carousel_on_mobile":false,"max_products":8,"columns":4,"mobile_columns":"2","mobile_card_size":"60cqw","columns_gap":8,"rows_gap":24,"icons_style":"arrow","icons_shape":"none","section_width":"page-width","horizontal_alignment":"flex-start","gap":28,"background_color":"{{ settings.color_palette.background }}","padding-block-start":48,"padding-block-end":48}},"hero1_nQWR6t":{"type":"hero1","name":"Hero Banner","settings":{"eyebrow_text":"FALL SALE | SAVE 29%","heading":"Cover your grays in<br>10 minutes —<br>naturally.","subheading":"Just shampoo it in, wait 10 minutes and rinse. Natural-looking, ammonia-free color with no mixing, no gloves and no stains — loved by 840,000+ customers.","primary_btn_text":"Shop Now — From Rs. 2,333","primary_btn_link":"shopify:\/\/products\/instant-dye-shampoo","secondary_btn_text":"See Real Results","secondary_btn_link":"","reviews_text":"26,966 verified reviews","customers_text":"· 840,000+ happy customers","trust_1":"Ammonia-free formula","trust_2":"Color lasts 4–6 weeks","trust_3":"30-day money-back guarantee","bottle_image":"shopify:\/\/shop_images\/magnific__background__47618_1.png","stat_1_val":"10 min","stat_1_lbl":"to full gray coverage","stat_2_val":"15","stat_2_lbl":"applications per bottle","stat_3_val":"$2.33","stat_3_lbl":"per use vs $15 for box dye","shade_pill_text":"Available in Black · Dark Brown · Medium Brown"}},"as_seen_in_V8ciNE":{"type":"as-seen-in","name":"As Seen In Marquee","settings":{"enable_section":true,"heading":"AS SEEN IN","speed":30,"bg_gradient":"linear-gradient(90deg, rgba(28, 36, 56, 1), rgba(37, 51, 77, 1) 50%, rgba(28, 36, 56, 1) 100%)"}},"why_everyone_switching_VRMFCg":{"type":"why-everyone-switching","name":"Why Switching Stats","settings":{"eyebrow":"WHY EVERYONE'S SWITCHING","heading":"Hair color that finally fits into your life.","subheading":"No salon appointments, no 60-minute waits, no stained towels. Just natural-looking color in the time it takes to shower — and the confidence that comes with it.","stat_1_num":"840,000+","stat_1_text":"Customers have made the switch to Polar","stat_2_num":"26,966","stat_2_text":"Verified 5-star reviews and counting","stat_3_num":"11×","stat_3_text":"Sold out last year — stock up while it lasts","stat_4_num":"95%","stat_4_text":"Say it gives natural-looking gray coverage that lasts"}},"product_overview_hQgrNA":{"type":"product-overview","name":"Product Overview","settings":{"image":"shopify:\/\/shop_images\/Premium_Dark_Brown_Shampoo_Ad_1.png","eyebrow":"THE PRODUCT","heading":"Instant Dye Shampoo — one bottle, 15 full applications.","description":"A color-depositing shampoo powered by botanicals like Ganoderma (reishi), black sesame, ginseng and fo-ti. Apply to dry hair, wait 10 minutes, rinse — that's it.","feature_1":"Full gray coverage","feature_2":"Results in just 10 minutes","feature_3":"No stains, gloves or mixing","feature_4":"Gentle on scalp, ammonia-free","feature_5":"Color lasts 4–6 weeks","feature_6":"Works on hair and beards","spec_1_label":"SIZE","spec_1_val":"200 ml \/ 6.76 fl oz","spec_2_label":"USES \/ BOTTLE","spec_2_val":"15","spec_3_label":"SHADES","spec_3_val":"Black · Dark · Med. Brown","spec_4_label":"FORMULA","spec_4_val":"Ammonia-free","shades_heading":"Choose your shade","btn_1_text":"Add to Cart — Rs. 3,500","btn_1_link":"","btn_2_text":"Find Your Shade","btn_2_link":""}},"four_reasons_gx7CEh":{"type":"four-reasons","name":"4 Reasons Key Benefits","settings":{"enable_section":true,"pill_text":"4 REASONS","heading":"Thousands are switching to Polar Instant Dye Shampoo","video_url":"https:\/\/commondatastorage.googleapis.com\/gtv-videos-bucket\/sample\/BigBuckBunny.mp4","card_1_title":"WORKS IN JUST 10 MINUTES","card_1_desc":"No more scheduling life around hair dye. Apply to dry hair, wait 10 minutes, and rinse. It’s that easy.","card_2_title":"QUICK, MESS-FREE APPLICATION","card_2_desc":"Forget messy box dyes. No mixing, no gloves, no stains — it works just like your regular shampoo.","card_3_title":"GENTLE ON HAIR","card_3_desc":"Natural ingredients like reishi mushroom, without harsh chemicals like ammonia. Hair stays soft, not damaged.","card_4_title":"LONG-LASTING NATURAL COLOR","card_4_desc":"Natural-looking color that lasts up to 6 weeks, so you can stay confident without frequent touch-ups.","show_steps_grid":true,"step_1_num":"01","step_1_title":"Apply to dry hair","step_1_desc":"Massage evenly from roots to ends — just like shampoo.","step_2_num":"02","step_2_title":"Wait 10 minutes","step_2_desc":"No bowls, brushes or timers to babysit.","step_3_num":"03","step_3_title":"Rinse & reveal","step_3_desc":"Natural-looking color that lasts 4–6 weeks."}},"proof_trust_results_6GMbdf":{"type":"proof-trust-results","name":"Proof & Trust Results","settings":{"enable_section":true,"heading":"The Results Speak for Themselves","subheading":"Independent consumer validation and real transformations — the proof your customers see after the very first wash.","study_eyebrow":"REAL RESULTS — CONSUMER STUDY","stat_1_num":"95%","stat_1_desc":"said it provides natural-looking gray coverage that lasts","stat_2_num":"92%","stat_2_desc":"said it’s easier and mess-free compared to traditional dyes","stat_3_num":"89%","stat_3_desc":"said their hair feels softer and healthier after using Polar","study_footnote":"Based on an independent consumer validation study of Polar Instant Dye Shampoo users.","expert_eyebrow":"WHAT EXPERTS SAY","expert_quote":"“Polar is easy to use, mess-free, and gives my clients natural, soft, and shiny results without the damage. A gentle and reliable solution that I fully trust.”","expert_author":"Jessica Martinez","expert_role":"Professional Hairdresser · Salon Owner, New York"}},"superior_choice_wY6hFk":{"type":"superior-choice","name":"06 — Superior Choice","settings":{"enable_section":true,"eyebrow":"THE SUPERIOR CHOICE","heading":"The Superior Choice","mobile_heading":"Polar vs. regular hair dye","description":"It’s been over a 100 years since the first dyes were created, but we haven't seen any sort of significant change since then. Polar Haircare is here to change that.","mobile_description":"It’s been over 100 years since the first dyes were created, with no significant change. Until now.","polar_image":"shopify:\/\/shop_images\/magnific__background__60084_1_1.png","polar_val_1":"15 applications","polar_val_2":"10 minutes","polar_val_3":"$2.33","polar_val_4":"Ammonia-free","label_1":"NUMBER OF USES","label_2":"APPLICATION TIME","label_3":"COST PER USE","label_4":"INGREDIENTS","regular_title":"Regular Hair Dye","regular_val_1":"1 application","regular_val_2":"40-60 minutes","regular_val_3":"$15","regular_val_4":"Synthetic"}},"who_its_for_r3FCg6":{"type":"who-its-for","name":"Who It's For","settings":{"enable_section":true,"eyebrow":"MADE FOR EVERY KIND OF GRAY","heading":"Whoever you are, it just works.","subheading":"From first silver strands to stubborn edges and beards — Polar fits into your routine, not the other way around."}},"choose_bundle_hbgARj":{"type":"choose-bundle","name":"Bundle Offer","settings":{"bundle_1_image":"shopify:\/\/shop_images\/magnific__background__1702_1.png","bundle_2_image":"shopify:\/\/shop_images\/magnific__background__1703_1.png","bundle_3_image":"shopify:\/\/shop_images\/magnific__background__1704_1.png"}},"satisfaction_guarantee_LNEran":{"type":"satisfaction-guarantee","name":"07 — Guarantee","settings":{"enable_section":true,"section_bg_color":"#ffffff","card_bg_color":"#f8f9fb","model_image":"shopify:\/\/shop_images\/Group_1.png","bg_image":"shopify:\/\/shop_images\/ContainerDHEUDE.webp","title_primary":"30-DAY","title_secondary":"SATISFACTION GUARANTEE","description":"We understand that trying new products can feel risky, which is why Polar offers you a completely Risk-Free experience. With our 30-Day Money Back Guarantee, you can try our natural hair dye solution with confidence. Achieving vibrant, healthy hair has never been safer or easier!","mobile_description":"We understand that trying new products can feel risky, which is why Polar offers you a completely risk-free experience with our 30-Day Money Back Guarantee.","cta_text":"ADD TO CART","cta_link":"shopify:\/\/products\/instant-dye-shampoo"}},"customer_videos_ugc_3T6BjB":{"type":"customer-videos-ugc","blocks":{"video_card_T3GEW9":{"type":"video_card","settings":{"video_url":"https:\/\/cdn.shopify.com\/videos\/c\/o\/v\/dc4e196b25e04e7e8967f437a049d84b.mp4","aria_label":"Play Customer Video"}},"video_card_PxERjL":{"type":"video_card","settings":{"video_url":"https:\/\/cdn.shopify.com\/videos\/c\/o\/v\/dc4e196b25e04e7e8967f437a049d84b.mp4","aria_label":"Play Customer Video"}},"video_card_UxYUKr":{"type":"video_card","settings":{"video_url":"","aria_label":"Play Customer Video"}},"video_card_fhiABt":{"type":"video_card","settings":{"video_url":"","aria_label":"Play Customer Video"}},"video_card_NrQQqh":{"type":"video_card","settings":{"video_url":"","aria_label":"Play Customer Video"}}},"block_order":["video_card_T3GEW9","video_card_PxERjL","video_card_UxYUKr","video_card_fhiABt","video_card_NrQQqh"],"name":"Customer Videos UGC","settings":{"title":"Over 840,000+ Happy Customers Have Made The Switch","subtitle":"Real people, real bathrooms, real 10-minute results.","btn_text":"Read all 26,966 reviews","btn_link":""}},"faq_k3FCeN":{"type":"faq","blocks":{"faq_item_hr9U8y":{"type":"faq_item","settings":{"question":"How long does the hair color last?","answer":"Polar Instant Dye Shampoo provides rich, natural-looking color that lasts up to 4–6 weeks depending on your hair wash frequency."}},"faq_item_j9ELzB":{"type":"faq_item","settings":{"question":"How long does a bottle last?","answer":"Each 200ml bottle provides approximately 10–15 applications depending on your hair length and thickness."}},"faq_item_hMTCGq":{"type":"faq_item","settings":{"question":"Does it work on any hair type?","answer":"Yes! Polar works effectively on all hair types and textures, including straight, wavy, curly, and coily hair."}},"faq_item_YjwQVr":{"type":"faq_item","settings":{"question":"Does it cause allergies or work on sensitive skin?","answer":"Polar is formulated with gentle, natural ingredients like reishi mushroom and is 100% ammonia-free and paraben-free. We always recommend doing a standard 48-hour patch test before first use."}},"faq_item_ALnXK7":{"type":"faq_item","settings":{"question":"Does this shampoo leave stains on skin or fabric?","answer":"No! Unlike traditional box dyes that stain hands, forehead, and towels, Polar rinses away cleanly with water."}},"faq_item_UWz7Rr":{"type":"faq_item","settings":{"question":"Can I use this shampoo on my beard?","answer":"Yes, Polar is gentle and completely safe to use for facial hair and beards."}},"faq_item_akEJYR":{"type":"faq_item","settings":{"question":"Can it be used with my normal hair care products?","answer":"Absolutely! You can continue using your favorite conditioners, oils, and styling products."}},"faq_item_EgDR46":{"type":"faq_item","settings":{"question":"Is it safe on my hair?","answer":"Yes, our formula nourishes and strengthens hair while depositing color, keeping hair soft and healthy without dryness or damage."}},"faq_item_YHtiY4":{"type":"faq_item","settings":{"question":"Will it cover my gray hair completely?","answer":"Yes! Polar provides 100% full gray coverage in just 10 minutes."}},"faq_item_N9KKKV":{"type":"faq_item","settings":{"question":"Can it be used on dyed or chemically treated hair?","answer":"Yes, it is completely safe and effective on bleached, dyed, or chemically treated hair."}}},"block_order":["faq_item_hr9U8y","faq_item_j9ELzB","faq_item_hMTCGq","faq_item_YjwQVr","faq_item_ALnXK7","faq_item_UWz7Rr","faq_item_akEJYR","faq_item_EgDR46","faq_item_YHtiY4","faq_item_N9KKKV"],"name":"08 — FAQ","settings":{"enable_section":true,"section_bg_color":"#ffffff","card_bg_color":"#ffffff","faq_image":"shopify:\/\/shop_images\/magnific__background__60077_1.png","title_line_1":"FREQUENTLY","title_line_2":"ASKED QUESTIONS"}},"final_cta_M9Y7hL":{"type":"final-cta","name":"13 — Final CTA","settings":{"eyebrow":"FALL SALE — UP TO 52% OFF","title":"Ready to see your grays disappear in 10 minutes?","subtitle":"Try Polar risk-free. If it doesn’t work for you, our 30-day money-back guarantee has you covered.","primary_btn_text":"Shop Now — Save 29%","primary_btn_link":"shopify:\/\/products\/instant-dye-shampoo","ghost_btn_text":"Compare Bundles","ghost_btn_link":"","review_count_text":"26,966 verified reviews","product_image":"shopify:\/\/shop_images\/magnific__background__1701_1.png"}}},"order":["product_list_fa6P9H","hero1_nQWR6t","as_seen_in_V8ciNE","why_everyone_switching_VRMFCg","product_overview_hQgrNA","four_reasons_gx7CEh","proof_trust_results_6GMbdf","superior_choice_wY6hFk","who_its_for_r3FCg6","choose_bundle_hbgARj","satisfaction_guarantee_LNEran","customer_videos_ugc_3T6BjB","faq_k3FCeN","final_cta_M9Y7hL"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "product_list_fa6P9H": {
+      "type": "product-list",
+      "blocks": {
+        "static-header": {
+          "type": "_product-list-content",
+          "name": "t:names.header",
+          "static": true,
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": false,
+            "horizontal_alignment": "space-between",
+            "vertical_alignment": "flex-end",
+            "align_baseline": true,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "background_media": "none",
+            "background_color": "",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_list_text_YFtzcL": {
+              "type": "_product-list-text",
+              "name": "t:names.collection_title",
+              "settings": {
+                "text": "<h3>{{ closest.collection.title }}</h3>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h4",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_list_button_MWeP9V": {
+              "type": "_product-list-button",
+              "name": "t:names.product_list_button",
+              "settings": {
+                "label": "View all",
+                "open_in_new_tab": false,
+                "style_class": "link",
+                "custom_button_background": "{{ settings.color_palette.foreground }}",
+                "custom_button_text": "{{ settings.color_palette.background }}",
+                "custom_button_border": "{{ settings.color_palette.background }}",
+                "link_text_color": "",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product_list_text_YFtzcL",
+            "product_list_button_MWeP9V"
+          ]
+        },
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "t:names.product_card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 4,
+            "background_color": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_card_gallery_677WP3": {
+              "type": "_product-card-gallery",
+              "name": "t:names.product_card_media",
+              "settings": {
+                "image_ratio": "adapt",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_title_YXxMTj": {
+              "type": "product-title",
+              "name": "t:names.product_title",
+              "settings": {
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "price_JQzVV4": {
+              "type": "price",
+              "name": "t:names.product_price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "h6",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "text_color": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product_card_gallery_677WP3",
+            "product_title_YXxMTj",
+            "price_JQzVV4"
+          ]
+        }
+      },
+      "disabled": true,
+      "name": "t:names.product_list",
+      "settings": {
+        "collection": "all",
+        "layout_type": "grid",
+        "carousel_on_mobile": false,
+        "max_products": 8,
+        "columns": 4,
+        "mobile_columns": "2",
+        "mobile_card_size": "60cqw",
+        "columns_gap": 8,
+        "rows_gap": 24,
+        "icons_style": "arrow",
+        "icons_shape": "none",
+        "section_width": "page-width",
+        "horizontal_alignment": "flex-start",
+        "gap": 28,
+        "background_color": "{{ settings.color_palette.background }}",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    "hero1_nQWR6t": {
+      "type": "hero1",
+      "name": "Hero Banner",
+      "settings": {
+        "eyebrow_text": "FALL SALE | SAVE 29%",
+        "heading": "Cover your grays in<br>10 minutes —<br>naturally.",
+        "subheading": "Just shampoo it in, wait 10 minutes and rinse. Natural-looking, ammonia-free color with no mixing, no gloves and no stains — loved by 840,000+ customers.",
+        "primary_btn_text": "Shop Now — From Rs. 2,333",
+        "primary_btn_link": "shopify://products/instant-dye-shampoo",
+        "secondary_btn_text": "See Real Results",
+        "secondary_btn_link": "",
+        "reviews_text": "26,966 verified reviews",
+        "customers_text": "· 840,000+ happy customers",
+        "trust_1": "Ammonia-free formula",
+        "trust_2": "Color lasts 4–6 weeks",
+        "trust_3": "30-day money-back guarantee",
+        "bottle_image": "shopify://shop_images/magnific__background__476181.png",
+        "stat_1_val": "10 min",
+        "stat_1_lbl": "to full gray coverage",
+        "stat_2_val": "15",
+        "stat_2_lbl": "applications per bottle",
+        "stat_3_val": "$2.33",
+        "stat_3_lbl": "per use vs $15 for box dye",
+        "shade_pill_text": "Available in Black · Dark Brown · Medium Brown"
+      }
+    },
+    "as_seen_in_V8ciNE": {
+      "type": "as-seen-in",
+      "name": "As Seen In Marquee",
+      "settings": {
+        "enable_section": true,
+        "heading": "AS SEEN IN",
+        "speed": 30,
+        "bg_gradient": "linear-gradient(90deg, rgba(28, 36, 56, 1), rgba(37, 51, 77, 1) 50%, rgba(28, 36, 56, 1) 100%)"
+      }
+    },
+    "why_everyone_switching_VRMFCg": {
+      "type": "why-everyone-switching",
+      "name": "Why Switching Stats",
+      "settings": {
+        "eyebrow": "WHY EVERYONE'S SWITCHING",
+        "heading": "Hair color that finally fits into your life.",
+        "subheading": "No salon appointments, no 60-minute waits, no stained towels. Just natural-looking color in the time it takes to shower — and the confidence that comes with it.",
+        "stat_1_num": "840,000+",
+        "stat_1_text": "Customers have made the switch to Polar",
+        "stat_2_num": "26,966",
+        "stat_2_text": "Verified 5-star reviews and counting",
+        "stat_3_num": "11×",
+        "stat_3_text": "Sold out last year — stock up while it lasts",
+        "stat_4_num": "95%",
+        "stat_4_text": "Say it gives natural-looking gray coverage that lasts"
+      }
+    },
+    "product_overview_hQgrNA": {
+      "type": "product-overview",
+      "name": "Product Overview",
+      "settings": {
+        "image": "shopify://shop_images/78d6accdf0de29d9dd2142d891d524cd3b608a83.png",
+        "eyebrow": "THE PRODUCT",
+        "heading": "Instant Dye Shampoo — one bottle, 15 full applications.",
+        "description": "A color-depositing shampoo powered by botanicals like Ganoderma (reishi), black sesame, ginseng and fo-ti. Apply to dry hair, wait 10 minutes, rinse — that's it.",
+        "feature_1": "Full gray coverage",
+        "feature_2": "Results in just 10 minutes",
+        "feature_3": "No stains, gloves or mixing",
+        "feature_4": "Gentle on scalp, ammonia-free",
+        "feature_5": "Color lasts 4–6 weeks",
+        "feature_6": "Works on hair and beards",
+        "spec_1_label": "SIZE",
+        "spec_1_val": "200 ml / 6.76 fl oz",
+        "spec_2_label": "USES / BOTTLE",
+        "spec_2_val": "15",
+        "spec_3_label": "SHADES",
+        "spec_3_val": "Black · Dark · Med. Brown",
+        "spec_4_label": "FORMULA",
+        "spec_4_val": "Ammonia-free",
+        "shades_heading": "Choose your shade",
+        "btn_1_text": "Add to Cart — Rs. 3,500",
+        "btn_1_link": "",
+        "btn_2_text": "Find Your Shade",
+        "btn_2_link": ""
+      }
+    },
+    "four_reasons_gx7CEh": {
+      "type": "four-reasons",
+      "name": "4 Reasons Key Benefits",
+      "settings": {
+        "enable_section": true,
+        "pill_text": "4 REASONS",
+        "heading": "Thousands are switching to Polar Instant Dye Shampoo",
+        "video_poster": "shopify://shop_images/4b9471755c234ac230b118e1b6b878e341d945f2_1.png",
+        "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        "card_1_title": "WORKS IN JUST 10 MINUTES",
+        "card_1_desc": "No more scheduling life around hair dye. Apply to dry hair, wait 10 minutes, and rinse. It’s that easy.",
+        "card_2_title": "QUICK, MESS-FREE APPLICATION",
+        "card_2_desc": "Forget messy box dyes. No mixing, no gloves, no stains — it works just like your regular shampoo.",
+        "card_3_title": "GENTLE ON HAIR",
+        "card_3_desc": "Natural ingredients like reishi mushroom, without harsh chemicals like ammonia. Hair stays soft, not damaged.",
+        "card_4_title": "LONG-LASTING NATURAL COLOR",
+        "card_4_desc": "Natural-looking color that lasts up to 6 weeks, so you can stay confident without frequent touch-ups.",
+        "show_steps_grid": true,
+        "step_1_num": "01",
+        "step_1_title": "Apply to dry hair",
+        "step_1_desc": "Massage evenly from roots to ends — just like shampoo.",
+        "step_2_num": "02",
+        "step_2_title": "Wait 10 minutes",
+        "step_2_desc": "No bowls, brushes or timers to babysit.",
+        "step_3_num": "03",
+        "step_3_title": "Rinse & reveal",
+        "step_3_desc": "Natural-looking color that lasts 4–6 weeks."
+      }
+    },
+    "proof_trust_results_6GMbdf": {
+      "type": "proof-trust-results",
+      "blocks": {
+        "review_card_zrcNtF": {
+          "type": "review_card",
+          "settings": {
+            "image": "shopify://shop_images/4ba6a66dd1995d106cd673656db2de8d0e8dde1e.png",
+            "quote": "“I absolutely love this! It’s so easy to use like regular shampoo. No mess, no long salon visits, just quick color in one step.”",
+            "author": "Demara O., Miami, FL",
+            "pill_before": "BEFORE",
+            "pill_after": "AFTER",
+            "verified_text": "Verified Buyer"
+          }
+        }
+      },
+      "block_order": [
+        "review_card_zrcNtF"
+      ],
+      "name": "Proof & Trust Results",
+      "settings": {
+        "enable_section": true,
+        "heading": "The Results Speak for Themselves",
+        "subheading": "Independent consumer validation and real transformations — the proof your customers see after the very first wash.",
+        "study_eyebrow": "REAL RESULTS — CONSUMER STUDY",
+        "stat_1_num": "95%",
+        "stat_1_desc": "said it provides natural-looking gray coverage that lasts",
+        "stat_2_num": "92%",
+        "stat_2_desc": "said it’s easier and mess-free compared to traditional dyes",
+        "stat_3_num": "89%",
+        "stat_3_desc": "said their hair feels softer and healthier after using Polar",
+        "study_footnote": "Based on an independent consumer validation study of Polar Instant Dye Shampoo users.",
+        "expert_eyebrow": "WHAT EXPERTS SAY",
+        "expert_quote": "“Polar is easy to use, mess-free, and gives my clients natural, soft, and shiny results without the damage. A gentle and reliable solution that I fully trust.”",
+        "expert_author": "Jessica Martinez",
+        "expert_role": "Professional Hairdresser · Salon Owner, New York"
+      }
+    },
+    "superior_choice_wY6hFk": {
+      "type": "superior-choice",
+      "name": "06 — Superior Choice",
+      "settings": {
+        "enable_section": true,
+        "eyebrow": "THE SUPERIOR CHOICE",
+        "heading": "The Superior Choice",
+        "mobile_heading": "Polar vs. regular hair dye",
+        "description": "It’s been over a 100 years since the first dyes were created, but we haven't seen any sort of significant change since then. Polar Haircare is here to change that.",
+        "mobile_description": "It’s been over 100 years since the first dyes were created, with no significant change. Until now.",
+        "polar_val_1": "15 applications",
+        "polar_val_2": "10 minutes",
+        "polar_val_3": "$2.33",
+        "polar_val_4": "Ammonia-free",
+        "label_1": "NUMBER OF USES",
+        "label_2": "APPLICATION TIME",
+        "label_3": "COST PER USE",
+        "label_4": "INGREDIENTS",
+        "regular_title": "Regular Hair Dye",
+        "regular_val_1": "1 application",
+        "regular_val_2": "40-60 minutes",
+        "regular_val_3": "$15",
+        "regular_val_4": "Synthetic"
+      }
+    },
+    "who_its_for_r3FCg6": {
+      "type": "who-its-for",
+      "name": "Who It's For",
+      "settings": {
+        "enable_section": true,
+        "eyebrow": "MADE FOR EVERY KIND OF GRAY",
+        "heading": "Whoever you are, it just works.",
+        "subheading": "From first silver strands to stubborn edges and beards — Polar fits into your routine, not the other way around."
+      }
+    },
+    "choose_bundle_hbgARj": {
+      "type": "choose-bundle",
+      "name": "Bundle Offer",
+      "settings": {}
+    },
+    "satisfaction_guarantee_LNEran": {
+      "type": "satisfaction-guarantee",
+      "name": "07 — Guarantee",
+      "settings": {
+        "enable_section": true,
+        "section_bg_color": "#ffffff",
+        "card_bg_color": "#f8f9fb",
+        "title_primary": "30-DAY",
+        "title_secondary": "SATISFACTION GUARANTEE",
+        "description": "We understand that trying new products can feel risky, which is why Polar offers you a completely Risk-Free experience. With our 30-Day Money Back Guarantee, you can try our natural hair dye solution with confidence. Achieving vibrant, healthy hair has never been safer or easier!",
+        "mobile_description": "We understand that trying new products can feel risky, which is why Polar offers you a completely risk-free experience with our 30-Day Money Back Guarantee.",
+        "cta_text": "ADD TO CART",
+        "cta_link": "shopify://products/instant-dye-shampoo"
+      }
+    },
+    "customer_videos_ugc_3T6BjB": {
+      "type": "customer-videos-ugc",
+      "blocks": {
+        "video_card_T3GEW9": {
+          "type": "video_card",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4",
+            "aria_label": "Play Customer Video"
+          }
+        },
+        "video_card_PxERjL": {
+          "type": "video_card",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4",
+            "aria_label": "Play Customer Video"
+          }
+        },
+        "video_card_UxYUKr": {
+          "type": "video_card",
+          "settings": {
+            "video_url": "",
+            "aria_label": "Play Customer Video"
+          }
+        },
+        "video_card_fhiABt": {
+          "type": "video_card",
+          "settings": {
+            "video_url": "",
+            "aria_label": "Play Customer Video"
+          }
+        },
+        "video_card_NrQQqh": {
+          "type": "video_card",
+          "settings": {
+            "video_url": "",
+            "aria_label": "Play Customer Video"
+          }
+        }
+      },
+      "block_order": [
+        "video_card_T3GEW9",
+        "video_card_PxERjL",
+        "video_card_UxYUKr",
+        "video_card_fhiABt",
+        "video_card_NrQQqh"
+      ],
+      "name": "Customer Videos UGC",
+      "settings": {
+        "title": "Over 840,000+ Happy Customers Have Made The Switch",
+        "subtitle": "Real people, real bathrooms, real 10-minute results.",
+        "btn_text": "Read all 26,966 reviews",
+        "btn_link": ""
+      }
+    },
+    "faq_k3FCeN": {
+      "type": "faq",
+      "blocks": {
+        "faq_item_hr9U8y": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does the hair color last?",
+            "answer": "Polar Instant Dye Shampoo provides rich, natural-looking color that lasts up to 4–6 weeks depending on your hair wash frequency."
+          }
+        },
+        "faq_item_j9ELzB": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does a bottle last?",
+            "answer": "Each 200ml bottle provides approximately 10–15 applications depending on your hair length and thickness."
+          }
+        },
+        "faq_item_hMTCGq": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Does it work on any hair type?",
+            "answer": "Yes! Polar works effectively on all hair types and textures, including straight, wavy, curly, and coily hair."
+          }
+        },
+        "faq_item_YjwQVr": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Does it cause allergies or work on sensitive skin?",
+            "answer": "Polar is formulated with gentle, natural ingredients like reishi mushroom and is 100% ammonia-free and paraben-free. We always recommend doing a standard 48-hour patch test before first use."
+          }
+        },
+        "faq_item_ALnXK7": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Does this shampoo leave stains on skin or fabric?",
+            "answer": "No! Unlike traditional box dyes that stain hands, forehead, and towels, Polar rinses away cleanly with water."
+          }
+        },
+        "faq_item_UWz7Rr": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I use this shampoo on my beard?",
+            "answer": "Yes, Polar is gentle and completely safe to use for facial hair and beards."
+          }
+        },
+        "faq_item_akEJYR": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can it be used with my normal hair care products?",
+            "answer": "Absolutely! You can continue using your favorite conditioners, oils, and styling products."
+          }
+        },
+        "faq_item_EgDR46": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is it safe on my hair?",
+            "answer": "Yes, our formula nourishes and strengthens hair while depositing color, keeping hair soft and healthy without dryness or damage."
+          }
+        },
+        "faq_item_YHtiY4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Will it cover my gray hair completely?",
+            "answer": "Yes! Polar provides 100% full gray coverage in just 10 minutes."
+          }
+        },
+        "faq_item_N9KKKV": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can it be used on dyed or chemically treated hair?",
+            "answer": "Yes, it is completely safe and effective on bleached, dyed, or chemically treated hair."
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_hr9U8y",
+        "faq_item_j9ELzB",
+        "faq_item_hMTCGq",
+        "faq_item_YjwQVr",
+        "faq_item_ALnXK7",
+        "faq_item_UWz7Rr",
+        "faq_item_akEJYR",
+        "faq_item_EgDR46",
+        "faq_item_YHtiY4",
+        "faq_item_N9KKKV"
+      ],
+      "name": "08 — FAQ",
+      "settings": {
+        "enable_section": true,
+        "section_bg_color": "#ffffff",
+        "card_bg_color": "#ffffff",
+        "title_line_1": "FREQUENTLY",
+        "title_line_2": "ASKED QUESTIONS"
+      }
+    },
+    "final_cta_M9Y7hL": {
+      "type": "final-cta",
+      "name": "13 — Final CTA",
+      "settings": {
+        "eyebrow": "FALL SALE — UP TO 52% OFF",
+        "title": "Ready to see your grays disappear in 10 minutes?",
+        "subtitle": "Try Polar risk-free. If it doesn’t work for you, our 30-day money-back guarantee has you covered.",
+        "primary_btn_text": "Shop Now — Save 29%",
+        "primary_btn_link": "shopify://products/instant-dye-shampoo",
+        "ghost_btn_text": "Compare Bundles",
+        "ghost_btn_link": "",
+        "review_count_text": "26,966 verified reviews"
+      }
+    }
+  },
+  "order": [
+    "product_list_fa6P9H",
+    "hero1_nQWR6t",
+    "as_seen_in_V8ciNE",
+    "why_everyone_switching_VRMFCg",
+    "product_overview_hQgrNA",
+    "four_reasons_gx7CEh",
+    "proof_trust_results_6GMbdf",
+    "superior_choice_wY6hFk",
+    "who_its_for_r3FCg6",
+    "choose_bundle_hbgARj",
+    "satisfaction_guarantee_LNEran",
+    "customer_videos_ugc_3T6BjB",
+    "faq_k3FCeN",
+    "final_cta_M9Y7hL"
+  ]
+}
