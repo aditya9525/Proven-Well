@@ -705,7 +705,7 @@
         "enable_section": true,
         "section_bg_color": "#f4f4f4",
         "card_bg_color": "#f8f9fb",
-        "model_image": "shopify://shop_images/e1de02a148a7fc507a7f34e7a0d1ac7716d9401e_1.png",
+        "model_image": "shopify://shop_images/Group_1_1.png",
         "bg_image": "shopify://shop_images/ContainerDHEUDE.webp",
         "title_primary": "30-DAY",
         "title_secondary": "SATISFACTION GUARANTEE",
@@ -806,6 +806,7 @@
         "enable_section": true,
         "section_bg_color": "#f4f4f4",
         "card_bg_color": "#f4f4f4",
+        "faq_image": "shopify://shop_images/e1de02a148a7fc507a7f34e7a0d1ac7716d9401e_1.png",
         "title_line_1": "FREQUENTLY",
         "title_line_2": "ASKED QUESTIONS"
       }
