@@ -1353,12 +1353,14 @@
           if (addToCartBtn) addToCartBtn.disabled = true;
 
           try {
+            var formData = new FormData(productForm);
+
             await fetch(window.Shopify.routes.root + 'cart/clear.js', {
               method: 'POST',
               headers: { 'X-Requested-With': 'XMLHttpRequest' },
             });
 
-            var response = await fetch(window.Shopify.routes.root + 'cart/add.js',
+            var response = await fetch(window.Shopify.routes.root + 'cart/add.js', {
               method: 'POST',
               headers: {
                 Accept: 'application/json',
