@@ -621,111 +621,109 @@
       endif
 
       # --- Variant 1 Calculations (1 Bottle) ---
-      assign v1_price_per_bottle = v1.price | default: bundle_product.price | default: 350000
-      assign v1_compare_per_bottle = v1.compare_at_price | default: bundle_product.compare_at_price
-      if v1_compare_per_bottle == blank or v1_compare_per_bottle <= v1_price_per_bottle
-        assign v1_compare_per_bottle = 490000
+      # In Shopify, price comes per variant
+      if section.settings.bundle_1_price != blank
+        assign v1_total = section.settings.bundle_1_price | times: 100
+      elsif v1 != blank and v1.price > 0
+        assign v1_total = v1.price
+      else
+        assign v1_total = bundle_product.price | default: 350000
       endif
-      assign v1_total = v1_price_per_bottle
+      # Per-bottle price is identical to total for 1 bottle
+      assign v1_price_per_bottle = v1_total
+
+      # Compare-at price for 1 Bottle
+      assign v1_compare_total = v1.compare_at_price | default: bundle_product.compare_at_price
+      if v1_compare_total == blank or v1_compare_total <= v1_total
+        assign v1_compare_total = 490000
+      endif
+      assign v1_compare_per_bottle = v1_compare_total
+
+      # Saving percentage for 1 Bottle
       assign v1_save = 29
-      if v1_compare_per_bottle > v1_price_per_bottle
-        assign v1_save = v1_compare_per_bottle | minus: v1_price_per_bottle | times: 100.0 | divided_by: v1_compare_per_bottle | round
+      if v1_compare_total > v1_total
+        assign v1_save = v1_compare_total | minus: v1_total | times: 100.0 | divided_by: v1_compare_total | round
       endif
       assign v1_add_qty = 1
 
       # --- Variant 2 Calculations (2 Bottles) ---
-      assign v1_x1_3 = v1_price_per_bottle | times: 13 | divided_by: 10
-      if v2 != blank and v2 != v1 and v2.price > v1_x1_3
-        # v2.price is the total pack price
+      # In Shopify, price comes per variant (total bundle price for 2 bottles)
+      if section.settings.bundle_2_price != blank
+        assign v2_total = section.settings.bundle_2_price | times: 100
+      elsif v2 != blank and v2.price > 0 and v2.id != v1.id
         assign v2_total = v2.price
-        assign v2_price_per_bottle = v2_total | divided_by: 2
-        assign v2_compare_total = v2.compare_at_price
-        if v2_compare_total == blank or v2_compare_total <= v2_total
-          assign v2_compare_total = v1_compare_per_bottle | times: 2
-        endif
-        assign v2_compare_per_bottle = v2_compare_total | divided_by: 2
-        assign v2_add_qty = 1
-      elsif v2 != blank and v2 != v1 and v2.price != blank and v2.price < v1_price_per_bottle and v2.price > 0
-        # v2.price is per bottle price
-        assign v2_price_per_bottle = v2.price
-        assign v2_total = v2_price_per_bottle | times: 2
-        assign v2_compare_per_bottle = v2.compare_at_price | default: v1_compare_per_bottle
-        assign v2_compare_total = v2_compare_per_bottle | times: 2
-        assign v2_add_qty = 1
       else
-        # Fallback / Single variant: 40% discount off compare-at price or 295000 default
-        assign v2_price_per_bottle = 295000
+        # Fallback if no separate 2-bottle variant: 590000 or 40% discount off compare total
+        assign v2_total = 590000
         if v1_compare_per_bottle > 0
-          assign v2_price_per_bottle = v1_compare_per_bottle | times: 60 | divided_by: 100 | round
+          assign v2_total = v1_compare_per_bottle | times: 2 | times: 60 | divided_by: 100 | round
         endif
-        assign v2_total = v2_price_per_bottle | times: 2
+      endif
+      # Calculate per-bottle price dynamically from the variant total price (total / 2)
+      assign v2_price_per_bottle = v2_total | times: 1.0 | divided_by: 2 | round
+
+      # Compare-at price for 2 Bottles
+      if v2.compare_at_price != blank and v2.compare_at_price > v1_compare_per_bottle
+        assign v2_compare_total = v2.compare_at_price
+        assign v2_compare_per_bottle = v2_compare_total | times: 1.0 | divided_by: 2 | round
+      elsif v2.compare_at_price != blank and v2.compare_at_price > 0
+        assign v2_compare_per_bottle = v2.compare_at_price
+        assign v2_compare_total = v2_compare_per_bottle | times: 2
+      else
         assign v2_compare_per_bottle = v1_compare_per_bottle
         assign v2_compare_total = v1_compare_per_bottle | times: 2
-        assign v2_add_qty = 2
       endif
 
+      # Saving percentage for 2 Bottles
       assign v2_save = 40
       if v2_compare_total > v2_total
         assign v2_save = v2_compare_total | minus: v2_total | times: 100.0 | divided_by: v2_compare_total | round
       endif
 
-      # --- Variant 3 Calculations (3 Bottles) ---
-      assign v1_x1_8 = v1_price_per_bottle | times: 18 | divided_by: 10
-      if v3 != blank and v3 != v1 and v3.price > v1_x1_8
-        # v3.price is the total pack price
-        assign v3_total = v3.price
-        assign v3_price_per_bottle = v3_total | divided_by: 3
-        assign v3_compare_total = v3.compare_at_price
-        if v3_compare_total == blank or v3_compare_total <= v3_total
-          assign v3_compare_total = v1_compare_per_bottle | times: 3
-        endif
-        assign v3_compare_per_bottle = v3_compare_total | divided_by: 3
-        assign v3_add_qty = 1
-      elsif v3 != blank and v3 != v1 and v3.price != blank and v3.price < v2_price_per_bottle and v3.price > 0
-        # v3.price is per bottle price
-        assign v3_price_per_bottle = v3.price
-        assign v3_total = v3_price_per_bottle | times: 3
-        assign v3_compare_per_bottle = v3.compare_at_price | default: v1_compare_per_bottle
-        assign v3_compare_total = v3_compare_per_bottle | times: 3
-        assign v3_add_qty = 1
+      if v2 != blank and v2.id != v1.id
+        assign v2_add_qty = 1
       else
-        # Fallback / Single variant: 52% discount off compare-at price or 233300 default
-        assign v3_price_per_bottle = 233300
-        if v1_compare_per_bottle > 0
-          assign v3_price_per_bottle = v1_compare_per_bottle | times: 48 | divided_by: 100 | round
-        endif
-        assign v3_total = v3_price_per_bottle | times: 3
-        assign v3_compare_per_bottle = v1_compare_per_bottle
-        assign v3_compare_total = v1_compare_per_bottle | times: 3
-        assign v3_add_qty = 3
+        assign v2_add_qty = 2
       endif
 
+      # --- Variant 3 Calculations (3 Bottles) ---
+      # In Shopify, price comes per variant (total bundle price for 3 bottles)
+      if section.settings.bundle_3_price != blank
+        assign v3_total = section.settings.bundle_3_price | times: 100
+      elsif v3 != blank and v3.price > 0 and v3.id != v1.id and v3.id != v2.id
+        assign v3_total = v3.price
+      else
+        # Fallback if no separate 3-bottle variant: 699900 or 52% discount off compare total
+        assign v3_total = 699900
+        if v1_compare_per_bottle > 0
+          assign v3_total = v1_compare_per_bottle | times: 3 | times: 48 | divided_by: 100 | round
+        endif
+      endif
+      # Calculate per-bottle price dynamically from the variant total price (total / 3)
+      assign v3_price_per_bottle = v3_total | times: 1.0 | divided_by: 3 | round
+
+      # Compare-at price for 3 Bottles
+      if v3.compare_at_price != blank and v3.compare_at_price > v1_compare_per_bottle
+        assign v3_compare_total = v3.compare_at_price
+        assign v3_compare_per_bottle = v3_compare_total | times: 1.0 | divided_by: 3 | round
+      elsif v3.compare_at_price != blank and v3.compare_at_price > 0
+        assign v3_compare_per_bottle = v3.compare_at_price
+        assign v3_compare_total = v3_compare_per_bottle | times: 3
+      else
+        assign v3_compare_per_bottle = v1_compare_per_bottle
+        assign v3_compare_total = v1_compare_per_bottle | times: 3
+      endif
+
+      # Saving percentage for 3 Bottles
       assign v3_save = 52
       if v3_compare_total > v3_total
         assign v3_save = v3_compare_total | minus: v3_total | times: 100.0 | divided_by: v3_compare_total | round
       endif
 
-      # Overrides from settings if entered
-      if section.settings.bundle_1_price != blank
-        assign v1_price_per_bottle = section.settings.bundle_1_price | times: 100
-        assign v1_total = v1_price_per_bottle
-        if v1_compare_per_bottle > v1_price_per_bottle
-          assign v1_save = v1_compare_per_bottle | minus: v1_price_per_bottle | times: 100.0 | divided_by: v1_compare_per_bottle | round
-        endif
-      endif
-      if section.settings.bundle_2_price != blank
-        assign v2_price_per_bottle = section.settings.bundle_2_price | times: 100
-        assign v2_total = v2_price_per_bottle | times: 2
-        if v2_compare_total > v2_total
-          assign v2_save = v2_compare_total | minus: v2_total | times: 100.0 | divided_by: v2_compare_total | round
-        endif
-      endif
-      if section.settings.bundle_3_price != blank
-        assign v3_price_per_bottle = section.settings.bundle_3_price | times: 100
-        assign v3_total = v3_price_per_bottle | times: 3
-        if v3_compare_total > v3_total
-          assign v3_save = v3_compare_total | minus: v3_total | times: 100.0 | divided_by: v3_compare_total | round
-        endif
+      if v3 != blank and v3.id != v1.id and v3.id != v2.id
+        assign v3_add_qty = 1
+      else
+        assign v3_add_qty = 3
       endif
 
       # Bundle Titles
@@ -1344,8 +1342,8 @@
     {
       "type": "number",
       "id": "bundle_1_price",
-      "label": "1 Bottle custom price override",
-      "info": "Leave blank to use product variant price"
+      "label": "1 Bottle variant price override (total)",
+      "info": "Optional: override total price for 1 Bottle (e.g. 3500). Leave blank to use Shopify variant price."
     },
     {
       "type": "header",
@@ -1365,8 +1363,8 @@
     {
       "type": "number",
       "id": "bundle_2_price",
-      "label": "2 Bottles per-bottle custom price override",
-      "info": "Leave blank to use product variant price or 40% discount"
+      "label": "2 Bottles variant price override (total bundle price)",
+      "info": "Optional: override total price for 2 Bottles (e.g. 5900). Per-bottle price is automatically calculated (total / 2). Leave blank to use Shopify variant price."
     },
     {
       "type": "header",
@@ -1386,8 +1384,8 @@
     {
       "type": "number",
       "id": "bundle_3_price",
-      "label": "3 Bottles per-bottle custom price override",
-      "info": "Leave blank to use product variant price or 52% discount"
+      "label": "3 Bottles variant price override (total bundle price)",
+      "info": "Optional: override total price for 3 Bottles (e.g. 6999). Per-bottle price is automatically calculated (total / 3). Leave blank to use Shopify variant price."
     }
   ],
   "presets": [
