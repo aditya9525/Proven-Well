@@ -579,14 +579,9 @@
       <div class="bundle-sale-pill">
         <span>{{ section.settings.badge_text | default: 'FALL SALE EXCLUSIVE' }}</span>
       </div>
-      <h2 class="bundle-offer-title" id="bundleOfferTitle">
-        {{ section.settings.heading | default: 'Choose your bundle &amp; save' }}
-      </h2>
+      <h2 class="bundle-offer-title" id="bundleOfferTitle">{{ section.settings.heading | default: 'Choose your bundle &amp; save' }}</h2>
       <p class="bundle-offer-subtitle">
-        {{
-          section.settings.subtitle
-          | default: 'Each bottle gives you 15 applications. Stock up and unlock free shipping and a free conditioner.'
-        }}
+        {{ section.settings.subtitle | default: 'Each bottle gives you 15 applications. Stock up and unlock free shipping and a free conditioner.' }}
       </p>
     </div>
 
@@ -599,29 +594,29 @@
         assign bundle_product = collections.all.products.first
       endif
 
-      assign v1 = null
-      assign v2 = null
-      assign v3 = null
+      assign v1 = nil
+      assign v2 = nil
+      assign v3 = nil
 
       if bundle_product != blank and bundle_product.variants.size > 0
         for variant in bundle_product.variants
-          assign v_num = variant.title | split: ' ' | first
-          if v_num == '1' and v1 == null
+          assign v_title_lower = variant.title | downcase
+          if v1 == nil and v_title_lower contains '1'
             assign v1 = variant
-          elsif v_num == '2' and v2 == null
+          elsif v2 == nil and v_title_lower contains '2'
             assign v2 = variant
-          elsif v_num == '3' and v3 == null
+          elsif v3 == nil and v_title_lower contains '3'
             assign v3 = variant
           endif
         endfor
 
-        if v1 == null
+        if v1 == nil
           assign v1 = bundle_product.selected_or_first_available_variant | default: bundle_product.variants[0]
         endif
-        if v2 == null
+        if v2 == nil
           assign v2 = bundle_product.variants[1] | default: v1
         endif
-        if v3 == null
+        if v3 == nil
           assign v3 = bundle_product.variants[2] | default: v2
         endif
       endif
@@ -639,12 +634,9 @@
       assign v1_price_per_bottle = v1_total
 
       # Compare-at price for 1 Bottle
-      if section.settings.bundle_1_compare != blank
-        assign v1_compare_total = section.settings.bundle_1_compare | times: 100
-      elsif v1.compare_at_price > v1_total
-        assign v1_compare_total = v1.compare_at_price
-      else
-        assign v1_compare_total = 0
+      assign v1_compare_total = v1.compare_at_price | default: bundle_product.compare_at_price
+      if v1_compare_total == blank or v1_compare_total <= v1_total
+        assign v1_compare_total = 490000
       endif
       assign v1_compare_per_bottle = v1_compare_total
 
@@ -672,12 +664,12 @@
       assign v2_price_per_bottle = v2_total | times: 1.0 | divided_by: 2 | round
 
       # Compare-at price for 2 Bottles
-      if section.settings.bundle_2_compare != blank
-        assign v2_compare_total = section.settings.bundle_2_compare | times: 100
-        assign v2_compare_per_bottle = v2_compare_total | times: 1.0 | divided_by: 2 | round
-      elsif v2 != blank and v2.id != v1.id and v2.compare_at_price > v2_total
+      if v2.compare_at_price != blank and v2.compare_at_price > v1_compare_per_bottle
         assign v2_compare_total = v2.compare_at_price
         assign v2_compare_per_bottle = v2_compare_total | times: 1.0 | divided_by: 2 | round
+      elsif v2.compare_at_price != blank and v2.compare_at_price > 0
+        assign v2_compare_per_bottle = v2.compare_at_price
+        assign v2_compare_total = v2_compare_per_bottle | times: 2
       else
         assign v2_compare_per_bottle = v1_compare_per_bottle
         assign v2_compare_total = v1_compare_per_bottle | times: 2
@@ -712,12 +704,12 @@
       assign v3_price_per_bottle = v3_total | times: 1.0 | divided_by: 3 | round
 
       # Compare-at price for 3 Bottles
-      if section.settings.bundle_3_compare != blank
-        assign v3_compare_total = section.settings.bundle_3_compare | times: 100
-        assign v3_compare_per_bottle = v3_compare_total | times: 1.0 | divided_by: 3 | round
-      elsif v3 != blank and v3.id != v1.id and v3.id != v2.id and v3.compare_at_price > v3_total
+      if v3.compare_at_price != blank and v3.compare_at_price > v1_compare_per_bottle
         assign v3_compare_total = v3.compare_at_price
         assign v3_compare_per_bottle = v3_compare_total | times: 1.0 | divided_by: 3 | round
+      elsif v3.compare_at_price != blank and v3.compare_at_price > 0
+        assign v3_compare_per_bottle = v3.compare_at_price
+        assign v3_compare_total = v3_compare_per_bottle | times: 3
       else
         assign v3_compare_per_bottle = v1_compare_per_bottle
         assign v3_compare_total = v1_compare_per_bottle | times: 3
@@ -807,9 +799,7 @@
                   {{- v1_compare_per_bottle | money_without_trailing_zeros | remove: '.00' -}}
                 </span>
               {%- endif -%}
-              <span class="bundle-price-current">
-                {{- v1_price_per_bottle | money_without_trailing_zeros | remove: '.00' -}}
-              </span>
+              <span class="bundle-price-current">{{ v1_price_per_bottle | money_without_trailing_zeros | remove: '.00' }}</span>
               <span class="bundle-price-unit">/ bottle</span>
             </div>
             <div class="bundle-save-tag">
@@ -859,17 +849,11 @@
           data-variant-id="{{ v1.id }}"
           data-bundle-qty="{{ v1_add_qty }}"
           data-bundle-price="{{ v1_total }}"
-          {% if default_bundle_color != blank %}
-            data-bundle-color="{{ default_bundle_color | escape }}"
-          {% endif %}
+          {% if default_bundle_color != blank %}data-bundle-color="{{ default_bundle_color | escape }}"{% endif %}
           aria-label="Add {{ bundle_1_title | escape }} bundle to cart"
-          {% if v1 != blank and v1.available == false %}
-            disabled
-          {% endif %}
+          {% if v1 != blank and v1.available == false %}disabled{% endif %}
         >
-          <span>
-            {%- if v1 != blank and v1.available == false %}SOLD OUT{% else %}ADD TO CART{% endif -%}
-          </span>
+          <span>{% if v1 != blank and v1.available == false %}SOLD OUT{% else %}ADD TO CART{% endif %}</span>
         </button>
       </div>
 
@@ -962,17 +946,11 @@
           data-variant-id="{{ v2.id | default: v1.id }}"
           data-bundle-qty="{{ v2_add_qty }}"
           data-bundle-price="{{ v2_total }}"
-          {% if default_bundle_color != blank %}
-            data-bundle-color="{{ default_bundle_color | escape }}"
-          {% endif %}
+          {% if default_bundle_color != blank %}data-bundle-color="{{ default_bundle_color | escape }}"{% endif %}
           aria-label="Add {{ bundle_2_title | escape }} bundle to cart"
-          {% if v2 != blank and v2.available == false %}
-            disabled
-          {% endif %}
+          {% if v2 != blank and v2.available == false %}disabled{% endif %}
         >
-          <span>
-            {%- if v2 != blank and v2.available == false %}SOLD OUT{% else %}ADD TO CART{% endif -%}
-          </span>
+          <span>{% if v2 != blank and v2.available == false %}SOLD OUT{% else %}ADD TO CART{% endif %}</span>
         </button>
       </div>
 
@@ -1013,9 +991,7 @@
                   {{- v3_compare_per_bottle | money_without_trailing_zeros | remove: '.00' -}}
                 </span>
               {%- endif -%}
-              <span class="bundle-price-current">
-                {{- v3_price_per_bottle | money_without_trailing_zeros | remove: '.00' -}}
-              </span>
+              <span class="bundle-price-current">{{ v3_price_per_bottle | money_without_trailing_zeros | remove: '.00' }}</span>
               <span class="bundle-price-unit">/ bottle</span>
             </div>
             <div class="bundle-save-tag">
@@ -1065,17 +1041,11 @@
           data-variant-id="{{ v3.id | default: v1.id }}"
           data-bundle-qty="{{ v3_add_qty }}"
           data-bundle-price="{{ v3_total }}"
-          {% if default_bundle_color != blank %}
-            data-bundle-color="{{ default_bundle_color | escape }}"
-          {% endif %}
+          {% if default_bundle_color != blank %}data-bundle-color="{{ default_bundle_color | escape }}"{% endif %}
           aria-label="Add {{ bundle_3_title | escape }} bundle to cart"
-          {% if v3 != blank and v3.available == false %}
-            disabled
-          {% endif %}
+          {% if v3 != blank and v3.available == false %}disabled{% endif %}
         >
-          <span>
-            {%- if v3 != blank and v3.available == false %}SOLD OUT{% else %}ADD TO CART{% endif -%}
-          </span>
+          <span>{% if v3 != blank and v3.available == false %}SOLD OUT{% else %}ADD TO CART{% endif %}</span>
         </button>
       </div>
     </div>
@@ -1207,12 +1177,9 @@
               formData.append('properties[Color]', colorProp);
             }
 
-            var addUrl =
-              window.Shopify && window.Shopify.routes && window.Shopify.routes.root
-                ? window.Shopify.routes.root + 'cart/add.js'
-                : window.routes && window.routes.cart_add_url
-                ? window.routes.cart_add_url
-                : '/cart/add.js';
+            var addUrl = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root)
+              ? window.Shopify.routes.root + 'cart/add.js'
+              : (window.routes && window.routes.cart_add_url ? window.routes.cart_add_url : '/cart/add.js');
 
             var res = await fetch(addUrl, {
               method: 'POST',
@@ -1248,10 +1215,9 @@
 
             // 2. Fetch fresh cart count & dispatch update event
             try {
-              var cartUrl =
-                window.Shopify && window.Shopify.routes && window.Shopify.routes.root
-                  ? window.Shopify.routes.root + 'cart.js'
-                  : '/cart.js';
+              var cartUrl = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root)
+                ? window.Shopify.routes.root + 'cart.js'
+                : '/cart.js';
               var cartRes = await fetch(cartUrl);
               var cart = await cartRes.json();
               document.dispatchEvent(
@@ -1286,7 +1252,8 @@
                 document.body.classList.add('overflow-hidden');
               } else {
                 var bubble =
-                  document.querySelector('#cart-icon-bubble') || document.querySelector('.header__icon--cart');
+                  document.querySelector('#cart-icon-bubble') ||
+                  document.querySelector('.header__icon--cart');
                 if (bubble) bubble.click();
               }
             }
@@ -1372,12 +1339,6 @@
       "id": "bundle_1_title",
       "label": "1 Bottle title",
       "default": "1 Bottle"
-    },
-    {
-      "type": "number",
-      "id": "bundle_1_compare",
-      "label": "1 Bottle compare-at (total)",
-      "info": "e.g. 4500. Leave blank to use Shopify compare-at price."
     },
     {
       "type": "number",
