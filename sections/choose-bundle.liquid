@@ -1,4 +1,4 @@
-<!-- 09 — Offer / Choose Your Bundle Section -->
+{% comment %} <!-- 09 — Offer / Choose Your Bundle Section -->
 <section class="bundle-offer-section" id="bundleOfferSection" aria-labelledby="bundleOfferTitle">
   <div class="bundle-offer-container">
     <!-- Section Heading -->
@@ -559,6 +559,835 @@
       "type": "image_picker",
       "id": "bundle_3_image",
       "label": "3 Bottles image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle Offer"
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+
+<!-- 09 — Offer / Choose Your Bundle Section -->
+<section class="bundle-offer-section" id="bundleOfferSection" aria-labelledby="bundleOfferTitle">
+  <div class="bundle-offer-container">
+    <!-- Section Heading -->
+    <div class="bundle-offer-header">
+      <div class="bundle-sale-pill">
+        <span>{{ section.settings.badge_text | default: 'FALL SALE EXCLUSIVE' }}</span>
+      </div>
+      <h2 class="bundle-offer-title" id="bundleOfferTitle">{{ section.settings.heading | default: 'Choose your bundle &amp; save' }}</h2>
+      <p class="bundle-offer-subtitle">
+        {{ section.settings.subtitle | default: 'Each bottle gives you 15 applications. Stock up and unlock free shipping and a free conditioner.' }}
+      </p>
+    </div>
+
+    {%- liquid
+      assign bundle_product = section.settings.product | default: product
+      if bundle_product == blank and all_products['instant-dye-shampoo'] != blank
+        assign bundle_product = all_products['instant-dye-shampoo']
+      endif
+      if bundle_product == blank and collections.all.products.first != blank
+        assign bundle_product = collections.all.products.first
+      endif
+
+      assign v1 = nil
+      assign v2 = nil
+      assign v3 = nil
+
+      if bundle_product != blank and bundle_product.variants.size > 0
+        for variant in bundle_product.variants
+          assign v_title_lower = variant.title | downcase
+          if v1 == nil and v_title_lower contains '1'
+            assign v1 = variant
+          elsif v2 == nil and v_title_lower contains '2'
+            assign v2 = variant
+          elsif v3 == nil and v_title_lower contains '3'
+            assign v3 = variant
+          endif
+        endfor
+
+        if v1 == nil
+          assign v1 = bundle_product.selected_or_first_available_variant | default: bundle_product.variants[0]
+        endif
+        if v2 == nil
+          assign v2 = bundle_product.variants[1] | default: v1
+        endif
+        if v3 == nil
+          assign v3 = bundle_product.variants[2] | default: v2
+        endif
+      endif
+
+      # --- Variant 1 Calculations (1 Bottle) ---
+      assign v1_price_per_bottle = v1.price | default: bundle_product.price | default: 350000
+      assign v1_compare_per_bottle = v1.compare_at_price | default: bundle_product.compare_at_price
+      if v1_compare_per_bottle == blank or v1_compare_per_bottle <= v1_price_per_bottle
+        assign v1_compare_per_bottle = 490000
+      endif
+      assign v1_total = v1_price_per_bottle
+      assign v1_save = 29
+      if v1_compare_per_bottle > v1_price_per_bottle
+        assign v1_save = v1_compare_per_bottle | minus: v1_price_per_bottle | times: 100.0 | divided_by: v1_compare_per_bottle | round
+      endif
+      assign v1_add_qty = 1
+
+      # --- Variant 2 Calculations (2 Bottles) ---
+      assign v1_x1_3 = v1_price_per_bottle | times: 13 | divided_by: 10
+      if v2 != blank and v2 != v1 and v2.price > v1_x1_3
+        # v2.price is the total pack price
+        assign v2_total = v2.price
+        assign v2_price_per_bottle = v2_total | divided_by: 2
+        assign v2_compare_total = v2.compare_at_price
+        if v2_compare_total == blank or v2_compare_total <= v2_total
+          assign v2_compare_total = v1_compare_per_bottle | times: 2
+        endif
+        assign v2_compare_per_bottle = v2_compare_total | divided_by: 2
+        assign v2_add_qty = 1
+      elsif v2 != blank and v2 != v1 and v2.price != blank and v2.price < v1_price_per_bottle and v2.price > 0
+        # v2.price is per bottle price
+        assign v2_price_per_bottle = v2.price
+        assign v2_total = v2_price_per_bottle | times: 2
+        assign v2_compare_per_bottle = v2.compare_at_price | default: v1_compare_per_bottle
+        assign v2_compare_total = v2_compare_per_bottle | times: 2
+        assign v2_add_qty = 1
+      else
+        # Fallback / Single variant: 40% discount off compare-at price or 295000 default
+        assign v2_price_per_bottle = 295000
+        if v1_compare_per_bottle > 0
+          assign v2_price_per_bottle = v1_compare_per_bottle | times: 60 | divided_by: 100 | round
+        endif
+        assign v2_total = v2_price_per_bottle | times: 2
+        assign v2_compare_per_bottle = v1_compare_per_bottle
+        assign v2_compare_total = v1_compare_per_bottle | times: 2
+        assign v2_add_qty = 2
+      endif
+
+      assign v2_save = 40
+      if v2_compare_total > v2_total
+        assign v2_save = v2_compare_total | minus: v2_total | times: 100.0 | divided_by: v2_compare_total | round
+      endif
+
+      # --- Variant 3 Calculations (3 Bottles) ---
+      assign v1_x1_8 = v1_price_per_bottle | times: 18 | divided_by: 10
+      if v3 != blank and v3 != v1 and v3.price > v1_x1_8
+        # v3.price is the total pack price
+        assign v3_total = v3.price
+        assign v3_price_per_bottle = v3_total | divided_by: 3
+        assign v3_compare_total = v3.compare_at_price
+        if v3_compare_total == blank or v3_compare_total <= v3_total
+          assign v3_compare_total = v1_compare_per_bottle | times: 3
+        endif
+        assign v3_compare_per_bottle = v3_compare_total | divided_by: 3
+        assign v3_add_qty = 1
+      elsif v3 != blank and v3 != v1 and v3.price != blank and v3.price < v2_price_per_bottle and v3.price > 0
+        # v3.price is per bottle price
+        assign v3_price_per_bottle = v3.price
+        assign v3_total = v3_price_per_bottle | times: 3
+        assign v3_compare_per_bottle = v3.compare_at_price | default: v1_compare_per_bottle
+        assign v3_compare_total = v3_compare_per_bottle | times: 3
+        assign v3_add_qty = 1
+      else
+        # Fallback / Single variant: 52% discount off compare-at price or 233300 default
+        assign v3_price_per_bottle = 233300
+        if v1_compare_per_bottle > 0
+          assign v3_price_per_bottle = v1_compare_per_bottle | times: 48 | divided_by: 100 | round
+        endif
+        assign v3_total = v3_price_per_bottle | times: 3
+        assign v3_compare_per_bottle = v1_compare_per_bottle
+        assign v3_compare_total = v1_compare_per_bottle | times: 3
+        assign v3_add_qty = 3
+      endif
+
+      assign v3_save = 52
+      if v3_compare_total > v3_total
+        assign v3_save = v3_compare_total | minus: v3_total | times: 100.0 | divided_by: v3_compare_total | round
+      endif
+
+      # Overrides from settings if entered
+      if section.settings.bundle_1_price != blank
+        assign v1_price_per_bottle = section.settings.bundle_1_price | times: 100
+        assign v1_total = v1_price_per_bottle
+        if v1_compare_per_bottle > v1_price_per_bottle
+          assign v1_save = v1_compare_per_bottle | minus: v1_price_per_bottle | times: 100.0 | divided_by: v1_compare_per_bottle | round
+        endif
+      endif
+      if section.settings.bundle_2_price != blank
+        assign v2_price_per_bottle = section.settings.bundle_2_price | times: 100
+        assign v2_total = v2_price_per_bottle | times: 2
+        if v2_compare_total > v2_total
+          assign v2_save = v2_compare_total | minus: v2_total | times: 100.0 | divided_by: v2_compare_total | round
+        endif
+      endif
+      if section.settings.bundle_3_price != blank
+        assign v3_price_per_bottle = section.settings.bundle_3_price | times: 100
+        assign v3_total = v3_price_per_bottle | times: 3
+        if v3_compare_total > v3_total
+          assign v3_save = v3_compare_total | minus: v3_total | times: 100.0 | divided_by: v3_compare_total | round
+        endif
+      endif
+
+      # Bundle Titles
+      assign bundle_1_title = section.settings.bundle_1_title
+      if bundle_1_title == blank
+        if v1.title != blank and v1.title != 'Default Title'
+          assign bundle_1_title = v1.title
+        else
+          assign bundle_1_title = '1 Bottle'
+        endif
+      endif
+
+      assign bundle_2_title = section.settings.bundle_2_title
+      if bundle_2_title == blank
+        if v2.title != blank and v2.title != 'Default Title' and v2.title != v1.title
+          assign bundle_2_title = v2.title
+        else
+          assign bundle_2_title = '2 Bottles'
+        endif
+      endif
+
+      assign bundle_3_title = section.settings.bundle_3_title
+      if bundle_3_title == blank
+        if v3.title != blank and v3.title != 'Default Title' and v3.title != v1.title and v3.title != v2.title
+          assign bundle_3_title = v3.title
+        else
+          assign bundle_3_title = '3 Bottles'
+        endif
+      endif
+
+      assign cat_colors = bundle_product.metafields.shopify['color-pattern'].value | default: bundle_product.metafields.custom.color.value
+      assign default_bundle_color = 'Dark Brown'
+      if cat_colors != blank
+        for item in cat_colors
+          if forloop.first
+            assign default_bundle_color = item.label | default: item.name | default: item.value | default: item | strip
+          endif
+        endfor
+      endif
+    -%}
+
+    <!-- Bundles Grid / Cards Row -->
+    <div class="bundle-cards-row">
+      <!-- Bundle Card 1: 1 Bottle -->
+      <div class="bundle-item-card bundle-card-1">
+        <div class="bundle-card-top">
+          <div class="bundle-img-box">
+            {%- if section.settings.bundle_1_image != blank -%}
+              {{
+                section.settings.bundle_1_image
+                | image_url: width: 600
+                | image_tag:
+                  class: 'bundle-bottle-img',
+                  alt: '1 Bottle - Polar Instant Dye Shampoo',
+                  loading: 'lazy',
+                  widths: '300, 450, 600'
+              }}
+            {%- else -%}
+              <img
+                src="{{ 'bundle-1-bottle.png' | asset_url }}"
+                alt="1 Bottle - Polar Instant Dye Shampoo"
+                class="bundle-bottle-img"
+                loading="lazy"
+              >
+            {%- endif -%}
+          </div>
+          <div class="bundle-card-info">
+            <h3 class="bundle-item-title">{{ bundle_1_title }}</h3>
+            <div class="bundle-price-row">
+              {%- if v1_compare_per_bottle != blank and v1_compare_per_bottle > v1_price_per_bottle -%}
+                <span class="bundle-price-compare">
+                  {{- v1_compare_per_bottle | money_without_trailing_zeros | remove: '.00' -}}
+                </span>
+              {%- endif -%}
+              <span class="bundle-price-current">{{ v1_price_per_bottle | money_without_trailing_zeros | remove: '.00' }}</span>
+              <span class="bundle-price-unit">/ bottle</span>
+            </div>
+            <div class="bundle-save-tag">
+              <span
+                >Save {{ v1_save | default: 29 }}% &middot; Total
+                {{ v1_total | money_without_trailing_zeros | remove: '.00' -}}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bundle-divider"></div>
+
+        <ul class="bundle-perks-list">
+          <li class="bundle-perk-item">
+            <span class="bundle-check-icon" aria-hidden="true">
+              <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+                <circle cx="9" cy="9" r="9" fill="#2FA60F" />
+                <path d="M5.5 9.2L7.8 11.5L12.5 6.8" stroke="#FFFFFF" stroke-width="1.88" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="bundle-perk-text">15 applications</span>
+          </li>
+          <li class="bundle-perk-item">
+            <span class="bundle-check-icon" aria-hidden="true">
+              <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+                <circle cx="9" cy="9" r="9" fill="#2FA60F" />
+                <path d="M5.5 9.2L7.8 11.5L12.5 6.8" stroke="#FFFFFF" stroke-width="1.88" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="bundle-perk-text">Covers grays in 10 minutes</span>
+          </li>
+          <li class="bundle-perk-item">
+            <span class="bundle-check-icon" aria-hidden="true">
+              <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+                <circle cx="9" cy="9" r="9" fill="#2FA60F" />
+                <path d="M5.5 9.2L7.8 11.5L12.5 6.8" stroke="#FFFFFF" stroke-width="1.88" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="bundle-perk-text">30-day money-back guarantee</span>
+          </li>
+        </ul>
+
+        <button
+          type="button"
+          class="bundle-btn bundle-btn-primary"
+          data-variant-id="{{ v1.id }}"
+          data-bundle-qty="{{ v1_add_qty }}"
+          data-bundle-price="{{ v1_total }}"
+          {% if default_bundle_color != blank %}data-bundle-color="{{ default_bundle_color | escape }}"{% endif %}
+          aria-label="Add {{ bundle_1_title | escape }} bundle to cart"
+          {% if v1 != blank and v1.available == false %}disabled{% endif %}
+        >
+          <span>{% if v1 != blank and v1.available == false %}SOLD OUT{% else %}ADD TO CART{% endif %}</span>
+        </button>
+      </div>
+
+      <!-- Bundle Card 2: 2 Bottles (Featured / Most Popular) -->
+      <div class="bundle-item-card bundle-featured-card bundle-card-2">
+        <div class="bundle-card-top">
+          <div class="bundle-badge bundle-badge-white">
+            <span>MOST POPULAR</span>
+          </div>
+          <div class="bundle-img-box">
+            {%- if section.settings.bundle_2_image != blank -%}
+              {{
+                section.settings.bundle_2_image
+                | image_url: width: 600
+                | image_tag:
+                  class: 'bundle-bottle-img',
+                  alt: '2 Bottles - Polar Instant Dye Shampoo',
+                  loading: 'lazy',
+                  widths: '300, 450, 600'
+              }}
+            {%- else -%}
+              <img
+                src="{{ 'bundle-2-bottles.png' | asset_url }}"
+                alt="2 Bottles - Polar Instant Dye Shampoo"
+                class="bundle-bottle-img"
+                loading="lazy"
+              >
+            {%- endif -%}
+          </div>
+          <div class="bundle-card-info">
+            <div class="bundle-mobile-badge bundle-badge-white">
+              <span>MOST POPULAR</span>
+            </div>
+            <h3 class="bundle-item-title bundle-title-light">{{ bundle_2_title }}</h3>
+            <div class="bundle-price-row">
+              {%- if v2_compare_per_bottle != blank and v2_compare_per_bottle > v2_price_per_bottle -%}
+                <span class="bundle-price-compare bundle-light">
+                  {{- v2_compare_per_bottle | money_without_trailing_zeros | remove: '.00' -}}
+                </span>
+              {%- endif -%}
+              <span class="bundle-price-current bundle-light">
+                {{- v2_price_per_bottle | money_without_trailing_zeros | remove: '.00' -}}
+              </span>
+              <span class="bundle-price-unit bundle-light">/ bottle</span>
+            </div>
+            <div class="bundle-save-tag bundle-save-tag-glass">
+              <span
+                >Save {{ v2_save | default: 40 }}% &middot; Total
+                {{ v2_total | money_without_trailing_zeros | remove: '.00' -}}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bundle-divider bundle-divider-light"></div>
+
+        <ul class="bundle-perks-list">
+          <li class="bundle-perk-item">
+            <span class="bundle-check-icon" aria-hidden="true">
+              <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+                <circle cx="9" cy="9" r="9" fill="#2FA60F" />
+                <path d="M5.5 9.2L7.8 11.5L12.5 6.8" stroke="#FFFFFF" stroke-width="1.88" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="bundle-perk-text bundle-text-light">30 applications</span>
+          </li>
+          <li class="bundle-perk-item">
+            <span class="bundle-check-icon" aria-hidden="true">
+              <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+                <circle cx="9" cy="9" r="9" fill="#2FA60F" />
+                <path d="M5.5 9.2L7.8 11.5L12.5 6.8" stroke="#FFFFFF" stroke-width="1.88" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="bundle-perk-text bundle-text-light">+ Free shipping</span>
+          </li>
+          <li class="bundle-perk-item">
+            <span class="bundle-check-icon" aria-hidden="true">
+              <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+                <circle cx="9" cy="9" r="9" fill="#2FA60F" />
+                <path d="M5.5 9.2L7.8 11.5L12.5 6.8" stroke="#FFFFFF" stroke-width="1.88" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="bundle-perk-text bundle-text-light">30-day money-back guarantee</span>
+          </li>
+        </ul>
+
+        <button
+          type="button"
+          class="bundle-btn bundle-btn-inverse"
+          data-variant-id="{{ v2.id | default: v1.id }}"
+          data-bundle-qty="{{ v2_add_qty }}"
+          data-bundle-price="{{ v2_total }}"
+          {% if default_bundle_color != blank %}data-bundle-color="{{ default_bundle_color | escape }}"{% endif %}
+          aria-label="Add {{ bundle_2_title | escape }} bundle to cart"
+          {% if v2 != blank and v2.available == false %}disabled{% endif %}
+        >
+          <span>{% if v2 != blank and v2.available == false %}SOLD OUT{% else %}ADD TO CART{% endif %}</span>
+        </button>
+      </div>
+
+      <!-- Bundle Card 3: 3 Bottles (Best Value) -->
+      <div class="bundle-item-card bundle-card-3">
+        <div class="bundle-card-top">
+          <div class="bundle-badge bundle-badge-dark">
+            <span>BEST VALUE</span>
+          </div>
+          <div class="bundle-img-box">
+            {%- if section.settings.bundle_3_image != blank -%}
+              {{
+                section.settings.bundle_3_image
+                | image_url: width: 600
+                | image_tag:
+                  class: 'bundle-bottle-img',
+                  alt: '3 Bottles - Polar Instant Dye Shampoo',
+                  loading: 'lazy',
+                  widths: '300, 450, 600'
+              }}
+            {%- else -%}
+              <img
+                src="{{ 'bundle-3-bottles.png' | asset_url }}"
+                alt="3 Bottles - Polar Instant Dye Shampoo"
+                class="bundle-bottle-img"
+                loading="lazy"
+              >
+            {%- endif -%}
+          </div>
+          <div class="bundle-card-info">
+            <div class="bundle-mobile-badge bundle-badge-dark">
+              <span>BEST VALUE</span>
+            </div>
+            <h3 class="bundle-item-title">{{ bundle_3_title }}</h3>
+            <div class="bundle-price-row">
+              {%- if v3_compare_per_bottle != blank and v3_compare_per_bottle > v3_price_per_bottle -%}
+                <span class="bundle-price-compare">
+                  {{- v3_compare_per_bottle | money_without_trailing_zeros | remove: '.00' -}}
+                </span>
+              {%- endif -%}
+              <span class="bundle-price-current">{{ v3_price_per_bottle | money_without_trailing_zeros | remove: '.00' }}</span>
+              <span class="bundle-price-unit">/ bottle</span>
+            </div>
+            <div class="bundle-save-tag">
+              <span
+                >Save {{ v3_save | default: 52 }}% &middot; Total
+                {{ v3_total | money_without_trailing_zeros | remove: '.00' -}}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bundle-divider"></div>
+
+        <ul class="bundle-perks-list">
+          <li class="bundle-perk-item">
+            <span class="bundle-check-icon" aria-hidden="true">
+              <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+                <circle cx="9" cy="9" r="9" fill="#2FA60F" />
+                <path d="M5.5 9.2L7.8 11.5L12.5 6.8" stroke="#FFFFFF" stroke-width="1.88" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="bundle-perk-text">45 applications</span>
+          </li>
+          <li class="bundle-perk-item">
+            <span class="bundle-check-icon" aria-hidden="true">
+              <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+                <circle cx="9" cy="9" r="9" fill="#2FA60F" />
+                <path d="M5.5 9.2L7.8 11.5L12.5 6.8" stroke="#FFFFFF" stroke-width="1.88" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="bundle-perk-text">+ Free shipping</span>
+          </li>
+          <li class="bundle-perk-item">
+            <span class="bundle-check-icon" aria-hidden="true">
+              <svg viewBox="0 0 18 18" fill="none" width="18" height="18">
+                <circle cx="9" cy="9" r="9" fill="#2FA60F" />
+                <path d="M5.5 9.2L7.8 11.5L12.5 6.8" stroke="#FFFFFF" stroke-width="1.88" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="bundle-perk-text">+ Free conditioner</span>
+          </li>
+        </ul>
+
+        <button
+          type="button"
+          class="bundle-btn bundle-btn-primary"
+          data-variant-id="{{ v3.id | default: v1.id }}"
+          data-bundle-qty="{{ v3_add_qty }}"
+          data-bundle-price="{{ v3_total }}"
+          {% if default_bundle_color != blank %}data-bundle-color="{{ default_bundle_color | escape }}"{% endif %}
+          aria-label="Add {{ bundle_3_title | escape }} bundle to cart"
+          {% if v3 != blank and v3.available == false %}disabled{% endif %}
+        >
+          <span>{% if v3 != blank and v3.available == false %}SOLD OUT{% else %}ADD TO CART{% endif %}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Trust Badges Container (4 Badges) -->
+    <div class="bundle-trust-card">
+      <!-- Trust Item 1: 30-Day Money Back -->
+      <div class="bundle-trust-item">
+        <div class="bundle-trust-icon-wrap" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="14.5" stroke="#5E3A58" stroke-width="1.18" fill="#FFFFFF"/>
+            <circle cx="16" cy="16" r="11.5" stroke="#5E3A58" stroke-width="0.6" stroke-dasharray="2 2" fill="none"/>
+            <path d="M12.5 12C13.5 10.8 14.7 10 16 10C18.8 10 21 12.2 21 15C21 15.6 20.9 16.2 20.6 16.7" stroke="#5E3A58" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M11 10.5L12.8 12L13.2 9.8" fill="#5E3A58"/>
+            <path d="M19.5 20C18.5 21.2 17.3 22 16 22C13.2 22 11 19.8 11 17C11 16.4 11.1 15.8 11.4 15.3" stroke="#5E3A58" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M21 21.5L19.2 20L18.8 22.2" fill="#5E3A58"/>
+            <text x="16" y="19" font-family="'Lato', sans-serif" font-size="9" font-weight="700" fill="#5E3A58" text-anchor="middle">$</text>
+          </svg>
+        </div>
+        <div class="bundle-trust-content">
+          <strong class="bundle-trust-title">30-Day Money Back</strong>
+          <span class="bundle-trust-desc">
+            <span class="bundle-desc-desktop">Hassle-free money-back option</span>
+            <span class="bundle-desc-mobile">Hassle-free option</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Trust Item 2: Insured & Fast Shipping -->
+      <div class="bundle-trust-item">
+        <div class="bundle-trust-icon-wrap" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="14.5" stroke="#5E3A58" stroke-width="1.18" fill="#FFFFFF"/>
+            <ellipse cx="16" cy="16" rx="6" ry="10" stroke="#5E3A58" stroke-width="1" fill="none"/>
+            <line x1="6" y1="13" x2="26" y2="13" stroke="#5E3A58" stroke-width="1"/>
+            <line x1="6" y1="19" x2="26" y2="19" stroke="#5E3A58" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="bundle-trust-content">
+          <strong class="bundle-trust-title">Insured &amp; Fast Shipping</strong>
+          <span class="bundle-trust-desc">
+            <span class="bundle-desc-desktop">Worldwide delivery to your door</span>
+            <span class="bundle-desc-mobile">Worldwide delivery</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Trust Item 3: Returns Accepted -->
+      <div class="bundle-trust-item">
+        <div class="bundle-trust-icon-wrap" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="14.5" stroke="#5E3A58" stroke-width="1.18" fill="#FFFFFF"/>
+            <rect x="10.5" y="11.5" width="11" height="9" rx="1.5" stroke="#5E3A58" stroke-width="1.2" fill="none"/>
+            <path d="M14 10L16 8L18 10" stroke="#5E3A58" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 8V14" stroke="#5E3A58" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="bundle-trust-content">
+          <strong class="bundle-trust-title">Returns Accepted</strong>
+          <span class="bundle-trust-desc">
+            <span class="bundle-desc-desktop">Easy and simple return process</span>
+            <span class="bundle-desc-mobile">Easy return process</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Trust Item 4: Secure Payment -->
+      <div class="bundle-trust-item">
+        <div class="bundle-trust-icon-wrap" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="14.5" stroke="#5E3A58" stroke-width="1.18" fill="#FFFFFF"/>
+            <rect x="9.5" y="12" width="13" height="9" rx="1.5" stroke="#5E3A58" stroke-width="1.2" fill="none"/>
+            <line x1="9.5" y1="15" x2="22.5" y2="15" stroke="#5E3A58" stroke-width="1.2"/>
+            <rect x="12" y="17" width="2.5" height="2" rx="0.5" fill="#5E3A58"/>
+          </svg>
+        </div>
+        <div class="bundle-trust-content">
+          <strong class="bundle-trust-title">Secure Payment</strong>
+          <span class="bundle-trust-desc">
+            <span class="bundle-desc-desktop">Protected and safe transactions</span>
+            <span class="bundle-desc-mobile">Protected transactions</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Disclaimer Note -->
+    <p class="bundle-money-back-note">
+      30-day money-back guarantee. If it doesn’t work for you, we’ll refund you — no questions asked.
+    </p>
+  </div>
+</section>
+
+<script>
+  (function () {
+    function initBundleCart() {
+      var section =
+        document.getElementById('bundleOfferSection') ||
+        document.getElementById('chooseBundle') ||
+        document.querySelector('.bundle-offer-section');
+      if (!section) return;
+
+      var bundleButtons = section.querySelectorAll('.bundle-btn');
+      bundleButtons.forEach(function (btn) {
+        if (btn._bundleCartBound) return;
+        btn._bundleCartBound = true;
+
+        btn.addEventListener('click', async function (e) {
+          e.preventDefault();
+          var variantId = btn.getAttribute('data-variant-id');
+          var qty = parseInt(btn.getAttribute('data-bundle-qty') || '1', 10);
+          if (!variantId) {
+            console.warn('Bundle cart: No variant ID found on button');
+            return;
+          }
+
+          var btnSpan = btn.querySelector('span');
+          var originalText = btnSpan ? btnSpan.textContent : btn.textContent;
+          btn.disabled = true;
+          if (btnSpan) btnSpan.textContent = 'ADDING...';
+
+          try {
+            var formData = new FormData();
+            formData.append('id', variantId);
+            formData.append('quantity', qty);
+
+            var colorProp = btn.getAttribute('data-bundle-color');
+            if (colorProp) {
+              formData.append('properties[Color]', colorProp);
+            }
+
+            var addUrl = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root)
+              ? window.Shopify.routes.root + 'cart/add.js'
+              : (window.routes && window.routes.cart_add_url ? window.routes.cart_add_url : '/cart/add.js');
+
+            var res = await fetch(addUrl, {
+              method: 'POST',
+              headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                Accept: 'application/json',
+              },
+              body: formData,
+            });
+
+            var data = await res.json();
+            if (!res.ok || (data.status && data.status >= 400)) {
+              throw new Error(data.description || data.message || 'Unable to add bundle to cart');
+            }
+
+            // 1. Refresh cart drawer HTML if Horizon theme drawer exists
+            try {
+              var drawerRes = await fetch(window.location.pathname + '?sections=cart-drawer');
+              var drawerJson = await drawerRes.json();
+              var drawerHtml = drawerJson && drawerJson['cart-drawer'];
+              if (drawerHtml) {
+                var drawerEl = document.querySelector('#cart-drawer');
+                if (drawerEl) {
+                  var parser = new DOMParser();
+                  var doc = parser.parseFromString(drawerHtml, 'text/html');
+                  var newDrawer = doc.querySelector('#cart-drawer');
+                  if (newDrawer) drawerEl.innerHTML = newDrawer.innerHTML;
+                }
+              }
+            } catch (err) {
+              console.warn('Failed to refresh cart-drawer HTML:', err);
+            }
+
+            // 2. Fetch fresh cart count & dispatch update event
+            try {
+              var cartUrl = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root)
+                ? window.Shopify.routes.root + 'cart.js'
+                : '/cart.js';
+              var cartRes = await fetch(cartUrl);
+              var cart = await cartRes.json();
+              document.dispatchEvent(
+                new CustomEvent('cart:update', {
+                  bubbles: true,
+                  detail: { data: { itemCount: cart.item_count, source: 'choose-bundle' } },
+                })
+              );
+            } catch (err) {
+              console.warn('Failed to fetch cart.js:', err);
+            }
+
+            // 3. Open cart drawer
+            var drawer = document.querySelector('#cart-drawer');
+            if (drawer && typeof drawer.open === 'function') {
+              drawer.open();
+            } else if (drawer && typeof drawer.show === 'function') {
+              drawer.show();
+            } else if (typeof window.openShopifyCartDrawer === 'function') {
+              window.openShopifyCartDrawer(data, btn);
+            } else {
+              var cartDrawer =
+                document.querySelector('cart-drawer') ||
+                document.querySelector('#CartDrawer') ||
+                document.querySelector('cart-notification');
+              if (cartDrawer && typeof cartDrawer.renderContents === 'function') {
+                cartDrawer.renderContents(data);
+              } else if (cartDrawer && typeof cartDrawer.open === 'function') {
+                cartDrawer.open(btn);
+              } else if (cartDrawer && cartDrawer.classList) {
+                cartDrawer.classList.add('animate', 'active');
+                document.body.classList.add('overflow-hidden');
+              } else {
+                var bubble =
+                  document.querySelector('#cart-icon-bubble') ||
+                  document.querySelector('.header__icon--cart');
+                if (bubble) bubble.click();
+              }
+            }
+          } catch (err) {
+            console.error('Bundle add to cart error:', err);
+            alert(err.message || 'Error adding bundle to cart.');
+          } finally {
+            btn.disabled = false;
+            if (btnSpan) btnSpan.textContent = originalText;
+          }
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initBundleCart);
+    } else {
+      initBundleCart();
+    }
+
+    document.addEventListener('shopify:section:load', function (e) {
+      if (
+        e.target &&
+        (e.target.querySelector('#bundleOfferSection') ||
+          e.target.querySelector('#chooseBundle') ||
+          e.target.querySelector('.bundle-offer-section'))
+      ) {
+        initBundleCart();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Bundle Offer",
+  "tag": "section",
+  "class": "bundle-offer-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product",
+      "info": "Choose the product to bundle. If empty, uses Instant Dye Shampoo or current page product."
+    },
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Sale badge text",
+      "default": "FALL SALE EXCLUSIVE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Choose your bundle & save"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Each bottle gives you 15 applications. Stock up and unlock free shipping and a free conditioner."
+    },
+    {
+      "type": "header",
+      "content": "Bundle 1 (1 Bottle)"
+    },
+    {
+      "type": "image_picker",
+      "id": "bundle_1_image",
+      "label": "1 Bottle image"
+    },
+    {
+      "type": "text",
+      "id": "bundle_1_title",
+      "label": "1 Bottle title",
+      "default": "1 Bottle"
+    },
+    {
+      "type": "number",
+      "id": "bundle_1_price",
+      "label": "1 Bottle custom price override",
+      "info": "Leave blank to use product variant price"
+    },
+    {
+      "type": "header",
+      "content": "Bundle 2 (2 Bottles)"
+    },
+    {
+      "type": "image_picker",
+      "id": "bundle_2_image",
+      "label": "2 Bottles image"
+    },
+    {
+      "type": "text",
+      "id": "bundle_2_title",
+      "label": "2 Bottles title",
+      "default": "2 Bottles"
+    },
+    {
+      "type": "number",
+      "id": "bundle_2_price",
+      "label": "2 Bottles per-bottle custom price override",
+      "info": "Leave blank to use product variant price or 40% discount"
+    },
+    {
+      "type": "header",
+      "content": "Bundle 3 (3 Bottles)"
+    },
+    {
+      "type": "image_picker",
+      "id": "bundle_3_image",
+      "label": "3 Bottles image"
+    },
+    {
+      "type": "text",
+      "id": "bundle_3_title",
+      "label": "3 Bottles title",
+      "default": "3 Bottles"
+    },
+    {
+      "type": "number",
+      "id": "bundle_3_price",
+      "label": "3 Bottles per-bottle custom price override",
+      "info": "Leave blank to use product variant price or 52% discount"
     }
   ],
   "presets": [
