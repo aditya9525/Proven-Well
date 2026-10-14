@@ -907,11 +907,11 @@
             {%- for block in section.blocks -%}
               {%- if block.type == 'ugc_video' -%}
                 {%- assign v = block.settings.video -%}
-                        {%- assign v_src = v.sources | where: 'format', 'mp4' | sort: 'height' | last -%}
-        {%- assign cdn_url = block.settings.cdn_video_url | strip -%}
-        {%- assign final_video = cdn_url | default: v_src.url -%}
+                {%- assign v_src = v.sources | where: 'format', 'mp4' | sort: 'height' | last -%}
+                {%- assign cdn_url = block.settings.cdn_video_url | strip -%}
+                {%- assign final_video = cdn_url | default: v_src.url -%}
                 <div class="swiper-slide ugc-customer-slide" {{ block.shopify_attributes }}>
-                            <div class="ugc-video-card" data-video="{{ final_video | escape }}">
+                  <div class="ugc-video-card" data-video="{{ final_video | escape }}">
                     {%- if block.settings.cover != blank -%}
                       <img
                         src="{{ block.settings.cover | image_url: width: 600 }}"
@@ -1369,8 +1369,15 @@
             if (!response.ok) {
               throw new Error(data.description || 'Unable to add product');
             }
+            window.location.href = window.Shopify.routes.root + 'checkout';
+            return; // redirect ke time button enabled na ho (double-click se bachne ke liye)
+          } catch (error) {
+            console.error('Add to cart failed:', error);
+            alert(error.message || 'Something went wrong.');
+            if (addToCartBtn) addToCartBtn.disabled = false;
+          }
 
-            var cartResponse = await fetch(window.Shopify.routes.root + 'cart.js');
+            {% comment %} var cartResponse = await fetch(window.Shopify.routes.root + 'cart.js');
             var cart = await cartResponse.json();
 
             // 1. Drawer ka fresh HTML fetch karke swap karo
@@ -1398,7 +1405,7 @@
             alert(error.message || 'Something went wrong.');
           } finally {
             if (addToCartBtn) addToCartBtn.disabled = false;
-          }
+          } {% endcomment %}
         });
       }
 
@@ -1532,7 +1539,7 @@
       "name": "Customer Video",
       "limit": 10,
       "settings": [
-       {
+        {
           "type": "text",
           "id": "cdn_video_url",
           "label": "Video CDN link (direct .mp4)",
@@ -1555,11 +1562,7 @@
   "presets": [
     {
       "name": "Main Product",
-      "blocks": [
-        { "type": "ugc_video" },
-        { "type": "ugc_video" },
-        { "type": "ugc_video" }
-      ]
+      "blocks": [{ "type": "ugc_video" }, { "type": "ugc_video" }, { "type": "ugc_video" }]
     }
   ]
 }
