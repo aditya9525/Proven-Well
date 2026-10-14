@@ -1,1 +1,827 @@
-{"sections":{"main":{"type":"product-information","blocks":{"disclosures_g9mWze":{"type":"disclosures","name":"t:names.disclosures","settings":{"heading":"Disclosures","heading_preset":"h5","open_by_default":false,"icon":"caret","disclosure_heading_preset":"h6","text_color":"","dividers":true,"divider_color":"{{ settings.color_palette.color2 }}","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"media-gallery":{"type":"_product-media-gallery","static":true,"settings":{"media_presentation":"grid","media_columns":"two","image_gap":4,"large_first_image":false,"icons_style":"arrow","slideshow_controls_style":"counter","slideshow_mobile_controls_style":"dots","thumbnail_position":"right","thumbnail_width":44,"thumbnail_radius":0,"aspect_ratio":"adapt","constrain_to_viewport":true,"media_fit":"contain","media_radius":0,"extend_media":false,"zoom":true,"video_loop":false,"hide_variants":true,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"product-details":{"type":"_product-details","static":true,"settings":{"width":"fill","custom_width":100,"width_mobile":"fill","custom_width_mobile":100,"height":"fit","details_position":"flex-start","gap":28,"sticky_details_desktop":true,"background_media":"none","background_color":"","video_position":"cover","background_image_position":"cover","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":24,"padding-block-end":24,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"group_icgrde":{"type":"group","name":"t:names.header","settings":{"content_direction":"column","vertical_on_mobile":true,"horizontal_alignment":"flex-start","vertical_alignment":"center","align_baseline":false,"horizontal_alignment_flex_direction_column":"flex-start","vertical_alignment_flex_direction_column":"center","gap":12,"width":"fill","custom_width":100,"width_mobile":"fill","custom_width_mobile":100,"height":"fit","custom_height":100,"background_media":"none","background_color":"","video_position":"cover","background_image_position":"cover","toggle_overlay":false,"overlay_color":"#00000026","overlay_style":"solid","gradient_direction":"to top","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"link":"","open_in_new_tab":false,"placeholder":"","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"text_xrnftG":{"type":"text","name":"t:names.product_title","settings":{"text":"<h1>{{ closest.product.title }}<\/h1>","width":"100%","max_width":"normal","alignment":"left","type_preset":"h3","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","text_color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"price_tVjtKg":{"type":"price","settings":{"show_sale_price_first":true,"show_installments":false,"show_tax_info":false,"type_preset":"paragraph","width":"100%","alignment":"left","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","text_color":"","padding-block-start":4,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}}},"block_order":["text_xrnftG","price_tVjtKg"]},"divider_VJhene":{"type":"_divider","name":"t:names.divider","settings":{"thickness":1,"corner_radius":"square","divider_color":"{{ settings.color_palette.color2 }}","width_percent":100,"padding-block-start":0,"padding-block-end":0},"blocks":{}},"variant_picker_R3rGDr":{"type":"variant-picker","settings":{"variant_style":"buttons","show_swatches":false,"option_label_text_color":"","variant_style_class":"default","custom_variant_background":"{{ settings.color_palette.background }}","custom_variant_text":"{{ settings.color_palette.foreground }}","custom_variant_border":"{{ settings.color_palette.foreground }}","selected_variant_style_class":"default","custom_selected_variant_background":"{{ settings.color_palette.foreground }}","custom_selected_variant_text":"{{ settings.color_palette.background }}","custom_selected_variant_border":"{{ settings.color_palette.foreground }}","alignment":"left","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"buy_buttons_eYQEYi":{"type":"buy-buttons","settings":{"stacking":true,"text_color":"","show_pickup_availability":false,"gift_card_form":true,"recipient_button_style":"default","recipient_button_background":"{{ settings.color_palette.background }}","recipient_button_text":"{{ settings.color_palette.foreground }}","recipient_button_border":"{{ settings.color_palette.foreground }}","selected_recipient_button_style":"default","selected_recipient_button_background":"{{ settings.color_palette.foreground }}","selected_recipient_button_text":"{{ settings.color_palette.background }}","selected_recipient_button_border":"{{ settings.color_palette.foreground }}","input_style":"default","input_background_color":"{{ settings.color_palette.background }}","input_text_color":"{{ settings.color_palette.foreground }}","input_border_color":"{{ settings.color_palette.foreground }}","border_width":1,"border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"quantity":{"type":"quantity","static":true,"settings":{"input_style":"default","input_background_color":"{{ settings.color_palette.background }}","input_text_color":"{{ settings.color_palette.foreground }}","input_border_color":"{{ settings.color_palette.foreground }}","border_width":1,"border_radius":0},"blocks":{}},"add-to-cart":{"type":"add-to-cart","static":true,"settings":{"style_class":"button","custom_button_background":"{{ settings.color_palette.foreground }}","custom_button_text":"{{ settings.color_palette.background }}","custom_button_border":"{{ settings.color_palette.background }}"},"blocks":{}},"accelerated-checkout":{"type":"accelerated-checkout","static":true,"settings":{},"blocks":{}}},"block_order":[]},"text_aEtTtq":{"type":"text","name":"t:names.product_description","settings":{"text":"{{ closest.product.description }}","width":"100%","max_width":"normal","alignment":"left","type_preset":"rte","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","text_color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}}},"block_order":["group_icgrde","divider_VJhene","variant_picker_R3rGDr","buy_buttons_eYQEYi","text_aEtTtq"]}},"block_order":["disclosures_g9mWze"],"disabled":true,"settings":{"content_width":"content-center-aligned","desktop_media_position":"left","equal_columns":false,"limit_details_width":false,"gap":48,"enable_sticky_add_to_cart":true,"background_color":"{{ settings.color_palette.background }}","padding-block-start":0,"padding-block-end":0}},"product_recommendations_qggXJq":{"type":"product-recommendations","blocks":{"text_cbcgyb":{"type":"text","name":"t:names.header","settings":{"text":"<h3>You may also like <\/h3>","width":"fit-content","max_width":"normal","alignment":"left","type_preset":"h4","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","text_color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"static-product-card":{"type":"_product-card","name":"t:names.product_card","static":true,"settings":{"product_card_gap":8,"background_color":"","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":8,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"product_card_gallery_DNizbJ":{"type":"_product-card-gallery","name":"t:names.product_card_media","settings":{"image_ratio":"adapt","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"product_title_M7MJkb":{"type":"product-title","name":"t:names.product_title","settings":{"width":"100%","max_width":"normal","alignment":"left","type_preset":"rte","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","text_color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":4,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"price_gLWgA6":{"type":"price","settings":{"show_sale_price_first":true,"show_installments":false,"show_tax_info":false,"type_preset":"h6","width":"100%","alignment":"left","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","text_color":"","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}}},"block_order":["product_card_gallery_DNizbJ","product_title_M7MJkb","price_gLWgA6"]}},"block_order":["text_cbcgyb"],"disabled":true,"name":"t:names.product_recommendations","settings":{"product":"{{ closest.product }}","recommendation_type":"related","layout_type":"grid","carousel_on_mobile":false,"max_products":4,"columns":4,"mobile_columns":"2","columns_gap":12,"rows_gap":24,"icons_style":"arrow","icons_shape":"none","section_width":"page-width","gap":28,"background_color":"{{ settings.color_palette.background }}","padding-block-start":48,"padding-block-end":48}},"promo_bar_xDpAVq":{"type":"promo-bar","name":"Secondary Promo Bar","settings":{"show_promo":true,"text":"SEE RESULTS IN 10' OR YOUR MONEY-BACK","link":"","bg_color":"#465069","text_color":"#c41f1f","border_color":"#ffffff14","max_width":1260}},"main_product_4HNgnq":{"type":"main-product","blocks":{"ugc_video_npE8yE":{"type":"ugc_video","settings":{"cdn_video_url":"https:\/\/cdn.shopify.com\/videos\/c\/o\/v\/dc4e196b25e04e7e8967f437a049d84b.mp4","cover":"shopify:\/\/shop_images\/aede531b80c9179f60ec8b869ae0cdb1e3ca4520.jpg"}},"ugc_video_MBgPm3":{"type":"ugc_video","settings":{"cdn_video_url":"https:\/\/cdn.shopify.com\/videos\/c\/o\/v\/dc4e196b25e04e7e8967f437a049d84b.mp4","cover":"shopify:\/\/shop_images\/a3a5cd79b13fcd810c2bc01aa7c8d57af8fc6d74.jpg"}},"ugc_video_G9XWr4":{"type":"ugc_video","settings":{"cdn_video_url":"https:\/\/cdn.shopify.com\/videos\/c\/o\/v\/dc4e196b25e04e7e8967f437a049d84b.mp4","cover":"shopify:\/\/shop_images\/eef18626df78a760091bdc8046000c29b252a827.jpg"}},"ugc_video_KrtzHr":{"type":"ugc_video","settings":{"cdn_video_url":"https:\/\/cdn.shopify.com\/videos\/c\/o\/v\/dc4e196b25e04e7e8967f437a049d84b.mp4","cover":"shopify:\/\/shop_images\/aede531b80c9179f60ec8b869ae0cdb1e3ca4520.jpg"}},"ugc_video_bJwrHA":{"type":"ugc_video","settings":{"cdn_video_url":"https:\/\/cdn.shopify.com\/videos\/c\/o\/v\/dc4e196b25e04e7e8967f437a049d84b.mp4","cover":"shopify:\/\/shop_images\/a3a5cd79b13fcd810c2bc01aa7c8d57af8fc6d74.jpg"}}},"block_order":["ugc_video_npE8yE","ugc_video_MBgPm3","ugc_video_G9XWr4","ugc_video_KrtzHr","ugc_video_bJwrHA"],"name":"Main Product","settings":{"enable_sticky_info":true}},"as_seen_in_8NDT9y":{"type":"as-seen-in","name":"As Seen In Marquee","settings":{"enable_section":true,"heading":"AS SEEN IN","speed":30,"bg_gradient":"linear-gradient(90deg, rgba(28, 36, 56, 1), rgba(37, 51, 77, 1) 50%, rgba(28, 36, 56, 1) 100%)"}},"key_benefits_gCyizj":{"type":"key-benefits","name":"Make Hair Coloring Simple","settings":{"enable_section":true,"eyebrow_text":"GET NATURAL, LASTING COLOR IN JUST 10 MINUTES","title_top":"Make Hair Coloring","title_main":"SIMPLE & HASSLE-FREE","mobile_title":"Make hair coloring simple & hassle-free","subtitle":"Get natural, lasting color in just 10 minutes","video_url":"https:\/\/commondatastorage.googleapis.com\/gtv-videos-bucket\/sample\/BigBuckBunny.mp4","card_1_title":"WORKS IN JUST 10 MINUTES","card_1_desc":"Apply to dry hair, wait 10 minutes, and rinse. It’s that easy.","card_2_title":"QUICK, MESS-FREE APPLICATION","card_2_desc":"No mixing, no gloves, no stains. Works just like your regular shampoo.","card_3_title":"CONTAINS NATURAL INGREDIENTS","card_3_desc":"Like reishi mushrooms, without harsh chemicals like ammonia.","card_4_title":"LONG-LASTING NATURAL COLOR","card_4_desc":"Each application lasts up to 6 weeks, keeping grays hidden longer."}},"results_carousel_tVBT9p":{"type":"results-carousel","blocks":{"result_card_QXtdtM":{"type":"result_card","settings":{"category":"women","quote":"I absolutely love this ! It’s so easy to use like regular shampoo. The gray coverage looked amazing. No mess, no long salon visits, just quick color in one step. Totally worth it!","author":"Demara O., Miami, FL","verified":true}},"result_card_6eGpXH":{"type":"result_card","settings":{"category":"women","quote":"I was pleasantly surprised! Covered my grays in 10 minutes, no mess and no strong smell! Very happy with my Order!","author":"Laura T., Austin, TX","verified":true}},"result_card_GJcMjJ":{"type":"result_card","settings":{"category":"women","quote":"I was pleasantly surprised! Covered my grays in 10 minutes, no mess and no strong smell! Very happy with my Order!","author":"Laura T., Austin, TX","verified":true}},"result_card_UymNTp":{"type":"result_card","settings":{"category":"women","quote":"\"Quick and easy. Color looks really good. No staining on hairline or face \/ ears. Love this product\"","author":"Priadashni T., Boston, MA","verified":true}},"result_card_Vm97aq":{"type":"result_card","settings":{"category":"women","quote":"\"Got the red and it covered all grays. No nasty smell. Didn't stain my skin. Finally an easy to use solution.\"","author":"Kara P., Nashville, TN","verified":true}},"result_card_NFikND":{"type":"result_card","settings":{"category":"women","quote":"\"I was a little skeptical, but it really works!!! The grey on my edges grow wildly and they tend to be hard the dye, but this process was effortlessly and I'm loving the results!\"","author":"Krista M., Toronto, CA","verified":true}},"result_card_dXrkBf":{"type":"result_card","settings":{"category":"women","quote":"\"Love the all naturalness of this hair color shampoo and ease of using it. I get compliments on my hair color actually!\"","author":"Busie L., Los Angeles, CA","verified":true}}},"block_order":["result_card_QXtdtM","result_card_6eGpXH","result_card_GJcMjJ","result_card_UymNTp","result_card_Vm97aq","result_card_NFikND","result_card_dXrkBf"],"name":"Results Carousel","settings":{"enable_section":true,"heading":"THE RESULTS SPEAK FOR THEMSELVES","tab_women_label":"WOMEN’S RESULTS","tab_men_label":"MEN’S RESULTS"}},"four_reasons_YbPwXf":{"type":"four-reasons","name":"4 Reasons Key Benefits","settings":{"enable_section":true,"pill_text":"4 REASONS","heading":"Thousands are switching to Polar Instant Dye Shampoo","video_poster":"shopify:\/\/shop_images\/4b9471755c234ac230b118e1b6b878e341d945f2.png","video_url":"https:\/\/commondatastorage.googleapis.com\/gtv-videos-bucket\/sample\/BigBuckBunny.mp4","card_1_title":"WORKS IN JUST 10 MINUTES","card_1_desc":"No more scheduling life around hair dye. Apply to dry hair, wait 10 minutes, and rinse. It’s that easy.","card_2_title":"QUICK, MESS-FREE APPLICATION","card_2_desc":"Forget messy box dyes. No mixing, no gloves, no stains — it works just like your regular shampoo.","card_3_title":"GENTLE ON HAIR","card_3_desc":"Natural ingredients like reishi mushroom, without harsh chemicals like ammonia. Hair stays soft, not damaged.","card_4_title":"LONG-LASTING NATURAL COLOR","card_4_desc":"Natural-looking color that lasts up to 6 weeks, so you can stay confident without frequent touch-ups.","show_steps_grid":false,"step_1_num":"01","step_1_title":"Apply to dry hair","step_1_desc":"Massage evenly from roots to ends — just like shampoo.","step_2_num":"02","step_2_title":"Wait 10 minutes","step_2_desc":"No bowls, brushes or timers to babysit.","step_3_num":"03","step_3_title":"Rinse & reveal","step_3_desc":"Natural-looking color that lasts 4–6 weeks."}},"superior_choice_GphCAh":{"type":"superior-choice","name":"06 — Superior Choice","settings":{"enable_section":true,"eyebrow":"THE SUPERIOR CHOICE","heading":"The Superior Choice","mobile_heading":"Polar vs. regular hair dye","description":"It’s been over a 100 years since the first dyes were created, but we haven't seen any sort of significant change since then. Polar Haircare is here to change that.","mobile_description":"It’s been over 100 years since the first dyes were created, with no significant change. Until now.","polar_logo":"shopify:\/\/shop_images\/Image_4.png","polar_image":"shopify:\/\/shop_images\/magnific__background__60084_1_1.png","polar_val_1":"15 applications","polar_val_2":"10 minutes","polar_val_3":"$2.33","polar_val_4":"Ammonia-free","label_1":"NUMBER OF USES","label_2":"APPLICATION TIME","label_3":"COST PER USE","label_4":"INGREDIENTS","regular_title":"Regular Hair Dye","regular_val_1":"1 application","regular_val_2":"40-60 minutes","regular_val_3":"$15","regular_val_4":"Synthetic"}},"satisfaction_guarantee_pikfx4":{"type":"satisfaction-guarantee","name":"07 — Guarantee","settings":{"enable_section":true,"section_bg_color":"#f4f4f4","card_bg_color":"#f8f9fb","model_image":"shopify:\/\/shop_images\/Group_1.png","bg_image":"shopify:\/\/shop_images\/ContainerDHEUDE.webp","title_primary":"30-DAY","title_secondary":"SATISFACTION GUARANTEE","description":"We understand that trying new products can feel risky, which is why Polar offers you a completely Risk-Free experience. With our 30-Day Money Back Guarantee, you can try our natural hair dye solution with confidence. Achieving vibrant, healthy hair has never been safer or easier!","mobile_description":"We understand that trying new products can feel risky, which is why Polar offers you a completely risk-free experience with our 30-Day Money Back Guarantee.","cta_text":"ADD TO CART","cta_link":""}},"faq_mp6LYV":{"type":"faq","blocks":{"faq_item_8Eggad":{"type":"faq_item","settings":{"question":"How long does the hair color last?","answer":"Polar Instant Dye Shampoo provides rich, natural-looking color that lasts up to 4–6 weeks depending on your hair wash frequency."}},"faq_item_aehAdQ":{"type":"faq_item","settings":{"question":"How long does a bottle last?","answer":"Each 200ml bottle provides approximately 10–15 applications depending on your hair length and thickness."}},"faq_item_aneKcT":{"type":"faq_item","settings":{"question":"Does it work on any hair type?","answer":"Yes! Polar works effectively on all hair types and textures, including straight, wavy, curly, and coily hair."}},"faq_item_VdinKE":{"type":"faq_item","settings":{"question":"Does it cause allergies or work on sensitive skin?","answer":"Polar is formulated with gentle, natural ingredients like reishi mushroom and is 100% ammonia-free and paraben-free. We always recommend doing a standard 48-hour patch test before first use."}},"faq_item_CKqX9y":{"type":"faq_item","settings":{"question":"Does this shampoo leave stains on skin or fabric?","answer":"No! Unlike traditional box dyes that stain hands, forehead, and towels, Polar rinses away cleanly with water."}},"faq_item_nbYBii":{"type":"faq_item","settings":{"question":"Can I use this shampoo on my beard?","answer":"Yes, Polar is gentle and completely safe to use for facial hair and beards."}},"faq_item_bkMFmz":{"type":"faq_item","settings":{"question":"Can it be used with my normal hair care products?","answer":"Absolutely! You can continue using your favorite conditioners, oils, and styling products."}},"faq_item_PHYEQC":{"type":"faq_item","settings":{"question":"Is it safe on my hair?","answer":"Yes, our formula nourishes and strengthens hair while depositing color, keeping hair soft and healthy without dryness or damage."}},"faq_item_n6Crhx":{"type":"faq_item","settings":{"question":"Will it cover my gray hair completely?","answer":"Yes! Polar provides 100% full gray coverage in just 10 minutes."}},"faq_item_hQ3nqh":{"type":"faq_item","settings":{"question":"Can it be used on dyed or chemically treated hair?","answer":"Yes, it is completely safe and effective on bleached, dyed, or chemically treated hair."}}},"block_order":["faq_item_8Eggad","faq_item_aehAdQ","faq_item_aneKcT","faq_item_VdinKE","faq_item_CKqX9y","faq_item_nbYBii","faq_item_bkMFmz","faq_item_PHYEQC","faq_item_n6Crhx","faq_item_hQ3nqh"],"name":"08 — FAQ","settings":{"enable_section":true,"section_bg_color":"#f4f4f4","card_bg_color":"#f4f4f4","faq_image":"shopify:\/\/shop_images\/magnific__background__60077_1.png","title_line_1":"FREQUENTLY","title_line_2":"ASKED QUESTIONS"}}},"order":["main","product_recommendations_qggXJq","promo_bar_xDpAVq","main_product_4HNgnq","as_seen_in_8NDT9y","key_benefits_gCyizj","results_carousel_tVBT9p","four_reasons_YbPwXf","superior_choice_GphCAh","satisfaction_guarantee_pikfx4","faq_mp6LYV"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "product-information",
+      "blocks": {
+        "disclosures_g9mWze": {
+          "type": "disclosures",
+          "name": "t:names.disclosures",
+          "settings": {
+            "heading": "Disclosures",
+            "heading_preset": "h5",
+            "open_by_default": false,
+            "icon": "caret",
+            "disclosure_heading_preset": "h6",
+            "text_color": "",
+            "dividers": true,
+            "divider_color": "{{ settings.color_palette.color2 }}",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {
+            "media_presentation": "grid",
+            "media_columns": "two",
+            "image_gap": 4,
+            "large_first_image": false,
+            "icons_style": "arrow",
+            "slideshow_controls_style": "counter",
+            "slideshow_mobile_controls_style": "dots",
+            "thumbnail_position": "right",
+            "thumbnail_width": 44,
+            "thumbnail_radius": 0,
+            "aspect_ratio": "adapt",
+            "constrain_to_viewport": true,
+            "media_fit": "contain",
+            "media_radius": 0,
+            "extend_media": false,
+            "zoom": true,
+            "video_loop": false,
+            "hide_variants": true,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "details_position": "flex-start",
+            "gap": 28,
+            "sticky_details_desktop": true,
+            "background_media": "none",
+            "background_color": "",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 24,
+            "padding-block-end": 24,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "group_icgrde": {
+              "type": "group",
+              "name": "t:names.header",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "background_media": "none",
+                "background_color": "",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "text_xrnftG": {
+                  "type": "text",
+                  "name": "t:names.product_title",
+                  "settings": {
+                    "text": "<h1>{{ closest.product.title }}</h1>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "h3",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "price_tVjtKg": {
+                  "type": "price",
+                  "settings": {
+                    "show_sale_price_first": true,
+                    "show_installments": false,
+                    "show_tax_info": false,
+                    "type_preset": "paragraph",
+                    "width": "100%",
+                    "alignment": "left",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "text_color": "",
+                    "padding-block-start": 4,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_xrnftG",
+                "price_tVjtKg"
+              ]
+            },
+            "divider_VJhene": {
+              "type": "_divider",
+              "name": "t:names.divider",
+              "settings": {
+                "thickness": 1,
+                "corner_radius": "square",
+                "divider_color": "{{ settings.color_palette.color2 }}",
+                "width_percent": 100,
+                "padding-block-start": 0,
+                "padding-block-end": 0
+              },
+              "blocks": {}
+            },
+            "variant_picker_R3rGDr": {
+              "type": "variant-picker",
+              "settings": {
+                "variant_style": "buttons",
+                "show_swatches": false,
+                "option_label_text_color": "",
+                "variant_style_class": "default",
+                "custom_variant_background": "{{ settings.color_palette.background }}",
+                "custom_variant_text": "{{ settings.color_palette.foreground }}",
+                "custom_variant_border": "{{ settings.color_palette.foreground }}",
+                "selected_variant_style_class": "default",
+                "custom_selected_variant_background": "{{ settings.color_palette.foreground }}",
+                "custom_selected_variant_text": "{{ settings.color_palette.background }}",
+                "custom_selected_variant_border": "{{ settings.color_palette.foreground }}",
+                "alignment": "left",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "buy_buttons_eYQEYi": {
+              "type": "buy-buttons",
+              "settings": {
+                "stacking": true,
+                "text_color": "",
+                "show_pickup_availability": false,
+                "gift_card_form": true,
+                "recipient_button_style": "default",
+                "recipient_button_background": "{{ settings.color_palette.background }}",
+                "recipient_button_text": "{{ settings.color_palette.foreground }}",
+                "recipient_button_border": "{{ settings.color_palette.foreground }}",
+                "selected_recipient_button_style": "default",
+                "selected_recipient_button_background": "{{ settings.color_palette.foreground }}",
+                "selected_recipient_button_text": "{{ settings.color_palette.background }}",
+                "selected_recipient_button_border": "{{ settings.color_palette.foreground }}",
+                "input_style": "default",
+                "input_background_color": "{{ settings.color_palette.background }}",
+                "input_text_color": "{{ settings.color_palette.foreground }}",
+                "input_border_color": "{{ settings.color_palette.foreground }}",
+                "border_width": 1,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "quantity": {
+                  "type": "quantity",
+                  "static": true,
+                  "settings": {
+                    "input_style": "default",
+                    "input_background_color": "{{ settings.color_palette.background }}",
+                    "input_text_color": "{{ settings.color_palette.foreground }}",
+                    "input_border_color": "{{ settings.color_palette.foreground }}",
+                    "border_width": 1,
+                    "border_radius": 0
+                  },
+                  "blocks": {}
+                },
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
+                  "settings": {
+                    "style_class": "button",
+                    "custom_button_background": "{{ settings.color_palette.foreground }}",
+                    "custom_button_text": "{{ settings.color_palette.background }}",
+                    "custom_button_border": "{{ settings.color_palette.background }}"
+                  },
+                  "blocks": {}
+                },
+                "accelerated-checkout": {
+                  "type": "accelerated-checkout",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                }
+              },
+              "block_order": []
+            },
+            "text_aEtTtq": {
+              "type": "text",
+              "name": "t:names.product_description",
+              "settings": {
+                "text": "{{ closest.product.description }}",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "group_icgrde",
+            "divider_VJhene",
+            "variant_picker_R3rGDr",
+            "buy_buttons_eYQEYi",
+            "text_aEtTtq"
+          ]
+        }
+      },
+      "block_order": [
+        "disclosures_g9mWze"
+      ],
+      "disabled": true,
+      "settings": {
+        "content_width": "content-center-aligned",
+        "desktop_media_position": "left",
+        "equal_columns": false,
+        "limit_details_width": false,
+        "gap": 48,
+        "enable_sticky_add_to_cart": true,
+        "background_color": "{{ settings.color_palette.background }}",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "product_recommendations_qggXJq": {
+      "type": "product-recommendations",
+      "blocks": {
+        "text_cbcgyb": {
+          "type": "text",
+          "name": "t:names.header",
+          "settings": {
+            "text": "<h3>You may also like </h3>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h4",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "t:names.product_card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 8,
+            "background_color": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 8,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_card_gallery_DNizbJ": {
+              "type": "_product-card-gallery",
+              "name": "t:names.product_card_media",
+              "settings": {
+                "image_ratio": "adapt",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_title_M7MJkb": {
+              "type": "product-title",
+              "name": "t:names.product_title",
+              "settings": {
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "price_gLWgA6": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "h6",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "text_color": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product_card_gallery_DNizbJ",
+            "product_title_M7MJkb",
+            "price_gLWgA6"
+          ]
+        }
+      },
+      "block_order": [
+        "text_cbcgyb"
+      ],
+      "disabled": true,
+      "name": "t:names.product_recommendations",
+      "settings": {
+        "product": "{{ closest.product }}",
+        "recommendation_type": "related",
+        "layout_type": "grid",
+        "carousel_on_mobile": false,
+        "max_products": 4,
+        "columns": 4,
+        "mobile_columns": "2",
+        "columns_gap": 12,
+        "rows_gap": 24,
+        "icons_style": "arrow",
+        "icons_shape": "none",
+        "section_width": "page-width",
+        "gap": 28,
+        "background_color": "{{ settings.color_palette.background }}",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    "promo_bar_xDpAVq": {
+      "type": "promo-bar",
+      "name": "Secondary Promo Bar",
+      "settings": {
+        "show_promo": true,
+        "text": "SEE RESULTS IN 10' OR YOUR MONEY-BACK",
+        "link": "",
+        "bg_color": "#465069",
+        "text_color": "#c41f1f",
+        "border_color": "#ffffff14",
+        "max_width": 1260
+      }
+    },
+    "main_product_4HNgnq": {
+      "type": "main-product",
+      "blocks": {
+        "ugc_video_npE8yE": {
+          "type": "ugc_video",
+          "settings": {
+            "cdn_video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4"
+          }
+        },
+        "ugc_video_MBgPm3": {
+          "type": "ugc_video",
+          "settings": {
+            "cdn_video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4"
+          }
+        },
+        "ugc_video_G9XWr4": {
+          "type": "ugc_video",
+          "settings": {
+            "cdn_video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4"
+          }
+        },
+        "ugc_video_KrtzHr": {
+          "type": "ugc_video",
+          "settings": {
+            "cdn_video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4"
+          }
+        },
+        "ugc_video_bJwrHA": {
+          "type": "ugc_video",
+          "settings": {
+            "cdn_video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4"
+          }
+        }
+      },
+      "block_order": [
+        "ugc_video_npE8yE",
+        "ugc_video_MBgPm3",
+        "ugc_video_G9XWr4",
+        "ugc_video_KrtzHr",
+        "ugc_video_bJwrHA"
+      ],
+      "name": "Main Product",
+      "settings": {
+        "enable_sticky_info": true
+      }
+    },
+    "as_seen_in_8NDT9y": {
+      "type": "as-seen-in",
+      "name": "As Seen In Marquee",
+      "settings": {
+        "enable_section": true,
+        "heading": "AS SEEN IN",
+        "speed": 30,
+        "bg_gradient": "linear-gradient(90deg, rgba(28, 36, 56, 1), rgba(37, 51, 77, 1) 50%, rgba(28, 36, 56, 1) 100%)"
+      }
+    },
+    "key_benefits_gCyizj": {
+      "type": "key-benefits",
+      "name": "Make Hair Coloring Simple",
+      "settings": {
+        "enable_section": true,
+        "eyebrow_text": "GET NATURAL, LASTING COLOR IN JUST 10 MINUTES",
+        "title_top": "Make Hair Coloring",
+        "title_main": "SIMPLE & HASSLE-FREE",
+        "mobile_title": "Make hair coloring simple & hassle-free",
+        "subtitle": "Get natural, lasting color in just 10 minutes",
+        "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        "card_1_title": "WORKS IN JUST 10 MINUTES",
+        "card_1_desc": "Apply to dry hair, wait 10 minutes, and rinse. It’s that easy.",
+        "card_2_title": "QUICK, MESS-FREE APPLICATION",
+        "card_2_desc": "No mixing, no gloves, no stains. Works just like your regular shampoo.",
+        "card_3_title": "CONTAINS NATURAL INGREDIENTS",
+        "card_3_desc": "Like reishi mushrooms, without harsh chemicals like ammonia.",
+        "card_4_title": "LONG-LASTING NATURAL COLOR",
+        "card_4_desc": "Each application lasts up to 6 weeks, keeping grays hidden longer."
+      }
+    },
+    "results_carousel_tVBT9p": {
+      "type": "results-carousel",
+      "blocks": {
+        "result_card_QXtdtM": {
+          "type": "result_card",
+          "settings": {
+            "category": "women",
+            "quote": "I absolutely love this ! It’s so easy to use like regular shampoo. The gray coverage looked amazing. No mess, no long salon visits, just quick color in one step. Totally worth it!",
+            "author": "Demara O., Miami, FL",
+            "verified": true
+          }
+        },
+        "result_card_6eGpXH": {
+          "type": "result_card",
+          "settings": {
+            "category": "women",
+            "quote": "I was pleasantly surprised! Covered my grays in 10 minutes, no mess and no strong smell! Very happy with my Order!",
+            "author": "Laura T., Austin, TX",
+            "verified": true
+          }
+        },
+        "result_card_GJcMjJ": {
+          "type": "result_card",
+          "settings": {
+            "category": "women",
+            "quote": "I was pleasantly surprised! Covered my grays in 10 minutes, no mess and no strong smell! Very happy with my Order!",
+            "author": "Laura T., Austin, TX",
+            "verified": true
+          }
+        },
+        "result_card_UymNTp": {
+          "type": "result_card",
+          "settings": {
+            "category": "women",
+            "quote": "\"Quick and easy. Color looks really good. No staining on hairline or face / ears. Love this product\"",
+            "author": "Priadashni T., Boston, MA",
+            "verified": true
+          }
+        },
+        "result_card_Vm97aq": {
+          "type": "result_card",
+          "settings": {
+            "category": "women",
+            "quote": "\"Got the red and it covered all grays. No nasty smell. Didn't stain my skin. Finally an easy to use solution.\"",
+            "author": "Kara P., Nashville, TN",
+            "verified": true
+          }
+        },
+        "result_card_NFikND": {
+          "type": "result_card",
+          "settings": {
+            "category": "women",
+            "quote": "\"I was a little skeptical, but it really works!!! The grey on my edges grow wildly and they tend to be hard the dye, but this process was effortlessly and I'm loving the results!\"",
+            "author": "Krista M., Toronto, CA",
+            "verified": true
+          }
+        },
+        "result_card_dXrkBf": {
+          "type": "result_card",
+          "settings": {
+            "category": "women",
+            "quote": "\"Love the all naturalness of this hair color shampoo and ease of using it. I get compliments on my hair color actually!\"",
+            "author": "Busie L., Los Angeles, CA",
+            "verified": true
+          }
+        }
+      },
+      "block_order": [
+        "result_card_QXtdtM",
+        "result_card_6eGpXH",
+        "result_card_GJcMjJ",
+        "result_card_UymNTp",
+        "result_card_Vm97aq",
+        "result_card_NFikND",
+        "result_card_dXrkBf"
+      ],
+      "name": "Results Carousel",
+      "settings": {
+        "enable_section": true,
+        "heading": "THE RESULTS SPEAK FOR THEMSELVES",
+        "tab_women_label": "WOMEN’S RESULTS",
+        "tab_men_label": "MEN’S RESULTS"
+      }
+    },
+    "four_reasons_YbPwXf": {
+      "type": "four-reasons",
+      "name": "4 Reasons Key Benefits",
+      "settings": {
+        "enable_section": true,
+        "pill_text": "4 REASONS",
+        "heading": "Thousands are switching to Polar Instant Dye Shampoo",
+        "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        "card_1_title": "WORKS IN JUST 10 MINUTES",
+        "card_1_desc": "No more scheduling life around hair dye. Apply to dry hair, wait 10 minutes, and rinse. It’s that easy.",
+        "card_2_title": "QUICK, MESS-FREE APPLICATION",
+        "card_2_desc": "Forget messy box dyes. No mixing, no gloves, no stains — it works just like your regular shampoo.",
+        "card_3_title": "GENTLE ON HAIR",
+        "card_3_desc": "Natural ingredients like reishi mushroom, without harsh chemicals like ammonia. Hair stays soft, not damaged.",
+        "card_4_title": "LONG-LASTING NATURAL COLOR",
+        "card_4_desc": "Natural-looking color that lasts up to 6 weeks, so you can stay confident without frequent touch-ups.",
+        "show_steps_grid": false,
+        "step_1_num": "01",
+        "step_1_title": "Apply to dry hair",
+        "step_1_desc": "Massage evenly from roots to ends — just like shampoo.",
+        "step_2_num": "02",
+        "step_2_title": "Wait 10 minutes",
+        "step_2_desc": "No bowls, brushes or timers to babysit.",
+        "step_3_num": "03",
+        "step_3_title": "Rinse & reveal",
+        "step_3_desc": "Natural-looking color that lasts 4–6 weeks."
+      }
+    },
+    "superior_choice_GphCAh": {
+      "type": "superior-choice",
+      "name": "06 — Superior Choice",
+      "settings": {
+        "enable_section": true,
+        "eyebrow": "THE SUPERIOR CHOICE",
+        "heading": "The Superior Choice",
+        "mobile_heading": "Polar vs. regular hair dye",
+        "description": "It’s been over a 100 years since the first dyes were created, but we haven't seen any sort of significant change since then. Polar Haircare is here to change that.",
+        "mobile_description": "It’s been over 100 years since the first dyes were created, with no significant change. Until now.",
+        "polar_val_1": "15 applications",
+        "polar_val_2": "10 minutes",
+        "polar_val_3": "$2.33",
+        "polar_val_4": "Ammonia-free",
+        "label_1": "NUMBER OF USES",
+        "label_2": "APPLICATION TIME",
+        "label_3": "COST PER USE",
+        "label_4": "INGREDIENTS",
+        "regular_title": "Regular Hair Dye",
+        "regular_val_1": "1 application",
+        "regular_val_2": "40-60 minutes",
+        "regular_val_3": "$15",
+        "regular_val_4": "Synthetic"
+      }
+    },
+    "satisfaction_guarantee_pikfx4": {
+      "type": "satisfaction-guarantee",
+      "name": "07 — Guarantee",
+      "settings": {
+        "enable_section": true,
+        "section_bg_color": "#f4f4f4",
+        "card_bg_color": "#f8f9fb",
+        "model_image": "shopify://shop_images/e1de02a148a7fc507a7f34e7a0d1ac7716d9401e_1.png",
+        "bg_image": "shopify://shop_images/ContainerDHEUDE.webp",
+        "title_primary": "30-DAY",
+        "title_secondary": "SATISFACTION GUARANTEE",
+        "description": "We understand that trying new products can feel risky, which is why Polar offers you a completely Risk-Free experience. With our 30-Day Money Back Guarantee, you can try our natural hair dye solution with confidence. Achieving vibrant, healthy hair has never been safer or easier!",
+        "mobile_description": "We understand that trying new products can feel risky, which is why Polar offers you a completely risk-free experience with our 30-Day Money Back Guarantee.",
+        "cta_text": "ADD TO CART",
+        "cta_link": ""
+      }
+    },
+    "faq_mp6LYV": {
+      "type": "faq",
+      "blocks": {
+        "faq_item_8Eggad": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does the hair color last?",
+            "answer": "Polar Instant Dye Shampoo provides rich, natural-looking color that lasts up to 4–6 weeks depending on your hair wash frequency."
+          }
+        },
+        "faq_item_aehAdQ": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does a bottle last?",
+            "answer": "Each 200ml bottle provides approximately 10–15 applications depending on your hair length and thickness."
+          }
+        },
+        "faq_item_aneKcT": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Does it work on any hair type?",
+            "answer": "Yes! Polar works effectively on all hair types and textures, including straight, wavy, curly, and coily hair."
+          }
+        },
+        "faq_item_VdinKE": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Does it cause allergies or work on sensitive skin?",
+            "answer": "Polar is formulated with gentle, natural ingredients like reishi mushroom and is 100% ammonia-free and paraben-free. We always recommend doing a standard 48-hour patch test before first use."
+          }
+        },
+        "faq_item_CKqX9y": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Does this shampoo leave stains on skin or fabric?",
+            "answer": "No! Unlike traditional box dyes that stain hands, forehead, and towels, Polar rinses away cleanly with water."
+          }
+        },
+        "faq_item_nbYBii": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I use this shampoo on my beard?",
+            "answer": "Yes, Polar is gentle and completely safe to use for facial hair and beards."
+          }
+        },
+        "faq_item_bkMFmz": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can it be used with my normal hair care products?",
+            "answer": "Absolutely! You can continue using your favorite conditioners, oils, and styling products."
+          }
+        },
+        "faq_item_PHYEQC": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is it safe on my hair?",
+            "answer": "Yes, our formula nourishes and strengthens hair while depositing color, keeping hair soft and healthy without dryness or damage."
+          }
+        },
+        "faq_item_n6Crhx": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Will it cover my gray hair completely?",
+            "answer": "Yes! Polar provides 100% full gray coverage in just 10 minutes."
+          }
+        },
+        "faq_item_hQ3nqh": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can it be used on dyed or chemically treated hair?",
+            "answer": "Yes, it is completely safe and effective on bleached, dyed, or chemically treated hair."
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_8Eggad",
+        "faq_item_aehAdQ",
+        "faq_item_aneKcT",
+        "faq_item_VdinKE",
+        "faq_item_CKqX9y",
+        "faq_item_nbYBii",
+        "faq_item_bkMFmz",
+        "faq_item_PHYEQC",
+        "faq_item_n6Crhx",
+        "faq_item_hQ3nqh"
+      ],
+      "name": "08 — FAQ",
+      "settings": {
+        "enable_section": true,
+        "section_bg_color": "#f4f4f4",
+        "card_bg_color": "#f4f4f4",
+        "title_line_1": "FREQUENTLY",
+        "title_line_2": "ASKED QUESTIONS"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "product_recommendations_qggXJq",
+    "promo_bar_xDpAVq",
+    "main_product_4HNgnq",
+    "as_seen_in_8NDT9y",
+    "key_benefits_gCyizj",
+    "results_carousel_tVBT9p",
+    "four_reasons_YbPwXf",
+    "superior_choice_GphCAh",
+    "satisfaction_guarantee_pikfx4",
+    "faq_mp6LYV"
+  ]
+}
