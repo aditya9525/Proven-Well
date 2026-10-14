@@ -403,6 +403,7 @@
         "mobile_heading": "Polar vs. regular hair dye",
         "description": "It’s been over a 100 years since the first dyes were created, but we haven't seen any sort of significant change since then. Polar Haircare is here to change that.",
         "mobile_description": "It’s been over 100 years since the first dyes were created, with no significant change. Until now.",
+        "polar_image": "shopify://shop_images/2c6656e5e66cf0ca3b7febd2122233a237839907.png",
         "polar_val_1": "15 applications",
         "polar_val_2": "10 minutes",
         "polar_val_3": "$2.33",
@@ -431,7 +432,11 @@
     "choose_bundle_hbgARj": {
       "type": "choose-bundle",
       "name": "Bundle Offer",
-      "settings": {}
+      "settings": {
+        "bundle_1_image": "shopify://shop_images/2c6656e5e66cf0ca3b7febd2122233a237839907.png",
+        "bundle_2_image": "shopify://shop_images/af1d9c429b83f6561f9868209a3b2dfdca2862a5.png",
+        "bundle_3_image": "shopify://shop_images/25ae42b889cd78935154ea56afe516a5a47656e1.png"
+      }
     },
     "satisfaction_guarantee_LNEran": {
       "type": "satisfaction-guarantee",
@@ -440,6 +445,8 @@
         "enable_section": true,
         "section_bg_color": "#ffffff",
         "card_bg_color": "#f8f9fb",
+        "model_image": "shopify://shop_images/Group_1_1.png",
+        "bg_image": "shopify://shop_images/ContainerDHEUDE.webp",
         "title_primary": "30-DAY",
         "title_secondary": "SATISFACTION GUARANTEE",
         "description": "We understand that trying new products can feel risky, which is why Polar offers you a completely Risk-Free experience. With our 30-Day Money Back Guarantee, you can try our natural hair dye solution with confidence. Achieving vibrant, healthy hair has never been safer or easier!",
@@ -454,6 +461,7 @@
         "video_card_T3GEW9": {
           "type": "video_card",
           "settings": {
+            "image": "shopify://shop_images/aede531b80c9179f60ec8b869ae0cdb1e3ca4520_1.jpg",
             "video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4",
             "aria_label": "Play Customer Video"
           }
@@ -461,6 +469,7 @@
         "video_card_PxERjL": {
           "type": "video_card",
           "settings": {
+            "image": "shopify://shop_images/a3a5cd79b13fcd810c2bc01aa7c8d57af8fc6d74_1.jpg",
             "video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4",
             "aria_label": "Play Customer Video"
           }
@@ -468,6 +477,7 @@
         "video_card_UxYUKr": {
           "type": "video_card",
           "settings": {
+            "image": "shopify://shop_images/eef18626df78a760091bdc8046000c29b252a827_1.jpg",
             "video_url": "",
             "aria_label": "Play Customer Video"
           }
@@ -475,6 +485,7 @@
         "video_card_fhiABt": {
           "type": "video_card",
           "settings": {
+            "image": "shopify://shop_images/420c08912a92b20a69943c2af36c43a9c4ec4275.jpg",
             "video_url": "",
             "aria_label": "Play Customer Video"
           }
@@ -482,6 +493,7 @@
         "video_card_NrQQqh": {
           "type": "video_card",
           "settings": {
+            "image": "shopify://shop_images/9259d5a051a7d7ebc72bf518ba05a796d596ac05.png",
             "video_url": "",
             "aria_label": "Play Customer Video"
           }
@@ -593,6 +605,7 @@
         "enable_section": true,
         "section_bg_color": "#ffffff",
         "card_bg_color": "#ffffff",
+        "faq_image": "shopify://shop_images/e1de02a148a7fc507a7f34e7a0d1ac7716d9401e_1.png",
         "title_line_1": "FREQUENTLY",
         "title_line_2": "ASKED QUESTIONS"
       }
