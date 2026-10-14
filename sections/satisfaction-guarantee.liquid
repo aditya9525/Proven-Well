@@ -1,0 +1,197 @@
+{%- comment -%}
+  Shopify Section: 07 — 30-Day Satisfaction Guarantee
+  Desktop: Full-width banner card with product imagery on left, guarantee promise & ADD TO CART CTA on right.
+  Mobile: Vertical card with product visual on top, guarantee promise & full-width Add to cart CTA on bottom.
+{%- endcomment -%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} .guarantee-section {
+    background-color: {{ section.settings.section_bg_color | default: '#FFFFFF' }};
+  }
+{%- endstyle -%}
+
+{%- if section.settings.enable_section -%}
+  <section 
+    class="guarantee-section" 
+    id="satisfactionGuarantee" 
+    aria-label="30-Day Satisfaction Guarantee"
+  >
+    <div class="guarantee-container">
+
+      <!-- DESKTOP BANNER CARD (> 768px) -->
+      <div 
+        class="guarantee-banner-card"
+        style="{% if section.settings.card_bg_color != blank %}background-color: {{ section.settings.card_bg_color }};{% endif %}{% if section.settings.bg_image != blank %}background-image: url('{{ section.settings.bg_image | image_url: width: 1400 }}');{% endif %}"
+      >
+        
+        <!-- Background Wavy Decor -->
+        {% comment %} <div class="guarantee-waves-decor" aria-hidden="true">
+          {% comment %} <svg class="guarantee-wave-svg" viewBox="0 0 1024 380" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M-40 130 C 160 50, 240 230, 460 150 C 660 70, 770 190, 1060 90" stroke="#E1E4EB" stroke-width="2.2" fill="none" />
+            <path d="M-60 270 C 130 170, 310 330, 540 210 C 740 110, 870 260, 1080 150" stroke="#E1E4EB" stroke-width="1.8" fill="none" />
+            <path d="M180 -10 C 360 110, 500 -30, 700 85 C 860 180, 950 45, 1100 125" stroke="#E8EAF0" stroke-width="1.8" fill="none" />
+          </svg> {% endcomment %}
+        </div> {% endcomment %}
+
+        <!-- Left Visual: Model holding Provenwell product -->
+        <div class="guarantee-visual-col">
+          {%- if section.settings.model_image != blank -%}
+            <img 
+              src="{{ section.settings.model_image | image_url: width: 900 }}" 
+              alt="{{ section.settings.model_image.alt | default: '30-Day Satisfaction Guarantee' | escape }}" 
+              class="guarantee-model-img" 
+              loading="lazy" 
+              width="500" 
+              height="500"
+            >
+          {%- else -%}
+            <img 
+              src="{{ 'guarantee-model.png' | asset_url }}" 
+              alt="30-Day Satisfaction Guarantee" 
+              class="guarantee-model-img" 
+              loading="lazy" 
+              width="500" 
+              height="500"
+            >
+          {%- endif -%}
+        </div>
+
+        <!-- Right Content: Titles, Description & CTA -->
+        <div class="guarantee-content-col">
+          
+          <div class="guarantee-title-wrap">
+            <h2 class="guarantee-title-primary">
+              {{ section.settings.title_primary | default: "30-DAY" }}
+            </h2>
+            <h3 class="guarantee-title-secondary">
+              {{ section.settings.title_secondary | default: "SATISFACTION GUARANTEE" }}
+            </h3>
+          </div>
+
+          {%- if section.settings.description != blank -%}
+            <div class="guarantee-desc-wrap">
+              <p class="guarantee-desc">
+                {{ section.settings.description | escape }}
+              </p>
+            </div>
+          {%- endif -%}
+
+          <div class="guarantee-btn-wrap">
+            <a href="{{ section.settings.cta_link | default: '#chooseBundle' }}" class="guarantee-cta-btn">
+              {{ section.settings.cta_text | default: "ADD TO CART" }}
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- MOBILE CARD (<= 768px) -->
+      <div class="guarantee-mobile-card">
+        
+        <div class="guarantee-mobile-visual">
+          {%- if section.settings.model_image != blank -%}
+            <img src="{{ section.settings.model_image | image_url: width: 800 }}" alt="{{ section.settings.model_image.alt | default: '30-Day Satisfaction Guarantee' | escape }}" class="guarantee-mob-img" loading="lazy" width="400" height="400">
+          {%- else -%}
+            <img src="{{ 'guarantee-model.png' | asset_url }}" alt="30-Day Satisfaction Guarantee" class="guarantee-mob-img" loading="lazy" width="400" height="400">
+          {%- endif -%}
+        </div>
+
+        <div class="guarantee-mobile-copy">
+          <h2 class="guarantee-mob-title-primary">
+            {{ section.settings.title_primary | default: "30-DAY" }}
+          </h2>
+          <h3 class="guarantee-mob-title-secondary">
+            {{ section.settings.title_secondary | default: "SATISFACTION GUARANTEE" }}
+          </h3>
+          <p class="guarantee-mob-desc">
+            {{ section.settings.mobile_description | default: "We understand that trying new products can feel risky, which is why Polar offers you a completely risk-free experience with our 30-Day Money Back Guarantee." }}
+          </p>
+          <a href="{{ section.settings.cta_link | default: '#chooseBundle' }}" class="guarantee-mob-cta-btn">
+            {{ section.settings.cta_text | default: "Add to cart" }}
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "07 — Guarantee",
+  "tag": "section",
+  "class": "section-satisfaction-guarantee",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Enable Section",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#F8F9FB"
+    },
+    {
+      "type": "image_picker",
+      "id": "model_image",
+      "label": "Model Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Custom Background Image"
+    },
+    {
+      "type": "text",
+      "id": "title_primary",
+      "label": "Primary Title",
+      "default": "30-DAY"
+    },
+    {
+      "type": "text",
+      "id": "title_secondary",
+      "label": "Secondary Title",
+      "default": "SATISFACTION GUARANTEE"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Desktop Description",
+      "default": "We understand that trying new products can feel risky, which is why Polar offers you a completely Risk-Free experience. With our 30-Day Money Back Guarantee, you can try our natural hair dye solution with confidence. Achieving vibrant, healthy hair has never been safer or easier!"
+    },
+    {
+      "type": "textarea",
+      "id": "mobile_description",
+      "label": "Mobile Description",
+      "default": "We understand that trying new products can feel risky, which is why Polar offers you a completely risk-free experience with our 30-Day Money Back Guarantee."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Text",
+      "default": "ADD TO CART"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "07 — Guarantee"
+    }
+  ]
+}
+{% endschema %}

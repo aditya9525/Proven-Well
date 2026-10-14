@@ -1,0 +1,73 @@
+{{ 'style.css' | asset_url | stylesheet_tag }}
+
+{%- if section.settings.show_promo and section.settings.text != blank -%}
+  <div class="promo-bar promo-bar-section" role="region" aria-label="Promo">
+    <div class="promo-container">
+      {%- if section.settings.link != blank -%}
+        <a href="{{ section.settings.link }}" class="promo-link">
+          <span class="promo-text">{{ section.settings.text | escape }}</span>
+        </a>
+      {%- else -%}
+        <p class="promo-text">{{ section.settings.text | escape }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Secondary Promo Bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_promo",
+      "label": "Show promo bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Promo text",
+      "default": "SEE RESULTS IN 10' OR YOUR MONEY-BACK"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Promo link"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#465069"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "rgba(255, 255, 255, 0.08)"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "label": "Container max width",
+      "default": 1260
+    }
+  ],
+  "presets": [
+    {
+      "name": "Secondary Promo Bar"
+    }
+  ]
+}
+{% endschema %}

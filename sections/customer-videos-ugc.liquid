@@ -1,0 +1,432 @@
+<!-- 11 — Customer Videos (UGC) Section -->
+<section
+  class="ugc-videos-section"
+  id="customerVideosSection-{{ section.id }}"
+  aria-labelledby="ugcVideosHeading-{{ section.id }}"
+>
+  <div class="ugc-videos-container">
+    <!-- Section Heading -->
+    <div class="ugc-videos-header">
+      <h2 class="ugc-videos-title" id="ugcVideosHeading-{{ section.id }}">
+        {{ section.settings.title | default: 'Over 840,000+ Happy Customers Have Made The Switch' }}
+      </h2>
+      <p class="ugc-videos-subtitle">
+        {{ section.settings.subtitle | default: 'Real people, real bathrooms, real 10-minute results.' }}
+      </p>
+    </div>
+
+    <!-- Swiper Carousel Container for Customer Videos -->
+    <div class="ugc-swiper-wrapper-outer">
+      <div class="swiper ugc-videos-swiper" id="ugcVideosSwiper-{{ section.id }}">
+        <div class="swiper-wrapper">
+          {%- if section.blocks.size > 0 -%}
+            {%- for block in section.blocks -%}
+              <div class="swiper-slide ugc-video-slide" {{ block.shopify_attributes }}>
+                <div
+                  class="ugc-video-card"
+                  role="button"
+                  tabindex="0"
+                  aria-label="{{ block.settings.aria_label | default: 'Play Customer Video' | escape }}"
+                >
+                  <video class="ugc-inline-video" playsinline webkit-playsinline loop preload="metadata">
+                    <source
+                      src="{{ block.settings.video_url | default: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' }}"
+                      type="video/mp4"
+                    >
+                  </video>
+                  {%- if block.settings.image != blank -%}
+                    <img
+                      src="{{ block.settings.image | image_url: width: 600 }}"
+                      alt="{{ block.settings.aria_label | default: 'Customer Video Review' | escape }}"
+                      class="ugc-video-img"
+                      loading="lazy"
+                    >
+                  {%- else -%}
+                    {%- assign default_img_index = forloop.index | modulo: 5 -%}
+                    {%- case default_img_index -%}
+                      {%- when 1 -%}
+                        <img
+                          src="{{ 'ugc-customer-1.png' | asset_url }}"
+                          alt="Customer Video Review 1 - Polar Hair Dye"
+                          class="ugc-video-img"
+                          loading="lazy"
+                        >
+                      {%- when 2 -%}
+                        <img
+                          src="{{ 'ugc-customer-2.png' | asset_url }}"
+                          alt="Customer Video Review 2 - Polar Hair Dye"
+                          class="ugc-video-img"
+                          loading="lazy"
+                        >
+                      {%- when 3 -%}
+                        <img
+                          src="{{ 'ugc-customer-3.png' | asset_url }}"
+                          alt="Customer Video Review 3 - Polar Hair Dye"
+                          class="ugc-video-img"
+                          loading="lazy"
+                        >
+                      {%- when 4 -%}
+                        <img
+                          src="{{ 'ugc-customer-4.png' | asset_url }}"
+                          alt="Customer Video Review 4 - Polar Hair Dye"
+                          class="ugc-video-img"
+                          loading="lazy"
+                        >
+                      {%- else -%}
+                        <img
+                          src="{{ 'ugc-customer-5.png' | asset_url }}"
+                          alt="Customer Video Review 5 - Polar Hair Dye"
+                          class="ugc-video-img"
+                          loading="lazy"
+                        >
+                    {%- endcase -%}
+                  {%- endif -%}
+                  <div class="ugc-play-btn-circle" aria-hidden="true">
+                    <svg width="18" height="21" viewBox="0 0 18 21" fill="none">
+                      <path d="M17 10.5L1 19.5981L1 1.40192L17 10.5Z" fill="#4A2346"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <!-- Fallback 5 Default Customer Video Slides -->
+            <div class="swiper-slide ugc-video-slide">
+              <div class="ugc-video-card" role="button" tabindex="0" aria-label="Play Customer Video 1">
+                <video class="ugc-inline-video" playsinline webkit-playsinline loop preload="metadata">
+                  <source
+                    src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                    type="video/mp4"
+                  >
+                </video>
+                <img
+                  src="{{ 'ugc-customer-1.png' | asset_url }}"
+                  alt="Customer Video Review 1 - Polar Hair Dye"
+                  class="ugc-video-img"
+                  loading="lazy"
+                >
+                <div class="ugc-play-btn-circle" aria-hidden="true">
+                  <svg width="18" height="21" viewBox="0 0 18 21" fill="none">
+                    <path d="M17 10.5L1 19.5981L1 1.40192L17 10.5Z" fill="#4A2346"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide ugc-video-slide">
+              <div class="ugc-video-card" role="button" tabindex="0" aria-label="Play Customer Video 2">
+                <video class="ugc-inline-video" playsinline webkit-playsinline loop preload="metadata">
+                  <source
+                    src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                    type="video/mp4"
+                  >
+                </video>
+                <img
+                  src="{{ 'ugc-customer-2.png' | asset_url }}"
+                  alt="Customer Video Review 2 - Polar Hair Dye"
+                  class="ugc-video-img"
+                  loading="lazy"
+                >
+                <div class="ugc-play-btn-circle" aria-hidden="true">
+                  <svg width="18" height="21" viewBox="0 0 18 21" fill="none">
+                    <path d="M17 10.5L1 19.5981L1 1.40192L17 10.5Z" fill="#4A2346"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide ugc-video-slide">
+              <div class="ugc-video-card" role="button" tabindex="0" aria-label="Play Customer Video 3">
+                <video class="ugc-inline-video" playsinline webkit-playsinline loop preload="metadata">
+                  <source
+                    src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                    type="video/mp4"
+                  >
+                </video>
+                <img
+                  src="{{ 'ugc-customer-3.png' | asset_url }}"
+                  alt="Customer Video Review 3 - Polar Hair Dye"
+                  class="ugc-video-img"
+                  loading="lazy"
+                >
+                <div class="ugc-play-btn-circle" aria-hidden="true">
+                  <svg width="18" height="21" viewBox="0 0 18 21" fill="none">
+                    <path d="M17 10.5L1 19.5981L1 1.40192L17 10.5Z" fill="#4A2346"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide ugc-video-slide">
+              <div class="ugc-video-card" role="button" tabindex="0" aria-label="Play Customer Video 4">
+                <video class="ugc-inline-video" playsinline webkit-playsinline loop preload="metadata">
+                  <source
+                    src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                    type="video/mp4"
+                  >
+                </video>
+                <img
+                  src="{{ 'ugc-customer-4.png' | asset_url }}"
+                  alt="Customer Video Review 4 - Polar Hair Dye"
+                  class="ugc-video-img"
+                  loading="lazy"
+                >
+                <div class="ugc-play-btn-circle" aria-hidden="true">
+                  <svg width="18" height="21" viewBox="0 0 18 21" fill="none">
+                    <path d="M17 10.5L1 19.5981L1 1.40192L17 10.5Z" fill="#4A2346"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide ugc-video-slide">
+              <div class="ugc-video-card" role="button" tabindex="0" aria-label="Play Customer Video 5">
+                <video class="ugc-inline-video" playsinline webkit-playsinline loop preload="metadata">
+                  <source
+                    src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                    type="video/mp4"
+                  >
+                </video>
+                <img
+                  src="{{ 'ugc-customer-5.png' | asset_url }}"
+                  alt="Customer Video Review 5 - Polar Hair Dye"
+                  class="ugc-video-img"
+                  loading="lazy"
+                >
+                <div class="ugc-play-btn-circle" aria-hidden="true">
+                  <svg width="18" height="21" viewBox="0 0 18 21" fill="none">
+                    <path d="M17 10.5L1 19.5981L1 1.40192L17 10.5Z" fill="#4A2346"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Secondary Button -->
+    <a href="{{ section.settings.btn_link | default: '#reviews' }}" class="ugc-reviews-btn">
+      <span>{{ section.settings.btn_text | default: 'Read all 26,966 reviews' }}</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .ugc-inline-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+    z-index: 1;
+    background: #000000;
+    border-radius: 16px;
+  }
+  .ugc-video-card.is-playing .ugc-inline-video,
+  .ugc-video-card.is-paused .ugc-inline-video {
+    display: block;
+  }
+  .ugc-video-card.is-playing .ugc-video-img,
+  .ugc-video-card.is-paused .ugc-video-img {
+    display: none;
+  }
+  .ugc-video-card.is-playing .ugc-play-btn-circle {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  .ugc-video-card.is-paused .ugc-play-btn-circle {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+  }
+</style>
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+  (function () {
+    function initUgcSwiper() {
+      var container = document.getElementById('ugcVideosSwiper-{{ section.id }}');
+      if (!container || typeof Swiper === 'undefined') return;
+      if (container.swiper) return;
+
+      new Swiper(container, {
+        slidesPerView: 2.15,
+        spaceBetween: 12,
+        grabCursor: true,
+        watchOverflow: true,
+        breakpoints: {
+          520: {
+            slidesPerView: 2.5,
+            spaceBetween: 14,
+          },
+          769: {
+            slidesPerView: 3.5,
+            spaceBetween: 16,
+          },
+          1025: {
+            slidesPerView: 5,
+            spaceBetween: 20,
+            allowTouchMove: false,
+          },
+        },
+      });
+    }
+
+    function initUgcInlineVideos() {
+      var section = document.getElementById('customerVideosSection-{{ section.id }}');
+      if (!section) return;
+
+      var cards = section.querySelectorAll('.ugc-video-card');
+      cards.forEach(function (card) {
+        if (card.dataset.inPlaceInit) return;
+        card.dataset.inPlaceInit = 'true';
+
+        card.addEventListener('click', async function (e) {
+          e.preventDefault();
+
+          var video = card.querySelector('.ugc-inline-video');
+          if (!video) return;
+
+          // Pause all other videos
+          cards.forEach(function (otherCard) {
+            if (otherCard !== card) {
+              var otherVideo = otherCard.querySelector('.ugc-inline-video');
+
+              if (otherVideo) {
+                otherVideo.pause();
+                otherCard.classList.remove('is-playing', 'is-paused');
+              }
+            }
+          });
+
+          // If already playing, pause it
+          if (!video.paused) {
+            video.pause();
+            card.classList.remove('is-playing');
+            card.classList.add('is-paused');
+            return;
+          }
+
+          try {
+            // Show video immediately
+            card.classList.add('is-playing');
+            card.classList.remove('is-paused');
+
+            await video.play();
+          } catch (error) {
+            console.error('Video playback failed:', error);
+
+            card.classList.remove('is-playing');
+            card.classList.remove('is-paused');
+          }
+        });
+
+        // Toggle on Enter or Space key for accessibility
+        card.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            card.click();
+          }
+        });
+      });
+    }
+
+    function initAll() {
+      initUgcSwiper();
+      initUgcInlineVideos();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAll);
+    } else {
+      initAll();
+    }
+
+    document.addEventListener('shopify:section:load', function (e) {
+      if (e.target && e.target.querySelector('#ugcVideosSwiper-{{ section.id }}')) {
+        initAll();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Customer Videos UGC",
+  "tag": "section",
+  "class": "section-customer-videos-ugc",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Over 840,000+ Happy Customers Have Made The Switch"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Real people, real bathrooms, real 10-minute results."
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button Text",
+      "default": "Read all 26,966 reviews"
+    },
+    {
+      "type": "url",
+      "id": "btn_link",
+      "label": "Button Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video_card",
+      "name": "Customer Video",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Thumbnail Image"
+        },
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "Video URL"
+        },
+        {
+          "type": "text",
+          "id": "aria_label",
+          "label": "Accessibility Label",
+          "default": "Play Customer Video"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Videos UGC",
+      "blocks": [
+        { "type": "video_card" },
+        { "type": "video_card" },
+        { "type": "video_card" },
+        { "type": "video_card" },
+        { "type": "video_card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

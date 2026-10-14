@@ -1,0 +1,517 @@
+{%- comment -%}
+  Polar Haircare — 06 Proof & Trust (Results)
+  Features consumer validation study card, expert stylist endorsement quote,
+  and 4 before/after customer transformation review cards.
+{%- endcomment -%}
+
+{%- if section.settings.enable_section -%}
+  <section class="proof-trust-section" aria-label="Customer Proof and Trust Results">
+    <div class="proof-trust-container">
+
+      <!-- Section Header -->
+      <div class="proof-trust-header">
+        <div class="proof-trust-stars" aria-label="5 out of 5 stars">
+          <span>&#9733;</span>
+          <span>&#9733;</span>
+          <span>&#9733;</span>
+          <span>&#9733;</span>
+          <span>&#9733;</span>
+        </div>
+
+        <h2 class="proof-trust-title">
+          {{ section.settings.heading | default: 'The Results Speak for Themselves' | escape }}
+        </h2>
+
+        <p class="proof-trust-subtitle">
+          {{ section.settings.subheading | default: 'Independent consumer validation and real transformations — the proof your customers see after the very first wash.' | escape }}
+        </p>
+      </div>
+
+      <!-- Study + Expert Row -->
+      <div class="proof-trust-study-expert-row">
+
+        <!-- Card 1: Consumer Study -->
+        <div class="proof-study-card">
+          <p class="proof-study-eyebrow">{{ section.settings.study_eyebrow | default: 'REAL RESULTS — CONSUMER STUDY' | escape }}</p>
+
+          <div class="proof-study-stats-grid">
+            <!-- Stat 1 -->
+            <div class="proof-study-stat-item">
+              <span class="proof-study-stat-number">{{ section.settings.stat_1_num | default: '95%' }}</span>
+              <p class="proof-study-stat-desc">{{ section.settings.stat_1_desc | default: 'said it provides natural-looking gray coverage that lasts' }}</p>
+            </div>
+
+            <!-- Stat 2 -->
+            <div class="proof-study-stat-item">
+              <span class="proof-study-stat-number">{{ section.settings.stat_2_num | default: '92%' }}</span>
+              <p class="proof-study-stat-desc">{{ section.settings.stat_2_desc | default: 'said it’s easier and mess-free compared to traditional dyes' }}</p>
+            </div>
+
+            <!-- Stat 3 -->
+            <div class="proof-study-stat-item">
+              <span class="proof-study-stat-number">{{ section.settings.stat_3_num | default: '89%' }}</span>
+              <p class="proof-study-stat-desc">{{ section.settings.stat_3_desc | default: 'said their hair feels softer and healthier after using Polar' }}</p>
+            </div>
+          </div>
+
+          <p class="proof-study-footnote">{{ section.settings.study_footnote | default: 'Based on an independent consumer validation study of Polar Instant Dye Shampoo users.' }}</p>
+        </div>
+
+        <!-- Card 2: Expert Quote -->
+        <div class="proof-expert-card">
+          <p class="proof-expert-eyebrow">{{ section.settings.expert_eyebrow | default: 'WHAT EXPERTS SAY' | escape }}</p>
+          <p class="proof-expert-quote">{{ section.settings.expert_quote | default: '“Polar is easy to use, mess-free, and gives my clients natural, soft, and shiny results without the damage. A gentle and reliable solution that I fully trust.”' }}</p>
+          <div class="proof-expert-author-wrap">
+            <span class="proof-expert-author-name">{{ section.settings.expert_author | default: 'Jessica Martinez' }}</span>
+            <span class="proof-expert-author-role">{{ section.settings.expert_role | default: 'Professional Hairdresser · Salon Owner, New York' }}</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Before / After Review Cards (Swiper for Mobile <= 768px, Grid for Desktop) -->
+      <div class="swiper proof-trust-reviews-swiper" id="proofReviewsSwiper-{{ section.id }}">
+        <div class="swiper-wrapper proof-trust-reviews-wrapper">
+          
+          {%- if section.blocks.size > 0 -%}
+            {%- for block in section.blocks -%}
+              <div class="swiper-slide proof-review-slide" {{ block.shopify_attributes }}>
+                <div class="proof-review-card">
+                  <div class="proof-review-media">
+                    {%- if block.settings.image != blank -%}
+                      <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.author | default: 'Customer Result' | escape }}" class="proof-review-img" loading="lazy">
+                    {%- else -%}
+                      {%- assign default_img_index = forloop.index | modulo: 4 -%}
+                      {%- case default_img_index -%}
+                        {%- when 1 -%}
+                          <img src="{{ 'before_after.jpg' | asset_url }}" alt="Before and After Demara" class="proof-review-img" loading="lazy">
+                        {%- when 2 -%}
+                          <img src="{{ 'spotlight-caroline.png' | asset_url }}" alt="Before and After Laura" class="proof-review-img" loading="lazy">
+                        {%- when 3 -%}
+                          <img src="{{ 'before-after-priadashni.jpg' | asset_url }}" alt="Before and After Priadashni" class="proof-review-img" loading="lazy">
+                        {%- else -%}
+                          <img src="{{ 'before-after-3.jpg' | asset_url }}" alt="Before and After Kara" class="proof-review-img" loading="lazy">
+                      {%- endcase -%}
+                    {%- endif -%}
+                    <span class="proof-pill-before">{{ block.settings.pill_before | default: 'BEFORE' | escape }}</span>
+                    <span class="proof-pill-after">{{ block.settings.pill_after | default: 'AFTER' | escape }}</span>
+                  </div>
+                  <div class="proof-review-body">
+                    <div class="proof-review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="proof-review-quote">{{ block.settings.quote | escape }}</p>
+                    <div class="proof-review-footer">
+                      <span class="proof-review-author">{{ block.settings.author | escape }}</span>
+                      <span class="proof-verified-badge">
+                        <svg class="proof-verified-icon" viewBox="0 0 16 16" fill="currentColor">
+                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                        </svg>
+                        <span class="proof-verified-text">{{ block.settings.verified_text | default: 'Verified Buyer' | escape }}</span>
+                      </span>
+                      <span class="proof-verified-mobile">&#10003; Verified</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <!-- Fallback Default 4 Cards if no blocks are added -->
+            <!-- Card 1 -->
+            <div class="swiper-slide proof-review-slide">
+              <div class="proof-review-card">
+                <div class="proof-review-media">
+                  {%- if section.settings.card_1_image != blank -%}
+                    <img src="{{ section.settings.card_1_image | image_url: width: 600 }}" alt="{{ section.settings.card_1_author | default: 'Customer Result' | escape }}" class="proof-review-img" loading="lazy">
+                  {%- else -%}
+                    <img src="{{ 'before_after.jpg' | asset_url }}" alt="Before and After Demara" class="proof-review-img" loading="lazy">
+                  {%- endif -%}
+                  <span class="proof-pill-before">BEFORE</span>
+                  <span class="proof-pill-after">AFTER</span>
+                </div>
+                <div class="proof-review-body">
+                  <div class="proof-review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                  <p class="proof-review-quote">{{ section.settings.card_1_quote | default: '“I absolutely love this! It’s so easy to use like regular shampoo. No mess, no long salon visits, just quick color in one step.”' }}</p>
+                  <div class="proof-review-footer">
+                    <span class="proof-review-author">{{ section.settings.card_1_author | default: 'Demara O., Miami, FL' }}</span>
+                    <span class="proof-verified-badge">
+                      <svg class="proof-verified-icon" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                      </svg>
+                      <span class="proof-verified-text">Verified Buyer</span>
+                    </span>
+                    <span class="proof-verified-mobile">&#10003; Verified</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="swiper-slide proof-review-slide">
+              <div class="proof-review-card">
+                <div class="proof-review-media">
+                  {%- if section.settings.card_2_image != blank -%}
+                    <img src="{{ section.settings.card_2_image | image_url: width: 600 }}" alt="{{ section.settings.card_2_author | default: 'Customer Result' | escape }}" class="proof-review-img" loading="lazy">
+                  {%- else -%}
+                    <img src="{{ 'spotlight-caroline.png' | asset_url }}" alt="Before and After Laura" class="proof-review-img" loading="lazy">
+                  {%- endif -%}
+                  <span class="proof-pill-before">BEFORE</span>
+                  <span class="proof-pill-after">AFTER</span>
+                </div>
+                <div class="proof-review-body">
+                  <div class="proof-review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                  <p class="proof-review-quote">{{ section.settings.card_2_quote | default: '“Covered my grays in 10 minutes, no mess and no strong smell! Very happy with my order!”' }}</p>
+                  <div class="proof-review-footer">
+                    <span class="proof-review-author">{{ section.settings.card_2_author | default: 'Laura T., Austin, TX' }}</span>
+                    <span class="proof-verified-badge">
+                      <svg class="proof-verified-icon" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                      </svg>
+                      <span class="proof-verified-text">Verified Buyer</span>
+                    </span>
+                    <span class="proof-verified-mobile">&#10003; Verified</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="swiper-slide proof-review-slide">
+              <div class="proof-review-card">
+                <div class="proof-review-media">
+                  {%- if section.settings.card_3_image != blank -%}
+                    <img src="{{ section.settings.card_3_image | image_url: width: 600 }}" alt="{{ section.settings.card_3_author | default: 'Customer Result' | escape }}" class="proof-review-img" loading="lazy">
+                  {%- else -%}
+                    <img src="{{ 'before-after-priadashni.jpg' | asset_url }}" alt="Before and After Priadashni" class="proof-review-img" loading="lazy">
+                  {%- endif -%}
+                  <span class="proof-pill-before">BEFORE</span>
+                  <span class="proof-pill-after">AFTER</span>
+                </div>
+                <div class="proof-review-body">
+                  <div class="proof-review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                  <p class="proof-review-quote">{{ section.settings.card_3_quote | default: '“Quick and easy. Color looks really good. No staining on hairline or face / ears. Love this product.”' }}</p>
+                  <div class="proof-review-footer">
+                    <span class="proof-review-author">{{ section.settings.card_3_author | default: 'Priadashni T., Boston, MA' }}</span>
+                    <span class="proof-verified-badge">
+                      <svg class="proof-verified-icon" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                      </svg>
+                      <span class="proof-verified-text">Verified Buyer</span>
+                    </span>
+                    <span class="proof-verified-mobile">&#10003; Verified</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="swiper-slide proof-review-slide">
+              <div class="proof-review-card">
+                <div class="proof-review-media">
+                  {%- if section.settings.card_4_image != blank -%}
+                    <img src="{{ section.settings.card_4_image | image_url: width: 600 }}" alt="{{ section.settings.card_4_author | default: 'Customer Result' | escape }}" class="proof-review-img" loading="lazy">
+                  {%- else -%}
+                    <img src="{{ 'before-after-3.jpg' | asset_url }}" alt="Before and After Kara" class="proof-review-img" loading="lazy">
+                  {%- endif -%}
+                  <span class="proof-pill-before">BEFORE</span>
+                  <span class="proof-pill-after">AFTER</span>
+                </div>
+                <div class="proof-review-body">
+                  <div class="proof-review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                  <p class="proof-review-quote">{{ section.settings.card_4_quote | default: '“Covered all grays. No nasty smell. Didn’t stain my skin. Finally an easy to use solution.”' }}</p>
+                  <div class="proof-review-footer">
+                    <span class="proof-review-author">{{ section.settings.card_4_author | default: 'Kara P., Nashville, TN' }}</span>
+                    <span class="proof-verified-badge">
+                      <svg class="proof-verified-icon" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                      </svg>
+                      <span class="proof-verified-text">Verified Buyer</span>
+                    </span>
+                    <span class="proof-verified-mobile">&#10003; Verified</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+
+        </div>
+
+        <!-- Swiper Pagination (Mobile Only) -->
+        <div class="swiper-pagination proof-trust-reviews-pagination"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    (function() {
+      function loadSwiperScript(callback) {
+        if (typeof Swiper !== 'undefined') {
+          callback();
+          return;
+        }
+        var script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+        script.onload = callback;
+        document.head.appendChild(script);
+      }
+
+      var proofSwiper = null;
+
+      function initSwiper() {
+        var container = document.getElementById('proofReviewsSwiper-{{ section.id }}');
+        if (!container || typeof Swiper === 'undefined') return;
+
+        if (proofSwiper) {
+          proofSwiper.update();
+          return;
+        }
+
+        proofSwiper = new Swiper(container, {
+          slidesPerView: 'auto',
+          spaceBetween: 12,
+          slidesOffsetBefore: 16,
+          slidesOffsetAfter: 16,
+          grabCursor: true,
+          watchOverflow: true,
+          observer: true,
+          observeParents: true,
+          pagination: {
+            el: container.querySelector('.proof-trust-reviews-pagination'),
+            clickable: true,
+          },
+          breakpoints: {
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 16,
+              slidesOffsetBefore: 0,
+              slidesOffsetAfter: 0,
+            },
+            900: {
+              slidesPerView: 3,
+              spaceBetween: 20,
+              slidesOffsetBefore: 0,
+              slidesOffsetAfter: 0,
+            },
+            1100: {
+              slidesPerView: 4,
+              spaceBetween: 24,
+              slidesOffsetBefore: 0,
+              slidesOffsetAfter: 0,
+            }
+          }
+        });
+      }
+
+      loadSwiperScript(function() {
+        initSwiper();
+      });
+
+      document.addEventListener('shopify:section:load', function(e) {
+        if (e.target && (e.target.id === 'shopify-section-{{ section.id }}' || e.target.querySelector('#proofReviewsSwiper-{{ section.id }}'))) {
+          loadSwiperScript(initSwiper);
+        }
+      });
+
+      document.addEventListener('shopify:block:select', function(e) {
+        if (proofSwiper && e.target && e.target.classList.contains('proof-review-slide')) {
+          var slides = Array.from(e.target.parentNode.children);
+          var index = slides.indexOf(e.target);
+          if (index !== -1) {
+            proofSwiper.slideTo(index);
+          }
+        }
+      });
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Proof & Trust Results",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Show / Hide Entire Section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Results Speak for Themselves"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Independent consumer validation and real transformations — the proof your customers see after the very first wash."
+    },
+    {
+      "type": "header",
+      "content": "Consumer Study Card"
+    },
+    {
+      "type": "text",
+      "id": "study_eyebrow",
+      "label": "Study Eyebrow",
+      "default": "REAL RESULTS — CONSUMER STUDY"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_num",
+      "label": "Stat 1 Number",
+      "default": "95%"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_desc",
+      "label": "Stat 1 Description",
+      "default": "said it provides natural-looking gray coverage that lasts"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_num",
+      "label": "Stat 2 Number",
+      "default": "92%"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_desc",
+      "label": "Stat 2 Description",
+      "default": "said it’s easier and mess-free compared to traditional dyes"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_num",
+      "label": "Stat 3 Number",
+      "default": "89%"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_desc",
+      "label": "Stat 3 Description",
+      "default": "said their hair feels softer and healthier after using Polar"
+    },
+    {
+      "type": "text",
+      "id": "study_footnote",
+      "label": "Study Footnote",
+      "default": "Based on an independent consumer validation study of Polar Instant Dye Shampoo users."
+    },
+    {
+      "type": "header",
+      "content": "Expert Endorsement Card"
+    },
+    {
+      "type": "text",
+      "id": "expert_eyebrow",
+      "label": "Expert Eyebrow",
+      "default": "WHAT EXPERTS SAY"
+    },
+    {
+      "type": "textarea",
+      "id": "expert_quote",
+      "label": "Expert Quote",
+      "default": "“Polar is easy to use, mess-free, and gives my clients natural, soft, and shiny results without the damage. A gentle and reliable solution that I fully trust.”"
+    },
+    {
+      "type": "text",
+      "id": "expert_author",
+      "label": "Expert Name",
+      "default": "Jessica Martinez"
+    },
+    {
+      "type": "text",
+      "id": "expert_role",
+      "label": "Expert Role",
+      "default": "Professional Hairdresser · Salon Owner, New York"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review_card",
+      "name": "Review Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Before/After Image"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Review Quote",
+          "default": "“Quick and easy. Color looks really good. No staining on hairline or face / ears. Love this product.”"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author & Location",
+          "default": "Customer, Verified Buyer"
+        },
+        {
+          "type": "text",
+          "id": "pill_before",
+          "label": "Before Label",
+          "default": "BEFORE"
+        },
+        {
+          "type": "text",
+          "id": "pill_after",
+          "label": "After Label",
+          "default": "AFTER"
+        },
+        {
+          "type": "text",
+          "id": "verified_text",
+          "label": "Verified Badge Text",
+          "default": "Verified Buyer"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Proof & Trust Results",
+      "blocks": [
+        {
+          "type": "review_card",
+          "settings": {
+            "quote": "“I absolutely love this! It’s so easy to use like regular shampoo. No mess, no long salon visits, just quick color in one step.”",
+            "author": "Demara O., Miami, FL",
+            "pill_before": "BEFORE",
+            "pill_after": "AFTER"
+          }
+        },
+        {
+          "type": "review_card",
+          "settings": {
+            "quote": "“Covered my grays in 10 minutes, no mess and no strong smell! Very happy with my order!”",
+            "author": "Laura T., Austin, TX",
+            "pill_before": "BEFORE",
+            "pill_after": "AFTER"
+          }
+        },
+        {
+          "type": "review_card",
+          "settings": {
+            "quote": "“Quick and easy. Color looks really good. No staining on hairline or face / ears. Love this product.”",
+            "author": "Priadashni T., Boston, MA",
+            "pill_before": "BEFORE",
+            "pill_after": "AFTER"
+          }
+        },
+        {
+          "type": "review_card",
+          "settings": {
+            "quote": "“Covered all grays. No nasty smell. Didn’t stain my skin. Finally an easy to use solution.”",
+            "author": "Kara P., Nashville, TN",
+            "pill_before": "BEFORE",
+            "pill_after": "AFTER"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

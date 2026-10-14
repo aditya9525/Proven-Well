@@ -1,0 +1,338 @@
+{%- comment -%}
+  Polar Haircare — 08 Who It's For
+  Features dynamic use-case cards (Items) customizable and creatable from Shopify Theme Editor.
+{%- endcomment -%}
+
+{%- if section.settings.enable_section -%}
+  <section class="who-for-section" aria-label="Who It's For Use Cases" id="whoForSection-{{ section.id }}">
+    <div class="who-for-container">
+
+      <!-- Section Header -->
+      <div class="who-for-header">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="who-for-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+
+        <h2 class="who-for-title">
+          {{ section.settings.heading | default: 'Whoever you are, it just works.' | escape }}
+        </h2>
+
+        <p class="who-for-subtitle">
+          {{ section.settings.subheading | default: 'From first silver strands to stubborn edges and beards — Polar fits into your routine, not the other way around.' | escape }}
+        </p>
+      </div>
+
+      <!-- Cards Swiper (Mobile <= 768px, Grid for Desktop) -->
+      <div class="swiper who-for-swiper" id="whoForSwiper-{{ section.id }}">
+        <div class="swiper-wrapper who-for-wrapper who-for-grid">
+
+          {%- if section.blocks.size > 0 -%}
+            {%- for block in section.blocks -%}
+              <div class="swiper-slide who-for-slide" {{ block.shopify_attributes }}>
+                <div class="who-for-card">
+                  <div class="who-for-img-wrap">
+                    {%- if block.settings.image != blank -%}
+                      <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title | default: 'Use case' | escape }}" class="who-for-img" loading="lazy">
+                    {%- else -%}
+                      {%- assign default_img_index = forloop.index | modulo: 4 -%}
+                      {%- case default_img_index -%}
+                        {%- when 1 -%}
+                          <img src="{{ 'spotlight-caroline.png' | asset_url }}" alt="{{ block.settings.title | default: 'For Women' | escape }}" class="who-for-img" loading="lazy">
+                        {%- when 2 -%}
+                          <img src="{{ 'before_after.jpg' | asset_url }}" alt="{{ block.settings.title | default: 'For Men' | escape }}" class="who-for-img" loading="lazy">
+                        {%- when 3 -%}
+                          <img src="{{ 'customer_story.jpg' | asset_url }}" alt="{{ block.settings.title | default: 'For Busy Schedules' | escape }}" class="who-for-img" loading="lazy">
+                        {%- else -%}
+                          <img src="{{ 'polar_shampoo.jpg' | asset_url }}" alt="{{ block.settings.title | default: 'For Gentle Care' | escape }}" class="who-for-img" loading="lazy">
+                      {%- endcase -%}
+                    {%- endif -%}
+                  </div>
+                  <div class="who-for-body">
+                    {%- if block.settings.tag != blank -%}
+                      <span class="who-for-card-tag">{{ block.settings.tag | escape }}</span>
+                    {%- endif -%}
+                    {%- if block.settings.title != blank -%}
+                      <h3 class="who-for-card-title">{{ block.settings.title | escape }}</h3>
+                    {%- endif -%}
+                    {%- if block.settings.desc != blank -%}
+                      <p class="who-for-card-desc">{{ block.settings.desc | escape }}</p>
+                    {%- endif -%}
+                    <a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="who-for-card-link">
+                      {{ block.settings.link_text | default: 'Shop now →' | escape }}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <!-- Fallback Default 4 Cards if no blocks exist yet -->
+            <!-- Card 1: For Women -->
+            <div class="swiper-slide who-for-slide">
+              <div class="who-for-card">
+                <div class="who-for-img-wrap">
+                  <img src="{{ 'spotlight-caroline.png' | asset_url }}" alt="For Women" class="who-for-img" loading="lazy">
+                </div>
+                <div class="who-for-body">
+                  <span class="who-for-card-tag">FOR WOMEN</span>
+                  <h3 class="who-for-card-title">Roots, temples & full coverage</h3>
+                  <p class="who-for-card-desc">Blend first grays or cover them completely — with soft, natural-looking color that never looks flat or fake.</p>
+                  <a href="{{ routes.all_products_collection_url }}" class="who-for-card-link">
+                    Shop now →
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: For Men -->
+            <div class="swiper-slide who-for-slide">
+              <div class="who-for-card">
+                <div class="who-for-img-wrap">
+                  <img src="{{ 'before_after.jpg' | asset_url }}" alt="For Men" class="who-for-img" loading="lazy">
+                </div>
+                <div class="who-for-body">
+                  <span class="who-for-card-tag">FOR MEN</span>
+                  <h3 class="who-for-card-title">Hair and beards, in one bottle</h3>
+                  <p class="who-for-card-desc">Works just as well on beards. A subtle, natural refresh without a trip to the salon or barber.</p>
+                  <a href="{{ routes.all_products_collection_url }}" class="who-for-card-link">
+                    Shop now →
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3: For Busy Schedules -->
+            <div class="swiper-slide who-for-slide">
+              <div class="who-for-card">
+                <div class="who-for-img-wrap">
+                  <img src="{{ 'customer_story.jpg' | asset_url }}" alt="For Busy Schedules" class="who-for-img" loading="lazy">
+                </div>
+                <div class="who-for-body">
+                  <span class="who-for-card-tag">FOR BUSY SCHEDULES</span>
+                  <h3 class="who-for-card-title">10 minutes, done in the shower</h3>
+                  <p class="who-for-card-desc">No appointments, bowls or brushes. Color your hair at home whenever it suits you.</p>
+                  <a href="{{ routes.all_products_collection_url }}" class="who-for-card-link">
+                    Shop now →
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4: For Gentle Care -->
+            <div class="swiper-slide who-for-slide">
+              <div class="who-for-card">
+                <div class="who-for-img-wrap">
+                  <img src="{{ 'polar_shampoo.jpg' | asset_url }}" alt="For Gentle Care" class="who-for-img" loading="lazy">
+                </div>
+                <div class="who-for-body">
+                  <span class="who-for-card-tag">FOR GENTLE CARE</span>
+                  <h3 class="who-for-card-title">Ammonia-free, plant-powered</h3>
+                  <p class="who-for-card-desc">Reishi, black sesame, ginseng and fo-ti help keep hair soft, shiny and healthy-feeling.</p>
+                  <a href="{{ routes.all_products_collection_url }}" class="who-for-card-link">
+                    Shop now →
+                  </a>
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    (function() {
+      function loadSwiperScript(callback) {
+        if (typeof Swiper !== 'undefined') {
+          callback();
+          return;
+        }
+        var script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+        script.onload = callback;
+        document.head.appendChild(script);
+      }
+
+      var whoForSwiper = null;
+
+      function initWhoForSwiper() {
+        var container = document.getElementById('whoForSwiper-{{ section.id }}');
+        if (!container || typeof Swiper === 'undefined') return;
+
+        if (whoForSwiper) {
+          whoForSwiper.update();
+          return;
+        }
+
+        whoForSwiper = new Swiper(container, {
+          slidesPerView: 'auto',
+          spaceBetween: 12,
+          slidesOffsetBefore: 16,
+          slidesOffsetAfter: 16,
+          grabCursor: true,
+          watchOverflow: true,
+          observer: true,
+          observeParents: true,
+          breakpoints: {
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 16,
+              slidesOffsetBefore: 0,
+              slidesOffsetAfter: 0,
+            },
+            900: {
+              slidesPerView: 3,
+              spaceBetween: 20,
+              slidesOffsetBefore: 0,
+              slidesOffsetAfter: 0,
+            },
+            1100: {
+              slidesPerView: 4,
+              spaceBetween: 24,
+              slidesOffsetBefore: 0,
+              slidesOffsetAfter: 0,
+            }
+          }
+        });
+      }
+
+      loadSwiperScript(function() {
+        initWhoForSwiper();
+      });
+
+      document.addEventListener('shopify:section:load', function(e) {
+        if (e.target && (e.target.id === 'shopify-section-{{ section.id }}' || e.target.querySelector('#whoForSwiper-{{ section.id }}'))) {
+          loadSwiperScript(initWhoForSwiper);
+        }
+      });
+
+      document.addEventListener('shopify:block:select', function(e) {
+        if (whoForSwiper && e.target && e.target.classList.contains('who-for-slide')) {
+          var slides = Array.from(e.target.parentNode.children);
+          var index = slides.indexOf(e.target);
+          if (index !== -1) {
+            whoForSwiper.slideTo(index);
+          }
+        }
+      });
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Who It's For",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Show / Hide Entire Section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "MADE FOR EVERY KIND OF GRAY"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Whoever you are, it just works."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "From first silver strands to stubborn edges and beards — Polar fits into your routine, not the other way around."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card Image"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Eyebrow / Tag",
+          "default": "FOR WOMEN"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card Title",
+          "default": "Roots, temples & full coverage"
+        },
+        {
+          "type": "textarea",
+          "id": "desc",
+          "label": "Card Description",
+          "default": "Blend first grays or cover them completely — with soft, natural-looking color that never looks flat or fake."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Card Link"
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link Text",
+          "default": "Shop now →"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Who It's For",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "tag": "FOR WOMEN",
+            "title": "Roots, temples & full coverage",
+            "desc": "Blend first grays or cover them completely — with soft, natural-looking color that never looks flat or fake.",
+            "link_text": "Shop now →"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "tag": "FOR MEN",
+            "title": "Hair and beards, in one bottle",
+            "desc": "Works just as well on beards. A subtle, natural refresh without a trip to the salon or barber.",
+            "link_text": "Shop now →"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "tag": "FOR BUSY SCHEDULES",
+            "title": "10 minutes, done in the shower",
+            "desc": "No appointments, bowls or brushes. Color your hair at home whenever it suits you.",
+            "link_text": "Shop now →"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "tag": "FOR GENTLE CARE",
+            "title": "Ammonia-free, plant-powered",
+            "desc": "Reishi, black sesame, ginseng and fo-ti help keep hair soft, shiny and healthy-feeling.",
+            "link_text": "Shop now →"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
