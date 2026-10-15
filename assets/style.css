@@ -8352,6 +8352,8 @@ body {
 .who-for-card-desc {
   font-family: 'Red Hat Display', sans-serif;
   font-style: normal;
+  height: 88px;
+  overflow: hidden;
   font-weight: 400;
   font-size: 14.5px;
   line-height: 22px;
