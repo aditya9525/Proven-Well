@@ -518,7 +518,7 @@
                 data-available="{{ variant.available }}"
               >
                 {%- if qty == 2 -%}
-                  <div class="floating-benefit-badge shipping-badge">+ Free Shipping</div>
+                  <div class="floating-benefit-badge shipping-badge">Most Popular</div>
                 {%- elsif qty >= 3 -%}
                   <div class="floating-benefit-badge conditioner-badge">+ Free Conditioner</div>
                 {%- endif -%}
@@ -526,7 +526,7 @@
                 <div class="bundle-box-btn">
                   <span class="bundle-qty-title">{{ variant.title }}</span>
                   <span class="bundle-perk-text">
-                    {%- if qty == 2 -%}+ Free Shipping{%- elsif qty >= 3 -%}+ Free Conditioner{%- endif -%}
+                    {%- if qty == 2 -%}+ Free Shipping{%- elsif qty >= 3 -%}Best Value{%- endif -%}
                   </span>
                 </div>
                <span class="bundle-price-each">{{ var_price | divided_by: qty | money }} Each</span>
