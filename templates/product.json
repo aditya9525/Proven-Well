@@ -595,6 +595,7 @@
         "title_main": "SIMPLE & HASSLE-FREE",
         "mobile_title": "Make hair coloring simple & hassle-free",
         "subtitle": "Get natural, lasting color in just 10 minutes",
+        "poster_image": "shopify://shop_images/magnific__edit-this-photo-swap-the-two-provenwell-bottles-he__58890_1_1.png",
         "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
         "card_1_title": "30-Day Money Back",
         "card_1_desc": "Try ProvenWell risk-free",
@@ -613,8 +614,9 @@
           "type": "result_card",
           "settings": {
             "category": "women",
-            "quote": "I absolutely love this ! It’s so easy to use like regular shampoo. The gray coverage looked amazing. No mess, no long salon visits, just quick color in one step. Totally worth it!",
-            "author": "Demara O., Miami, FL",
+            "image": "shopify://shop_images/2752424d501c1bc0bd0296e127f09135bd6bb8fe.png",
+            "quote": "“I honestly did not expect it to cover my gray roots this well. The best part is the color doesn’t look flat or fake. I just look more like myself again.”",
+            "author": "Linda M.",
             "verified": true
           }
         },
@@ -622,8 +624,9 @@
           "type": "result_card",
           "settings": {
             "category": "women",
-            "quote": "I was pleasantly surprised! Covered my grays in 10 minutes, no mess and no strong smell! Very happy with my Order!",
-            "author": "Laura T., Austin, TX",
+            "image": "shopify://shop_images/Screenshot_2026-10-15_at_1.04.18_PM_1.png",
+            "quote": "I’ve been coloring my hair for years and I’m so over the whole box dye process. This was way easier. My grays are covered and my dark brown actually looks like my natural color.",
+            "author": "Cheryl P.",
             "verified": true
           }
         },
