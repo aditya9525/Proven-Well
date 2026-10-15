@@ -4,7 +4,109 @@
   4-column spec table, shade swatch selectors, and primary & secondary CTA buttons.
 {%- endcomment -%}
 
-<section class="product-overview-section" aria-label="Product Solution Overview">
+{%- liquid
+  assign overview_product = section.settings.product | default: product
+  if overview_product == blank and all_products['instant-dye-shampoo'] != blank
+    assign overview_product = all_products['instant-dye-shampoo']
+  endif
+  if overview_product == blank and collections.all.products.first != blank
+    assign overview_product = collections.all.products.first
+  endif
+
+  # Target 1 Bottle Variant
+  assign v1 = nil
+  if overview_product != blank and overview_product.variants.size > 0
+    for variant in overview_product.variants
+      assign v_title_lower = variant.title | downcase
+      if v_title_lower contains '1'
+        assign v1 = variant
+        break
+      endif
+    endfor
+    if v1 == nil
+      assign v1 = overview_product.selected_or_first_available_variant | default: overview_product.variants[0]
+    endif
+  endif
+
+  # Dynamic Price for 1 Bottle
+  if v1 != blank and v1.price > 0
+    assign v1_price = v1.price
+  else
+    assign v1_price = overview_product.price | default: 350000
+  endif
+
+  assign formatted_v1_price = v1_price | money_without_trailing_zeros | remove: '.00'
+
+  # Dynamic Color Category Metafields
+  assign cat_colors = overview_product.metafields.shopify['color-pattern'].value
+  if cat_colors == blank
+    assign cat_colors = overview_product.metafields.shopify.color.value
+  endif
+  if cat_colors == blank
+    assign cat_colors = overview_product.metafields.shopify['hair-color'].value
+  endif
+  if cat_colors == blank
+    assign cat_colors = overview_product.metafields.shopify.hair_color.value
+  endif
+  if cat_colors == blank
+    assign cat_colors = overview_product.metafields.custom.color.value
+  endif
+  if cat_colors == blank
+    assign cat_colors = overview_product.metafields.custom.colors.value
+  endif
+  if cat_colors == blank and overview_product.metafields.shopify['color-pattern'] != blank
+    assign cat_colors = overview_product.metafields.shopify['color-pattern']
+  endif
+  if cat_colors == blank and overview_product.metafields.shopify.color != blank
+    assign cat_colors = overview_product.metafields.shopify.color
+  endif
+
+  if cat_colors == blank
+    for option in overview_product.options_with_values
+      assign opt_name_lower = option.name | downcase
+      if opt_name_lower contains 'color' or opt_name_lower contains 'shade'
+        assign cat_colors = option.values
+        break
+      endif
+    endfor
+  endif
+
+  # Determine Default Selected Color and Dynamic Shades List
+  assign default_first_color = ''
+  assign dynamic_shades_list = ''
+  if cat_colors != blank
+    for item in cat_colors
+      assign c_label = item.label | default: item.name | default: item.value | default: item | strip
+      assign c_handle_test = c_label | handleize
+      if forloop.first
+        assign dynamic_shades_list = c_label
+        if default_first_color == ''
+          assign default_first_color = c_label
+        endif
+      else
+        assign dynamic_shades_list = dynamic_shades_list | append: ' · ' | append: c_label
+      endif
+      if c_handle_test contains 'dark-brown' or c_handle_test contains 'dark'
+        assign default_first_color = c_label
+      endif
+    endfor
+  else
+    assign default_first_color = 'Dark Brown'
+    assign dynamic_shades_list = 'Black · Dark · Med. Brown'
+  endif
+
+  # Dynamic Primary Button Text
+  assign raw_btn_text = section.settings.btn_1_text
+  if raw_btn_text == blank or raw_btn_text contains '3,500' or raw_btn_text contains '3500'
+    assign btn_display_text = 'Add to Cart — ' | append: formatted_v1_price
+  elsif raw_btn_text contains '[price]'
+    assign btn_display_text = raw_btn_text | replace: '[price]', formatted_v1_price
+  else
+    assign btn_display_text = raw_btn_text
+  endif
+-%}
+
+<section class="product-overview-section" id="productOverview-{{ section.id }}" aria-label="Product Solution Overview">
   <div class="product-overview-container">
 
     <!-- Left Column: Product Feature Callouts Visual Card -->
@@ -15,6 +117,12 @@
             class: 'product-overview-card-img', 
             loading: 'lazy', 
             alt: section.settings.heading | default: 'Polar Instant Dye Shampoo Feature Callouts' 
+          }}
+        {%- elsif overview_product.featured_image != blank -%}
+          {{ overview_product.featured_image | image_url: width: 1120 | image_tag:
+            class: 'product-overview-card-img',
+            loading: 'lazy',
+            alt: overview_product.title | escape
           }}
         {%- else -%}
           <img
@@ -118,7 +226,15 @@
 
         <div class="product-overview-spec-cell">
           <span class="product-overview-spec-label">{{ section.settings.spec_3_label | default: 'SHADES' }}</span>
-          <span class="product-overview-spec-val">{{ section.settings.spec_3_val | default: 'Black · Dark · Med. Brown' }}</span>
+          <span class="product-overview-spec-val">
+            {%- if section.settings.spec_3_val != blank and section.settings.spec_3_val != 'Black · Dark · Med. Brown' -%}
+              {{ section.settings.spec_3_val }}
+            {%- elsif dynamic_shades_list != blank -%}
+              {{ dynamic_shades_list }}
+            {%- else -%}
+              {{ section.settings.spec_3_val | default: 'Black · Dark · Med. Brown' }}
+            {%- endif -%}
+          </span>
         </div>
 
         <div class="product-overview-spec-cell">
@@ -127,38 +243,145 @@
         </div>
       </div>
 
-      <!-- Shade Swatches -->
+      <!-- Shade Swatches (Dynamic Category Metafield & Swatches) -->
       <div class="product-overview-shades-wrapper">
         <p class="product-overview-shades-heading">{{ section.settings.shades_heading | default: 'Choose your shade' }}</p>
         <div class="product-overview-swatches" role="radiogroup" aria-label="Select Hair Shade">
-          <button type="button" class="product-swatch-btn is-active" role="radio" aria-checked="true" aria-label="Shade Black" data-shade="black">
-            <span class="product-swatch-thumb-wrap">
-              <img src="{{ 'swatch-black.png' | asset_url }}" alt="Black Shade Swatch" class="product-swatch-img" width="74" height="74" loading="lazy">
-            </span>
-            <span class="product-swatch-title">Black</span>
-          </button>
+          {%- if cat_colors != blank -%}
+            {%- for item in cat_colors -%}
+              {%- liquid
+                assign c_name = item.label | default: item.name | default: item.value | default: item | strip
+                assign c_handle = c_name | handleize
+                assign c_hex = item.color | default: item.hex | default: ''
+                assign c_image = item.image
+                assign is_active = false
+                if c_name == default_first_color
+                  assign is_active = true
+                endif
+              -%}
+              <button
+                type="button"
+                class="product-swatch-btn{% if is_active %} is-active{% endif %}"
+                role="radio"
+                aria-checked="{% if is_active %}true{% else %}false{% endif %}"
+                aria-label="Shade {{ c_name | escape }}"
+                data-shade="{{ c_handle }}"
+                data-color-name="{{ c_name | escape }}"
+              >
+                <span class="product-swatch-thumb-wrap">
+                  {%- if c_image != blank -%}
+                    <img
+                      src="{{ c_image | image_url: width: 148 }}"
+                      alt="{{ c_name | escape }} Shade Swatch"
+                      class="product-swatch-img"
+                      width="74"
+                      height="74"
+                      loading="lazy"
+                    >
+                  {%- elsif c_handle contains 'dark-brown' or c_handle contains 'dark' -%}
+                    <img
+                      src="{{ 'swatch-dark-brown.png' | asset_url }}"
+                      alt="{{ c_name | escape }} Shade Swatch"
+                      class="product-swatch-img"
+                      width="74"
+                      height="74"
+                      loading="lazy"
+                    >
+                  {%- elsif c_handle contains 'medium-brown' or c_handle contains 'medium' -%}
+                    <img
+                      src="{{ 'swatch-medium-brown.png' | asset_url }}"
+                      alt="{{ c_name | escape }} Shade Swatch"
+                      class="product-swatch-img"
+                      width="74"
+                      height="74"
+                      loading="lazy"
+                    >
+                  {%- elsif c_handle contains 'black' -%}
+                    <img
+                      src="{{ 'swatch-black.png' | asset_url }}"
+                      alt="{{ c_name | escape }} Shade Swatch"
+                      class="product-swatch-img"
+                      width="74"
+                      height="74"
+                      loading="lazy"
+                    >
+                  {%- elsif c_hex != blank -%}
+                    <span class="swatch-hex-circle" style="background-color: {{ c_hex }}; width: 100%; height: 100%; display: block; border-radius: 6px;"></span>
+                  {%- else -%}
+                    <img
+                      src="{{ 'swatch-dark-brown.png' | asset_url }}"
+                      alt="{{ c_name | escape }} Shade Swatch"
+                      class="product-swatch-img"
+                      width="74"
+                      height="74"
+                      loading="lazy"
+                    >
+                  {%- endif -%}
+                </span>
+                <span class="product-swatch-title">{{ c_name }}</span>
+              </button>
+            {%- endfor -%}
+          {%- else -%}
+            <!-- Fallback Category Swatches matching store configuration -->
+            <button
+              type="button"
+              class="product-swatch-btn is-active"
+              role="radio"
+              aria-checked="true"
+              aria-label="Shade Dark Brown"
+              data-shade="dark-brown"
+              data-color-name="Dark Brown"
+            >
+              <span class="product-swatch-thumb-wrap">
+                <img src="{{ 'swatch-dark-brown.png' | asset_url }}" alt="Dark Brown Shade Swatch" class="product-swatch-img" width="74" height="74" loading="lazy">
+              </span>
+              <span class="product-swatch-title">Dark Brown</span>
+            </button>
 
-          <button type="button" class="product-swatch-btn" role="radio" aria-checked="false" aria-label="Shade Dark Brown" data-shade="dark-brown">
-            <span class="product-swatch-thumb-wrap">
-              <img src="{{ 'swatch-dark-brown.png' | asset_url }}" alt="Dark Brown Shade Swatch" class="product-swatch-img" width="74" height="74" loading="lazy">
-            </span>
-            <span class="product-swatch-title">Dark Brown</span>
-          </button>
+            <button
+              type="button"
+              class="product-swatch-btn"
+              role="radio"
+              aria-checked="false"
+              aria-label="Shade Medium Brown"
+              data-shade="medium-brown"
+              data-color-name="Medium Brown"
+            >
+              <span class="product-swatch-thumb-wrap">
+                <img src="{{ 'swatch-medium-brown.png' | asset_url }}" alt="Medium Brown Shade Swatch" class="product-swatch-img" width="74" height="74" loading="lazy">
+              </span>
+              <span class="product-swatch-title">Medium Brown</span>
+            </button>
 
-          <button type="button" class="product-swatch-btn" role="radio" aria-checked="false" aria-label="Shade Medium Brown" data-shade="medium-brown">
-            <span class="product-swatch-thumb-wrap">
-              <img src="{{ 'swatch-medium-brown.png' | asset_url }}" alt="Medium Brown Shade Swatch" class="product-swatch-img" width="74" height="74" loading="lazy">
-            </span>
-            <span class="product-swatch-title">Medium Brown</span>
-          </button>
+            <button
+              type="button"
+              class="product-swatch-btn"
+              role="radio"
+              aria-checked="false"
+              aria-label="Shade Black"
+              data-shade="black"
+              data-color-name="Black"
+            >
+              <span class="product-swatch-thumb-wrap">
+                <img src="{{ 'swatch-black.png' | asset_url }}" alt="Black Shade Swatch" class="product-swatch-img" width="74" height="74" loading="lazy">
+              </span>
+              <span class="product-swatch-title">Black</span>
+            </button>
+          {%- endif -%}
         </div>
       </div>
 
-      <!-- CTAs Row -->
+      <!-- CTAs Row (Dynamic 1 Bottle Price & Add to Cart) -->
       <div class="product-overview-ctas">
-        <a href="{{ section.settings.btn_1_link | default: routes.all_products_collection_url }}" class="product-overview-btn-primary">
-          {{ section.settings.btn_1_text | default: 'Add to Cart — Rs. 3,500' }}
-        </a>
+        <button
+          type="button"
+          class="product-overview-btn-primary product-overview-add-cart-btn"
+          data-variant-id="{{ v1.id }}"
+          data-selected-color="{{ default_first_color }}"
+          aria-label="{{ btn_display_text | escape }}"
+        >
+          <span class="product-overview-btn-text">{{ btn_display_text }}</span>
+        </button>
 
         <a href="{{ section.settings.btn_2_link | default: '#shade-guide' }}" class="product-overview-btn-secondary">
           {{ section.settings.btn_2_text | default: 'Find Your Shade' }}
@@ -170,10 +393,144 @@
   </div>
 </section>
 
+<script>
+  (function() {
+    var sectionEl = document.getElementById('productOverview-{{ section.id }}') || document.querySelector('.product-overview-section');
+    if (!sectionEl) return;
+
+    var swatchBtns = sectionEl.querySelectorAll('.product-swatch-btn');
+    var addBtn = sectionEl.querySelector('.product-overview-add-cart-btn');
+
+    swatchBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        swatchBtns.forEach(function(b) {
+          b.classList.remove('is-active');
+          b.setAttribute('aria-checked', 'false');
+        });
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-checked', 'true');
+
+        var colorName = btn.getAttribute('data-color-name');
+        if (addBtn && colorName) {
+          addBtn.setAttribute('data-selected-color', colorName);
+        }
+      });
+    });
+
+    if (addBtn) {
+      addBtn.addEventListener('click', async function(e) {
+        e.preventDefault();
+        var variantId = addBtn.getAttribute('data-variant-id');
+        var selectedColor = addBtn.getAttribute('data-selected-color');
+        var btnTextEl = addBtn.querySelector('.product-overview-btn-text');
+        var originalText = btnTextEl ? btnTextEl.textContent : addBtn.textContent;
+
+        if (!variantId) {
+          window.location.href = '/products/instant-dye-shampoo';
+          return;
+        }
+
+        if (addBtn.disabled) return;
+        addBtn.disabled = true;
+        if (btnTextEl) btnTextEl.textContent = 'Adding...';
+
+        try {
+          var formData = new FormData();
+          formData.append('id', variantId);
+          formData.append('quantity', '1');
+          if (selectedColor) {
+            formData.append('properties[Color]', selectedColor);
+          }
+
+          var addUrl = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root)
+            ? window.Shopify.routes.root + 'cart/add.js'
+            : (window.routes && window.routes.cart_add_url ? window.routes.cart_add_url : '/cart/add.js');
+
+          var res = await fetch(addUrl, {
+            method: 'POST',
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              'Accept': 'application/json'
+            },
+            body: formData
+          });
+
+          var data = await res.json();
+          if (!res.ok || (data.status && data.status >= 400)) {
+            throw new Error(data.description || data.message || 'Unable to add to cart');
+          }
+
+          if (btnTextEl) btnTextEl.textContent = 'Added to Cart ✓';
+
+          // Refresh cart drawer HTML if exists
+          try {
+            var drawerRes = await fetch(window.location.pathname + '?sections=cart-drawer');
+            var drawerJson = await drawerRes.json();
+            var drawerHtml = drawerJson && drawerJson['cart-drawer'];
+            if (drawerHtml) {
+              var drawerEl = document.querySelector('#cart-drawer');
+              if (drawerEl) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(drawerHtml, 'text/html');
+                var newDrawer = doc.querySelector('#cart-drawer');
+                if (newDrawer) drawerEl.innerHTML = newDrawer.innerHTML;
+              }
+            }
+          } catch (err) {
+            console.warn('Cart drawer refresh warning:', err);
+          }
+
+          // Fetch fresh cart count & update badges
+          try {
+            var cartUrl = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root)
+              ? window.Shopify.routes.root + 'cart.js'
+              : '/cart.js';
+            var cartRes = await fetch(cartUrl);
+            var cart = await cartRes.json();
+            document.querySelectorAll('.cart-count').forEach(function(badge) {
+              badge.textContent = cart.item_count;
+            });
+            document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: cart } }));
+          } catch (err) {}
+
+          // Open cart drawer
+          var cartDrawer = document.querySelector('cart-drawer') || document.querySelector('#CartDrawer') || document.querySelector('#cart-drawer');
+          var nativeBubble = document.querySelector('#cart-icon-bubble');
+          if (typeof window.openShopifyCartDrawer === 'function') {
+            window.openShopifyCartDrawer(null, addBtn);
+          } else if (cartDrawer && typeof cartDrawer.open === 'function') {
+            cartDrawer.open(addBtn);
+          } else if (cartDrawer && cartDrawer.classList) {
+            cartDrawer.classList.add('animate', 'active');
+            document.body.classList.add('overflow-hidden');
+          } else if (nativeBubble) {
+            nativeBubble.click();
+          }
+
+        } catch (error) {
+          console.error('Add to cart error:', error);
+          window.location.href = '/cart/add?id=' + encodeURIComponent(variantId) + '&quantity=1' + (selectedColor ? '&properties[Color]=' + encodeURIComponent(selectedColor) : '');
+        } finally {
+          setTimeout(function() {
+            addBtn.disabled = false;
+            if (btnTextEl) btnTextEl.textContent = originalText;
+          }, 1800);
+        }
+      });
+    }
+  })();
+</script>
+
 {% schema %}
 {
   "name": "Product Overview",
   "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product",
+      "info": "Choose the product (1 bottle variant, price, and category colors are loaded dynamically). Defaults to Instant Dye Shampoo."
+    },
     {
       "type": "image_picker",
       "id": "image",
@@ -307,7 +664,8 @@
       "type": "text",
       "id": "btn_1_text",
       "label": "Primary Button Text",
-      "default": "Add to Cart — Rs. 3,500"
+      "default": "Add to Cart — [price]",
+      "info": "Leave blank or use [price] to insert the dynamic 1 bottle price automatically."
     },
     {
       "type": "url",
