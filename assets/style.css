@@ -3179,7 +3179,7 @@ body {
 @media (max-width: 768px) {
   .results-carousel-section {
     background: #FAF6F9;
-    padding: 48px 0;
+    padding: 48px 16px;
     width: 100%;
   }
 
