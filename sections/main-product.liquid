@@ -971,24 +971,77 @@
 
       <!-- Accordions -->
       <div class="product-accordions-group">
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'accordion' -%}
-            <div
-              class="accordion-item{% if block.settings.open_by_default %} active{% endif %}"
-              {{ block.shopify_attributes }}
-            >
-              <button class="accordion-header" type="button">
-                <span class="accordion-title">{{ block.settings.title }}</span>
-                <svg class="accordion-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none">
-                  <path d="M1 1.5L6 6.5L11 1.5" stroke="#1E2123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-              <div class="accordion-panel">
-                {{ block.settings.content }}
-              </div>
-            </div>
-          {%- endif -%}
-        {%- endfor -%}
+        <div class="accordion-item active">
+          <button class="accordion-header" type="button">
+            <span class="accordion-title">Description</span>
+            <svg class="accordion-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none">
+              <path d="M1 1.5L6 6.5L11 1.5" stroke="#1E2123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="accordion-panel">
+            <p>
+              Forget mixing bowls, brushes, strong-smelling box dyes and constant salon touch-ups. ProvenWell makes
+              covering grays feel as easy as washing your hair. Apply it where you need color, let it develop, then
+              rinse. 
+            <br>
+              The result is rich, natural-looking color that helps stubborn grays blend back into the hair around
+              them. No complicated routine. No obvious “just dyed” look. Just hair that looks richer, fresher and more
+              like you again.
+
+              {% comment %}
+                {{
+                  product.description
+                  | default: 'Experience salon-grade gray coverage from the comfort of your own shower. Polar Hair Care Instant Dye Shampoo naturally covers stubborn gray hairs in under 10 minutes.'
+                }}
+              {% endcomment %}
+            </p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" type="button">
+            <span class="accordion-title">Ingredients</span>
+            <svg class="accordion-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none">
+              <path d="M1 1.5L6 6.5L11 1.5" stroke="#1E2123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="accordion-panel">
+            <p>
+              Aqua (Water), Argan Oil, Polygonum Multiflorum Extract, Ginseng Extract, Keratin, Ammonia-Free Plant Dye
+              Actives, Glycerin, Fragrance.
+            </p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" type="button">
+            <span class="accordion-title">Shipping & delivery</span>
+            <svg class="accordion-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none">
+              <path d="M1 1.5L6 6.5L11 1.5" stroke="#1E2123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="accordion-panel">
+            <p>Dispatched within 24-48 hours. Free expedited shipping on 2+ bottles.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" type="button">
+            <span class="accordion-title">Price breakdown</span>
+            <svg class="accordion-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none">
+              <path d="M1 1.5L6 6.5L11 1.5" stroke="#1E2123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="accordion-panel"><p>Up to 15 full uses per bottle = as low as $2.33 / Rs. 195 per use.</p></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" type="button">
+            <span class="accordion-title">How To Use</span>
+            <svg class="accordion-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none">
+              <path d="M1 1.5L6 6.5L11 1.5" stroke="#1E2123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="accordion-panel">
+            <p>1. Put on gloves. 2. Pump into damp hair. 3. Massage 3-5 mins. 4. Wait 10 mins. 5. Rinse until clear.</p>
+          </div>
+        </div>
         {%- if product.metafields.shopify['application-type'] != blank
           or product.metafields.shopify['hair-color-formulation'] != blank
           or product.metafields.shopify['product-form'] != blank
@@ -1523,46 +1576,12 @@
           "info": "Khali chhodo to video ka default preview use hoga"
         }
       ]
-    },
-    {
-      "type": "accordion",
-      "name": "Accordion",
-      "limit": 10,
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Title",
-          "default": "Accordion title"
-        },
-        {
-          "type": "richtext",
-          "id": "content",
-          "label": "Content",
-          "default": "<p>Accordion content yahan likho.</p>"
-        },
-        {
-          "type": "checkbox",
-          "id": "open_by_default",
-          "label": "Open by default",
-          "default": false
-        }
-      ]
     }
   ],
   "presets": [
     {
       "name": "Main Product",
-      "blocks": [
-        { "type": "ugc_video" },
-        { "type": "ugc_video" },
-        { "type": "ugc_video" },
-        { "type": "accordion", "settings": { "title": "Description", "open_by_default": true } },
-        { "type": "accordion", "settings": { "title": "Ingredients" } },
-        { "type": "accordion", "settings": { "title": "Shipping & delivery" } },
-        { "type": "accordion", "settings": { "title": "Price breakdown" } },
-        { "type": "accordion", "settings": { "title": "How To Use" } }
-      ]
+      "blocks": [{ "type": "ugc_video" }, { "type": "ugc_video" }, { "type": "ugc_video" }]
     }
   ]
 }
