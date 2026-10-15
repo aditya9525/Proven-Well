@@ -8471,6 +8471,7 @@ body {
     max-width: 260px;
     height: 100% !important;
     min-height: 394px;
+    height: 500px;
     background: #FFFFFF;
     border: 1px solid #E8DEE5;
     border-radius: 16px;
