@@ -1,1 +1,42 @@
-{"name":"Header","type":"header","sections":{"announcement-bar":{"type":"announcement-bar","settings":{}},"header":{"type":"header","settings":{"logo_width":130,"menu":"main-menu","enable_country_selector":true}}},"order":["announcement-bar","header"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "Header",
+  "type": "header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "show_announcement": true,
+        "text": "FALL SALE IS LIVE",
+        "link": "",
+        "bg_color": "#1e2123",
+        "text_color": "#f4f4f4",
+        "border_color": "#f4f4f414"
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo": "shopify://shop_images/provenwellLogo_1.png",
+        "logo_width": 240,
+        "menu": "main-menu",
+        "enable_country_selector": true,
+        "shop_now_text": "Shop Now",
+        "shop_now_link": "",
+        "bg_color": "#ffffff"
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
+}
