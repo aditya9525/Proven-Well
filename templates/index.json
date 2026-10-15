@@ -421,6 +421,58 @@
     },
     "who_its_for_r3FCg6": {
       "type": "who-its-for",
+      "blocks": {
+        "item_Gazjk6": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/magnific__using-the-uploaded-reference-image-recreate-its-ex__58894_1_1.png",
+            "tag": "FOR WOMEN",
+            "title": "Roots, temples & full coverage",
+            "desc": "Blend first grays or cover them completely — with soft, natural-looking color that never looks flat or fake.",
+            "link": "",
+            "link_text": "Shop now →"
+          }
+        },
+        "item_EXnKQP": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/magnific__using-the-uploaded-reference-image-only-for-layout__58895_1_1.png",
+            "tag": "FOR MEN",
+            "title": "Hair and beards, in one bottle",
+            "desc": "Works just as well on beards. A subtle, natural refresh without a trip to the salon or barber.",
+            "link": "",
+            "link_text": "Shop now →"
+          }
+        },
+        "item_RDY3f6": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2026-10-15_at_3.11.00_PM_1.png",
+            "tag": "FOR BUSY SCHEDULES",
+            "title": "10 minutes, done in the shower",
+            "desc": "No appointments, bowls or brushes. Color your hair at home whenever it suits you.",
+            "link": "",
+            "link_text": "Shop now →"
+          }
+        },
+        "item_fHrtzT": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/7ce9bb65eb47c903227f8cd09fa751d7485856d2.png",
+            "tag": "FOR GENTLE CARE",
+            "title": "Ammonia-free, plant-powered",
+            "desc": "Reishi, black sesame, ginseng and fo-ti help keep hair soft, shiny and healthy-feeling.",
+            "link": "",
+            "link_text": "Shop now →"
+          }
+        }
+      },
+      "block_order": [
+        "item_Gazjk6",
+        "item_EXnKQP",
+        "item_RDY3f6",
+        "item_fHrtzT"
+      ],
       "name": "Who It's For",
       "settings": {
         "enable_section": true,
