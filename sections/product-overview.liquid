@@ -251,9 +251,9 @@
           class="product-overview-btn-primary"
           data-overview-atc
           data-variant-id="{{ one_bottle.id }}"
-          {% unless one_bottle.available %}
+          {% if p == blank or one_bottle.available == false %}
             disabled
-          {% endunless %}
+          {% endif %}
         >
           {%- if p == blank -%}
             Select a product
