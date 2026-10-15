@@ -503,6 +503,30 @@
             "open_by_default": false
           }
         },
+        "accordion_mXTMPX": {
+          "type": "accordion",
+          "settings": {
+            "title": "Shipping & delivery",
+            "content": "<p>Dispatched within 24-48 hours. Free expedited shipping on 2+ bottles.</p>",
+            "open_by_default": false
+          }
+        },
+        "accordion_QkcJt7": {
+          "type": "accordion",
+          "settings": {
+            "title": "Price breakdown",
+            "content": "<p>Up to 15 full uses per bottle = as low as $2.33 / Rs. 195 per use.</p>",
+            "open_by_default": false
+          }
+        },
+        "accordion_cyYJwP": {
+          "type": "accordion",
+          "settings": {
+            "title": "How To Use",
+            "content": "<p><strong>Beautiful Color in 3 Easy Steps<br/>01 APPLY<br/></strong>Work ProvenWell evenly through the areas you want to color, making sure gray roots and strands are fully coated.<br/><br/><strong>02 LET THE COLOR DEVELOP<br/></strong>Leave on for 20-30 minutes while ProvenWell develops into rich, natural-looking color.</p><p><strong>03 RINSE & REVEAL<br/></strong>Rinse thoroughly and reveal richer, fresher-looking color.</p>",
+            "open_by_default": false
+          }
+        },
         "ugc_video_npE8yE": {
           "type": "ugc_video",
           "settings": {
@@ -537,6 +561,9 @@
       "block_order": [
         "accordion_Vz8Tkz",
         "accordion_mNyVTf",
+        "accordion_mXTMPX",
+        "accordion_QkcJt7",
+        "accordion_cyYJwP",
         "ugc_video_npE8yE",
         "ugc_video_MBgPm3",
         "ugc_video_G9XWr4",
