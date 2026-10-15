@@ -491,7 +491,7 @@
           "type": "accordion",
           "settings": {
             "title": "Product Description",
-            "content": "<h2><strong>A Better Way to Cover Gray</strong></h2><p>Forget mixing bowls, brushes, strong-smelling box dyes and constant salon touch-ups.</p><p>ProvenWell makes covering grays feel as easy as washing your hair. Apply it where you need color, let it develop, then rinse.</p><p>The result is rich, natural-looking color that helps stubborn grays blend back into the hair around them.</p><p>No complicated routine. No obvious “just dyed” look.</p><p>Just hair that looks richer, fresher and more like you again.</p>",
+            "content": "<p><strong>A Better Way to Cover Gray</strong></p><p>Forget mixing bowls, brushes, strong-smelling box dyes and constant salon touch-ups.</p><p>ProvenWell makes covering grays feel as easy as washing your hair. Apply it where you need color, let it develop, then rinse.</p><p>The result is rich, natural-looking color that helps stubborn grays blend back into the hair around them.</p><p>No complicated routine. No obvious “just dyed” look.</p><p>Just hair that looks richer, fresher and more like you again.</p>",
             "open_by_default": false
           }
         },
