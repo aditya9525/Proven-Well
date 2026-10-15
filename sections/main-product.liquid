@@ -1,4 +1,4 @@
-{{ 'style.css' | asset_url | stylesheet_tag }}
+{% comment %} {{ 'style.css' | asset_url | stylesheet_tag }}
 
 {%- comment -%}
   Shopify Main Product Section
@@ -1381,6 +1381,1711 @@
           }
         });
       });
+
+      async function refreshCartDrawer() {
+        try {
+          // Section Rendering API: current page ke saath cart-drawer ka HTML maango
+          var res = await fetch(window.location.pathname + '?sections=cart-drawer');
+          var json = await res.json();
+          var html = json['cart-drawer'];
+          if (!html) return;
+
+          var doc = new DOMParser().parseFromString(html, 'text/html');
+          var newDrawer = doc.querySelector('#cart-drawer');
+          var oldDrawer = document.querySelector('#cart-drawer');
+
+          if (newDrawer && oldDrawer) {
+            // Sirf inner content swap, taaki drawer ka open/close logic na toote
+            oldDrawer.innerHTML = newDrawer.innerHTML;
+          }
+        } catch (err) {
+          console.warn('Cart drawer refresh failed:', err);
+        }
+      }
+
+      var productForm = section.querySelector('#product-form');
+
+      if (productForm) {
+        productForm.addEventListener('submit', async function (e) {
+          e.preventDefault();
+
+          if (!selectedVariantId || !selectedVariantId.value) return;
+
+          if (addToCartBtn) addToCartBtn.disabled = true;
+
+          try {
+            var formData = new FormData(productForm);
+
+            await fetch(window.Shopify.routes.root + 'cart/clear.js', {
+              method: 'POST',
+              headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            });
+
+            var response = await fetch(window.Shopify.routes.root + 'cart/add.js', {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+              },
+              body: formData,
+            });
+
+            var data = await response.json();
+
+            if (!response.ok) {
+              throw new Error(data.description || 'Unable to add product');
+            }
+            window.location.href = window.Shopify.routes.root + 'checkout';
+            return; // redirect ke time button enabled na ho (double-click se bachne ke liye)
+          } catch (error) {
+            console.error('Add to cart failed:', error);
+            alert(error.message || 'Something went wrong.');
+            if (addToCartBtn) addToCartBtn.disabled = false;
+          }
+
+            {% comment %} var cartResponse = await fetch(window.Shopify.routes.root + 'cart.js');
+            var cart = await cartResponse.json();
+
+            // 1. Drawer ka fresh HTML fetch karke swap karo
+            await refreshCartDrawer();
+
+            // 2. Theme ke baaki listeners (cart count bubble etc.) ko notify karo
+            document.dispatchEvent(
+              new CustomEvent('cart:update', {
+                bubbles: true,
+                detail: { data: { itemCount: cart.item_count, source: 'product-form-component' } },
+              })
+            );
+
+            // 3. Ab drawer open karo (sirf ek baar)
+            var drawer = document.querySelector('#cart-drawer');
+            if (drawer && typeof drawer.open === 'function') {
+              drawer.open();
+            } else if (drawer && typeof drawer.show === 'function') {
+              drawer.show();
+            } else {
+              console.warn('Cart added, but drawer opener was not found.');
+            }
+          } catch (error) {
+            console.error('Add to cart failed:', error);
+            alert(error.message || 'Something went wrong.');
+          } finally {
+            if (addToCartBtn) addToCartBtn.disabled = false;
+          } {% endcomment %}
+        });
+      }
+
+      // UGC video play (ek time pe sirf ek video, pause pe thumbnail wapas)
+      var ugcCards = section.querySelectorAll('.ugc-video-card');
+
+      function resetUgcCard(card) {
+        var video = card.querySelector('video.ugc-inline-video');
+        var btn = card.querySelector('.ugc-play-btn');
+        var thumb = card._thumbEl;
+        if (video) {
+          video.pause();
+          video.replaceWith(thumb);
+        }
+        if (btn) btn.style.display = '';
+      }
+
+      ugcCards.forEach(function (card) {
+        var btn = card.querySelector('.ugc-play-btn');
+        var src = card.getAttribute('data-video');
+        var thumb = card.querySelector('.ugc-cover-img');
+        if (!btn || !src || !thumb) return;
+
+        card._thumbEl = thumb; // original thumbnail save
+
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          // baaki sab cards reset (pause + thumbnail)
+          ugcCards.forEach(function (other) {
+            if (other !== card) resetUgcCard(other);
+          });
+
+          var video = document.createElement('video');
+          video.src = src;
+          video.controls = true;
+          video.autoplay = true;
+          video.playsInline = true;
+          video.setAttribute('playsinline', '');
+          video.className = 'ugc-cover-img ugc-inline-video';
+          video.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+
+          // pause ya end pe thumbnail wapas
+          video.addEventListener('pause', function () {
+            if (!video.ended && video.seeking) return; // seek ke time pause ignore
+            resetUgcCard(card);
+          });
+          video.addEventListener('ended', function () {
+            resetUgcCard(card);
+          });
+
+          thumb.replaceWith(video);
+          btn.style.display = 'none';
+          video.play().catch(function () {});
+        });
+      });
+
+      // 5. UGC Video Carousel Swiper
+      function initUgcSwiper() {
+        var ugcCustomersSwiperEl = section.querySelector('#ugcCustomersSwiper');
+        if (!ugcCustomersSwiperEl) return;
+        if (typeof Swiper !== 'undefined') {
+          new Swiper(ugcCustomersSwiperEl, {
+            slidesPerView: 2.3,
+            spaceBetween: 10,
+            grabCursor: true,
+            watchOverflow: true,
+            navigation: {
+              nextEl: section.querySelector('.ugc-customers-section .ugc-cust-next'),
+              prevEl: section.querySelector('.ugc-customers-section .ugc-cust-prev'),
+            },
+            breakpoints: {
+              769: {
+                slidesPerView: 2.3,
+                spaceBetween: 16,
+              },
+            },
+          });
+        }
+      }
+
+      function initAllSwipers() {
+        initProductGallerySwiper();
+        initUgcSwiper();
+      }
+
+      if (typeof Swiper === 'undefined') {
+        var existingScript = document.querySelector('script[src*="swiper-bundle.min.js"]');
+        if (existingScript) {
+          existingScript.addEventListener('load', initAllSwipers);
+        } else {
+          var script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+          script.onload = initAllSwipers;
+          document.head.appendChild(script);
+        }
+      } else {
+        initAllSwipers();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMainProduct);
+    } else {
+      initMainProduct();
+    }
+
+    // Support Shopify Theme Customizer section reload
+    document.addEventListener('shopify:section:load', function (e) {
+      if (e.target && e.target.querySelector('#productSection')) {
+        initMainProduct();
+      }
+    });
+  })();
+</script>
+{% schema %}
+{
+  "name": "Main Product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_info",
+      "label": "Enable sticky gallery on desktop",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ugc_video",
+      "name": "Customer Video",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "text",
+          "id": "cdn_video_url",
+          "label": "Video CDN link (direct .mp4)",
+          "info": "Agar yahan link doge to ye Shopify video se pehle use hoga"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Customer video (Shopify-hosted mp4, fallback)"
+        },
+        {
+          "type": "image_picker",
+          "id": "cover",
+          "label": "Cover image (optional)",
+          "info": "Khali chhodo to video ka default preview use hoga"
+        }
+      ]
+    },
+    {
+      "type": "accordion",
+      "name": "Product Accordion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Accordion title",
+          "default": "Description"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Accordion content",
+          "default": "<p>Add your product information here.</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Main Product",
+      "blocks": [{ "type": "ugc_video" }, { "type": "ugc_video" }, { "type": "ugc_video" }]
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+
+
+{{ 'style.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  Shopify Main Product Section
+  Complete responsive product page with dynamic variant pricing, bundles, reward unlocks, spotlight reviews, trust badges, and accordions.
+{%- endcomment -%}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<section class="product-section" id="productSection">
+  <img
+    class="top-line-style"
+    src="{{ 'line_style.svg' | asset_url }}"
+    alt=""
+  >
+
+  <img
+    class="bottom-line-style"
+    src="{{ 'line_style1.svg' | asset_url }}"
+    alt=""
+  >
+  <div class="product-container">
+    <!-- Left Column: Gallery & Spotlight -->
+    <div class="product-left-col">
+      <div class="product-gallery">
+        <div class="main-image-wrapper">
+          {% comment %}
+            <div class="badge-per-use">
+              <span>as low as</span>
+              <strong>
+                {%- assign lowest_var_price = product.variants.last.price | default: 233100 -%}
+                {{ lowest_var_price | money_without_trailing_zeros }}
+              </strong>
+              <span>per use</span>
+            </div>
+          {% endcomment %}
+
+          <!-- Product Main Images Swiper Carousel -->
+          <div class="swiper main-product-swiper" id="mainProductSwiper">
+            <div class="swiper-wrapper">
+              {%- if product.media.size > 0 -%}
+                {%- for media in product.media -%}
+                  <div class="swiper-slide main-product-slide" data-index="{{ forloop.index }}">
+                    {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+                      <div class="slide-video-container swiper-no-swiping">
+                        {{
+                          media
+                          | video_tag:
+                            controls: true,
+                            autoplay: false,
+                            playsinline: true,
+                            muted: true,
+                            class: 'main-product-img'
+                        }}
+                      </div>
+                    {%- else -%}
+                      <img
+                        src="{{ media | image_url: width: 1000 }}"
+                        alt="{{ media.alt | default: product.title | escape }}"
+                        class="main-product-img"
+                        loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                      >
+                    {%- endif -%}
+                  </div>
+                {%- endfor -%}
+              {%- else -%}
+                <div class="swiper-slide main-product-slide" data-index="1">
+                  <img
+                    src="{{ 'product-black-main.png' | asset_url }}"
+                    alt="Natural Black Bottle & Box"
+                    class="main-product-img"
+                    loading="eager"
+                  >
+                </div>
+                <div class="swiper-slide main-product-slide" data-index="2">
+                  <img
+                    src="{{ 'polar-bottle-tall.png' | asset_url }}"
+                    alt="Polar Tall Bottle"
+                    class="main-product-img"
+                    loading="lazy"
+                  >
+                </div>
+                <div class="swiper-slide main-product-slide" data-index="3">
+                  <img
+                    src="{{ 'spotlight-caroline.png' | asset_url }}"
+                    alt="Before After Caroline"
+                    class="main-product-img"
+                    loading="lazy"
+                  >
+                </div>
+                <div class="swiper-slide main-product-slide" data-index="4">
+                  <img
+                    src="{{ 'customer_story.jpg' | asset_url }}"
+                    alt="Video Review"
+                    class="main-product-img"
+                    loading="lazy"
+                  >
+                </div>
+                <div class="swiper-slide main-product-slide" data-index="5">
+                  <img
+                    src="{{ 'polar_shampoo.jpg' | asset_url }}"
+                    alt="Packaging view"
+                    class="main-product-img"
+                    loading="lazy"
+                  >
+                </div>
+                <div class="swiper-slide main-product-slide" data-index="6">
+                  <img
+                    src="{{ 'before_after.jpg' | asset_url }}"
+                    alt="Before After Results"
+                    class="main-product-img"
+                    loading="lazy"
+                  >
+                </div>
+                <div class="swiper-slide main-product-slide" data-index="7">
+                  <img
+                    src="{{ 'product-feature-callout.png' | asset_url }}"
+                    alt="Features"
+                    class="main-product-img"
+                    loading="lazy"
+                  >
+                </div>
+                <div class="swiper-slide main-product-slide" data-index="8">
+                  <img
+                    src="{{ 'before-after-3.jpg' | asset_url }}"
+                    alt="Hair Results"
+                    class="main-product-img"
+                    loading="lazy"
+                  >
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+          <div class="gallery-counter-badge">
+            <span id="galleryCurrentIndex">1</span> /
+            <span id="galleryTotalCount">
+              {%- if product.media.size > 0 %}{{ product.media.size }}{% else %}8{% endif -%}
+            </span>
+          </div>
+        </div>
+
+        <!-- Thumbnails Slider -->
+        <div class="thumbnails-container">
+          <button class="thumb-nav-btn prev" type="button" aria-label="Previous image">
+            <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
+              <path d="M7 1L1 7L7 13" stroke="#1E2123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="thumbnails-slider" id="thumbnailsSlider">
+            {%- for media in product.media -%}
+              <button
+                class="thumb-item{% if forloop.first %} active{% endif %}"
+                data-img="{{ media | image_url: width: 800 }}"
+                data-index="{{ forloop.index }}"
+                type="button"
+              >
+                <img src="{{ media | image_url: width: 120 }}" alt="{{ media.alt | escape }}">
+              </button>
+            {%- else -%}
+              <button
+                class="thumb-item active"
+                data-img="{{ 'product-black-main.png' | asset_url }}"
+                data-index="1"
+                type="button"
+              >
+                <img src="{{ 'product-black-main.png' | asset_url }}" alt="Natural Black Bottle & Box">
+              </button>
+              <button
+                class="thumb-item"
+                data-img="{{ 'polar-bottle-tall.png' | asset_url }}"
+                data-index="2"
+                type="button"
+              >
+                <img src="{{ 'polar-bottle-tall.png' | asset_url }}" alt="Polar Tall Bottle">
+              </button>
+              <button
+                class="thumb-item"
+                data-img="{{ 'spotlight-caroline.png' | asset_url }}"
+                data-index="3"
+                type="button"
+              >
+                <img src="{{ 'spotlight-caroline.png' | asset_url }}" alt="Before After Caroline">
+              </button>
+              <button
+                class="thumb-item video-thumb"
+                data-img="{{ 'customer_story.jpg' | asset_url }}"
+                data-index="4"
+                type="button"
+              >
+                <img src="{{ 'customer_story.jpg' | asset_url }}" alt="Video Review">
+                <span class="thumb-play-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF">
+                    <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                  </svg>
+                </span>
+              </button>
+              <button class="thumb-item" data-img="{{ 'polar_shampoo.jpg' | asset_url }}" data-index="5" type="button">
+                <img src="{{ 'polar_shampoo.jpg' | asset_url }}" alt="Packaging view">
+              </button>
+              <button class="thumb-item" data-img="{{ 'before_after.jpg' | asset_url }}" data-index="6" type="button">
+                <img src="{{ 'before_after.jpg' | asset_url }}" alt="Before After Results">
+              </button>
+              <button
+                class="thumb-item"
+                data-img="{{ 'product-feature-callout.png' | asset_url }}"
+                data-index="7"
+                type="button"
+              >
+                <img src="{{ 'product-feature-callout.png' | asset_url }}" alt="Features">
+              </button>
+              <button class="thumb-item" data-img="{{ 'before-after-3.jpg' | asset_url }}" data-index="8" type="button">
+                <img src="{{ 'before-after-3.jpg' | asset_url }}" alt="Hair Results">
+              </button>
+            {%- endfor -%}
+          </div>
+          <button class="thumb-nav-btn next" type="button" aria-label="Next image">
+            <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
+              <path d="M1 1L7 7L1 13" stroke="#1E2123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Spotlight Card -->
+      <div class="spotlight-card">
+        <div class="spotlight-media">
+          <img src="{{ 'spotlight-caroline.png' | asset_url }}" alt="Before & After Caroline T." class="spotlight-img">
+          <div class="split-badges">
+            <span class="pill-badge before-pill">BEFORE</span>
+            <span class="pill-badge after-pill">AFTER</span>
+          </div>
+        </div>
+        <div class="spotlight-content">
+          <div class="star-rating-row">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <h3 class="spotlight-title">I FEEL LIKE MYSELF AGAIN</h3>
+          <p class="spotlight-quote">
+            &ldquo;I look and feel like my younger self again. It’s nice having color that looks natural and not fake or
+            harsh.&rdquo;
+          </p>
+          <div class="spotlight-author-row">
+            <span class="spotlight-author">Caroline T., Austin, TX</span>
+            <div class="verified-buyer-pill">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>VERIFIED BUYER</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Product Details & Actions -->
+    <div class="product-right-col">
+      <div class="product-reviews-header">
+        <div class="stars-gold">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <a href="#reviews" class="reviews-count-link"><strong>(26,966)</strong> <span>Verified Reviews</span></a>
+      </div>
+
+      <h1 class="product-main-title">{{ product.title | default: 'Instant Dye Shampoo' }}</h1>
+      {% comment %} <h2 class="product-subtitle">THE EASIEST WAY TO COVER GRAYS NATURALLY</h2> {% endcomment %}
+      <h2 class="product-subtitle">{{ product.description | default: 'THE EASIEST WAY TO COVER GRAYS NATURALLY' }}</h2>
+
+      <hr class="product-divider">
+      <!-- Pricing Row -->
+      <div class="product-pricing-row">
+        {%- assign initial_variant = product.selected_or_first_available_variant -%}
+        {%- assign initial_compare = initial_variant.compare_at_price
+          | default: product.compare_at_price
+          | default: 490000
+        -%}
+        {%- assign initial_price = initial_variant.price | default: product.price | default: 350100 -%}
+        {%- assign initial_save = 29 -%}
+        {%- if initial_compare > initial_price -%}
+          {%- assign initial_save = initial_compare
+            | minus: initial_price
+            | times: 100.0
+            | divided_by: initial_compare
+            | round
+          -%}
+        {%- endif -%}
+        <span class="compare-at-price" id="comparePrice">{{ initial_compare | money }}</span>
+        <span class="current-price" id="currentPrice">{{ initial_price | money }}</span>
+        <div class="discount-pill desktop-view" id="discountPill">FALL SALE | SAVE {{ initial_save }}%</div>
+        <div class="discount-pill mobile-view">FALL SALE | SAVE {{ initial_save }}%</div>
+      </div>
+
+      <!-- 4-Benefit Feature Grid -->
+      <div class="features-highlight-box">
+        <div class="feature-item">
+          <span class="feature-check-icon">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#FFFFFF"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
+          <div class="feature-text"><span>Covers stubborn grays</span><strong>in 20-30 minutes</strong></div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-check-icon">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#FFFFFF"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
+          <div class="feature-text">
+            <span>Natural-looking color that</span><strong>doesn’t look obviously dyed</strong>
+          </div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-check-icon">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#FFFFFF"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
+          <div class="feature-text"><span>Easy shampoo-like</span><strong>application</strong></div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-check-icon">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#FFFFFF"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
+          <div class="feature-text"><span> No ammonia.</span><strong>No PPD.</strong></div>
+        </div>
+      </div>
+
+      {%- liquid
+        assign cat_colors = product.metafields.shopify['color-pattern'].value
+        if cat_colors == blank
+          assign cat_colors = product.metafields.shopify.color.value
+        endif
+        if cat_colors == blank
+          assign cat_colors = product.metafields.shopify.color.value
+        endif
+        if cat_colors == blank
+          assign cat_colors = product.metafields.shopify['hair-color'].value
+        endif
+        if cat_colors == blank
+          assign cat_colors = product.metafields.shopify.hair_color.value
+        endif
+        if cat_colors == blank
+          assign cat_colors = product.metafields.custom.color.value
+        endif
+        if cat_colors == blank
+          assign cat_colors = product.metafields.custom.colors.value
+        endif
+        if cat_colors == blank and product.metafields.shopify['color-pattern'] != blank
+          assign cat_colors = product.metafields.shopify['color-pattern']
+        endif
+        if cat_colors == blank and product.metafields.shopify.color != blank
+          assign cat_colors = product.metafields.shopify.color
+        endif
+
+        assign default_first_color = 'Dark Brown'
+        if cat_colors != blank
+          for item in cat_colors
+            if forloop.first
+              assign default_first_color = item.label | default: item.name | default: item.value | default: item | strip
+            endif
+          endfor
+        endif
+      -%}
+
+      <!-- Color Swatches (Dynamic Category Metafield) -->
+      <div class="color-selection-wrapper">
+        <div class="section-label-row">
+          <span class="label-title">Choose Color:</span>
+          <strong class="selected-color-name" id="selectedColorName">{{ default_first_color }}</strong>
+        </div>
+        <div class="color-swatches-list">
+          {%- if cat_colors != blank -%}
+            {%- for item in cat_colors -%}
+              {%- liquid
+                assign c_name = item.label | default: item.name | default: item.value | default: item | strip
+                assign c_handle = c_name | handleize
+                assign c_hex = item.color | default: item.hex | default: ''
+                assign c_image = item.image
+              -%}
+              <button
+                type="button"
+                class="color-swatch-btn{% if forloop.first %} active{% endif %}"
+                data-color="{{ c_name | escape }}"
+              >
+                <div class="swatch-img-box">
+                  {%- if c_image != blank -%}
+                    <img src="{{ c_image | image_url: width: 60 }}" alt="{{ c_name | escape }}" class="swatch-img">
+                  {%- elsif c_handle contains 'dark-brown' or c_handle contains 'dark' -%}
+                    <img src="{{ 'swatch-dark-brown.png' | asset_url }}" alt="{{ c_name | escape }}" class="swatch-img">
+                  {%- elsif c_handle contains 'medium-brown' or c_handle contains 'medium' -%}
+                    <img
+                      src="{{ 'swatch-medium-brown.png' | asset_url }}"
+                      alt="{{ c_name | escape }}"
+                      class="swatch-img"
+                    >
+                  {%- elsif c_handle contains 'black' -%}
+                    <img src="{{ 'swatch-black.png' | asset_url }}" alt="{{ c_name | escape }}" class="swatch-img">
+                  {%- elsif c_hex != blank -%}
+                    <span class="swatch-hex-circle" style="background-color: {{ c_hex }};"></span>
+                  {%- else -%}
+                    <span class="swatch-hex-circle swatch-fallback-{{ c_handle }}"></span>
+                  {%- endif -%}
+                </div>
+                <span class="swatch-label">{{ c_name }}</span>
+              </button>
+            {%- endfor -%}
+          {%- else -%}
+            <!-- Fallback Category Swatches matching store configuration -->
+            <button type="button" class="color-swatch-btn active" data-color="Dark Brown">
+              <div class="swatch-img-box">
+                <img src="{{ 'swatch-dark-brown.png' | asset_url }}" alt="Dark Brown Swatch" class="swatch-img">
+              </div>
+              <span class="swatch-label">Dark Brown</span>
+            </button>
+            <button type="button" class="color-swatch-btn" data-color="Medium Brown">
+              <div class="swatch-img-box">
+                <img src="{{ 'swatch-medium-brown.png' | asset_url }}" alt="Medium Brown Swatch" class="swatch-img">
+              </div>
+              <span class="swatch-label">Medium Brown</span>
+            </button>
+            <button type="button" class="color-swatch-btn" data-color="Black">
+              <div class="swatch-img-box">
+                <img src="{{ 'swatch-black.png' | asset_url }}" alt="Black Swatch" class="swatch-img">
+              </div>
+              <span class="swatch-label">Black</span>
+            </button>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- Bundle Selector (Dynamic Variants) -->
+      <div class="quantity-bundles-wrapper">
+        <div class="section-label-row"><span class="label-title">Select Quantity:</span></div>
+        <div class="bundles-grid">
+          {%- if product.variants.size > 0 and product.variants.first.title != 'Default Title' -%}
+            {%- for variant in product.variants -%}
+              {%- liquid
+                assign qty = forloop.index
+                if variant.title contains '1'
+                  assign qty = 1
+                elsif variant.title contains '2'
+                  assign qty = 2
+                elsif variant.title contains '3'
+                  assign qty = 3
+                endif
+
+                assign var_price = variant.price
+                assign var_compare = variant.compare_at_price
+                if var_compare == blank or var_compare <= var_price
+                  if qty == 1
+                    assign var_compare = 490000
+                  elsif qty == 2
+                    assign var_compare = 980000
+                  elsif qty == 3
+                    assign var_compare = 1470000
+                  else
+                    assign var_compare = var_price | times: 1.4 | round
+                  endif
+                endif
+
+                assign save_percent = 29
+                if qty == 2
+                  assign save_percent = 40
+                elsif qty == 3
+                  assign save_percent = 52
+                elsif var_compare > var_price
+                  assign save_percent = var_compare | minus: var_price | times: 100.0 | divided_by: var_compare | round
+                endif
+              -%}
+
+              {%- assign is_selected_var = false -%}
+              {%- if initial_variant != blank and variant.id == initial_variant.id -%}
+                {%- assign is_selected_var = true -%}
+              {%- elsif initial_variant == blank and forloop.first -%}
+                {%- assign is_selected_var = true -%}
+              {%- endif -%}
+              <div
+                class="bundle-card{% if is_selected_var %} active{% endif %}"
+                data-variant-id="{{ variant.id }}"
+                data-qty="{{ qty }}"
+                data-price="{{ var_price }}"
+                data-compare="{{ var_compare }}"
+                data-save="{{ save_percent }}%"
+                data-available="{{ variant.available }}"
+              >
+                {%- if qty == 2 -%}
+                  <div class="floating-benefit-badge shipping-badge">Most Popular</div>
+                {%- elsif qty >= 3 -%}
+                  <div class="floating-benefit-badge conditioner-badge">Best Value</div>
+                {%- endif -%}
+
+                <div class="bundle-box-btn">
+                  <span class="bundle-qty-title">{{ variant.title }}</span>
+                  <span class="bundle-perk-text">
+                    {%- if qty == 2 -%}+ Free Shipping{%- elsif qty >= 3 -%}Best Value{%- endif -%}
+                  </span>
+                </div>
+                <span class="bundle-price-each">{{ var_price | divided_by: qty | money }} Each</span>
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <!-- Fallback Static Bundles matching Shopify Variants -->
+            <div
+              class="bundle-card active"
+              data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+              data-qty="1"
+              data-price="350100"
+              data-compare="490000"
+              data-save="29%"
+            >
+              <div class="bundle-box-btn">
+                <span class="bundle-qty-title">1 Bottle</span>
+                <span class="bundle-perk-text"></span>
+              </div>
+              <span class="bundle-price-each">Rs. 3,501 Each</span>
+            </div>
+            <div
+              class="bundle-card"
+              data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+              data-qty="2"
+              data-price="295100"
+              data-compare="980000"
+              data-save="40%"
+            >
+              <div class="floating-benefit-badge shipping-badge">+ Free Shipping</div>
+              <div class="bundle-box-btn">
+                <span class="bundle-qty-title">2 Bottles</span>
+                <span class="bundle-perk-text">+ Free Shipping</span>
+              </div>
+              <span class="bundle-price-each">Rs. 2,951 Each</span>
+            </div>
+            <div
+              class="bundle-card"
+              data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+              data-qty="3"
+              data-price="233100"
+              data-compare="1470000"
+              data-save="52%"
+            >
+              <div class="floating-benefit-badge conditioner-badge">+ Free Conditioner</div>
+              <div class="bundle-box-btn">
+                <span class="bundle-qty-title">3 Bottles</span>
+                <span class="bundle-perk-text">+ Free Conditioner</span>
+              </div>
+              <span class="bundle-price-each">Rs. 2,331 Each</span>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- Rewards Unlock Box -->
+      <div class="rewards-unlock-card">
+        <div class="rewards-header">
+          <span class="rewards-title">Fall Sale Exclusive</span>
+          <span class="rewards-unlocked-status" id="rewardsStatusText">0 of 2 unlocked</span>
+        </div>
+        <div class="rewards-body">
+          <div class="rewards-progress-track">
+            <div class="rewards-progress-fill" id="rewardsProgressFill" style="width: 15%;"></div>
+          </div>
+          <!-- Mobile Milestones Row -->
+          <div class="rewards-milestones-row">
+            <span class="milestone-item" id="milestoneShipping">&#10003; Free Shipping &middot; 2 Bottles</span>
+            <span class="milestone-item" id="milestoneConditioner">Free Conditioner &middot; 3 Bottles</span>
+          </div>
+          <div class="rewards-items-grid">
+            <div class="reward-item" id="rewardShipping">
+              <div class="reward-icon-wrapper">
+                <div class="lock-indicator">
+                  <svg width="9" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </div>
+                <div class="reward-img-badge">
+                  <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g opacity="0.45">
+                    <g clip-path="url(#clip0_212_278)">
+                    <path d="M25.2357 10.5703C25.6891 10.5703 26.0776 10.9609 26.0356 11.4232L25.8563 13.3896L25.8347 13.6218L26.0683 13.6272L28.0645 13.6761L30.141 17.6457L30.1844 17.7272L30.2727 17.753C30.9406 17.9535 31.4998 18.2243 31.9554 18.5583C32.4697 18.9354 32.8509 19.3962 33.1042 19.9421L33.1395 20.1187L33.0431 22.9909L30.2279 22.9461L30.0499 22.9434L30.0106 23.1172C29.6895 24.5451 28.0457 25.1175 26.9509 24.2688L26.7405 24.08L26.6426 23.9728C26.4254 23.7155 26.2714 23.4014 26.204 23.0534L26.1715 22.8795L25.9935 22.8768L24.2648 22.8497H24.2607L14.6702 22.8605L14.4896 22.8619L14.4557 23.0398C14.1639 24.6102 12.2724 25.2122 11.1692 24.08C10.899 23.8037 10.7083 23.4446 10.6328 23.0439L10.5988 22.866H10.4182L8.64871 22.8632C8.23143 22.814 7.89749 22.4383 7.94253 22.0118L8.29019 18.728L8.31598 18.4877H2.50903C2.35696 18.4875 2.22656 18.3593 2.22656 18.1916C2.2269 18.0246 2.35837 17.897 2.50903 17.8969L11.2045 17.8983C11.3565 17.8984 11.487 18.0266 11.487 18.1943C11.4868 18.3614 11.3552 18.4888 11.2045 18.489H8.88636L8.86599 18.6846L8.51155 22.0389L8.48574 22.2793H8.72747L10.463 22.2834H10.6301L10.6749 22.1218C11.076 20.6564 12.8727 20.1678 13.9247 21.2472C14.157 21.4872 14.3306 21.7849 14.4231 22.119L14.4679 22.2793H14.6336L24.2702 22.2671H24.4195L24.4739 22.1272L24.4984 22.0606L24.5092 22.0335L24.5119 22.0022L25.4761 11.4014L25.4924 11.2154L25.3118 11.1692L25.2915 11.1651L25.2642 11.1583H25.2385L9.87637 11.1814L9.78403 11.1828L9.7202 11.2493C9.67799 11.2932 9.66087 11.3457 9.65501 11.3634C9.6462 11.3901 9.63962 11.4182 9.63465 11.4435C9.62449 11.4951 9.61647 11.5562 9.6102 11.6133C9.60384 11.6711 9.5982 11.7302 9.5939 11.7803C9.58941 11.8326 9.58561 11.8711 9.58304 11.8944L9.55723 12.1375H14.5358C14.6879 12.1375 14.8196 12.2644 14.8196 12.4322C14.8195 12.5995 14.6867 12.7269 14.5358 12.7269H5.84573C5.69387 12.7265 5.56333 12.5997 5.56325 12.4322C5.56325 12.2651 5.69504 12.1378 5.84573 12.1375H8.99093L9.0113 11.9419L9.06969 11.3892C9.11843 10.9309 9.44763 10.5934 9.86958 10.5934L25.2357 10.5703ZM13.5227 21.6668C12.6474 20.7671 11.1611 21.4194 11.1611 22.665C11.1611 23.9094 12.6461 24.5608 13.5227 23.6618C14.0583 23.1101 14.0588 22.2173 13.5227 21.6668ZM29.0939 21.6668C28.2171 20.7679 26.7337 21.4193 26.7337 22.665C26.7337 23.9092 28.2172 24.5603 29.0939 23.6618C29.6316 23.1099 29.6323 22.2173 29.0939 21.6668ZM25.7614 14.4095L25.0673 22.043L25.0456 22.2779L25.2806 22.282L26.0247 22.2929L26.1945 22.2956L26.2379 22.1313C26.4678 21.2706 27.2328 20.6592 28.1147 20.6592C29.0199 20.6592 29.7982 21.2998 30.0065 22.191L30.0459 22.3567L30.2157 22.3594L32.288 22.392L32.5012 22.3961L32.5094 22.1815L32.5759 20.2056L32.5772 20.1485L32.5515 20.0983C32.3403 19.6852 32.0316 19.3317 31.6334 19.039C31.0855 18.6369 30.5215 18.4307 29.8068 18.2337L27.7847 14.3687L27.7251 14.2547L27.5974 14.2519L25.984 14.2112L25.779 14.2058L25.7614 14.4095ZM24.11 22.1964C24.0921 22.1777 24.0718 22.1501 24.0597 22.1122C24.0528 22.0905 24.0492 22.0696 24.0492 22.0498H24.2566L24.11 22.1964ZM21.66 13.6055C21.7689 13.4918 21.9438 13.4913 22.0538 13.6014C22.1671 13.7151 22.1695 13.9035 22.0592 14.0211L18.8462 17.4297C18.7383 17.5422 18.5629 17.5433 18.4538 17.4338L16.9273 15.8897L16.907 15.8694L16.8811 15.8544L16.7833 15.7987C16.6491 15.7185 16.598 15.5377 16.6788 15.3913C16.7473 15.2688 16.8885 15.2198 17.0101 15.261L17.0603 15.2841C17.1866 15.3582 17.2301 15.3746 17.2872 15.4361L17.2912 15.4416L18.4837 16.6475L18.6425 16.8078L18.7972 16.6434L21.66 13.6055ZM4.94534 16.0541H15.0125C15.1633 16.0541 15.2962 16.1815 15.2963 16.3487C15.2963 16.5166 15.1646 16.6434 15.0125 16.6434H4.94534C4.79448 16.6433 4.66288 16.516 4.66288 16.3487C4.663 16.1811 4.79334 16.0542 4.94534 16.0541ZM3.87657 14.1732H12.5666C12.7175 14.1732 12.849 14.3007 12.8491 14.4679C12.8491 14.6357 12.7188 14.7626 12.5666 14.7626H3.87657C3.72577 14.7624 3.5941 14.6351 3.5941 14.4679C3.59425 14.3003 3.72465 14.1734 3.87657 14.1732Z" fill="#E63639" stroke="#E63639" stroke-width="0.436539"/>
+                    </g>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_212_278">
+                    <rect width="32" height="15.2969" fill="white" transform="translate(2 10.3516)"/>
+                    </clipPath>
+                    </defs>
+                  </svg>
+                </div>
+              </div>
+              <div class="reward-text-col">
+                <span class="reward-name">Free Shipping</span><span class="reward-req">2 Bottles</span>
+              </div>
+            </div>
+            <div class="reward-item" id="rewardConditioner">
+              <div class="reward-icon-wrapper">
+                <div class="lock-indicator">
+                  <svg width="9" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </div>
+                <div class="reward-img-badge">
+                  <svg
+                    width="36"
+                    height="32"
+                    viewBox="0 0 36 32"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                  >
+                    <rect width="36" height="31.7969" fill="url(#pattern0_212_293)"/>
+                    <defs>
+                    <pattern id="pattern0_212_293" patternContentUnits="objectBoundingBox" width="1" height="1">
+                    <use xlink:href="#image0_212_293" transform="scale(0.00833333 0.00943489)"/>
+                    </pattern>
+                    <image id="image0_212_293" width="120" height="106" preserveAspectRatio="none" xlink:href="data:image/png;base64,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"/>
+                    </defs>
+                  </svg>
+                </div>
+              </div>
+              <div class="reward-text-col">
+                <span class="reward-name">Free Conditioner</span
+                ><span class="reward-req">3 Bottles · Rs. 2,300.00</span>
+              </div>
+            </div>
+          </div>
+          <p class="rewards-hint" id="rewardsHintText">Add 1 more bottle to unlock free shipping</p>
+        </div>
+      </div>
+
+      <!-- Add to Cart Form -->
+      {%- form 'product', product, id: 'product-form' -%}
+        <input
+          type="hidden"
+          name="id"
+          id="selectedVariantId"
+          value="{{ product.selected_or_first_available_variant.id }}"
+        >
+        <input type="hidden" name="quantity" id="selectedQuantityInput" value="1">
+        <input type="hidden" name="properties[Color]" id="selectedColorProperty" value="{{ default_first_color }}">
+        <button type="submit" class="btn-add-to-cart" id="addToCartBtn">
+          <span>
+            {%- if product.selected_or_first_available_variant.available == false -%}
+              SOLD OUT
+            {%- else -%}
+              ADD TO CART
+            {%- endif -%}
+          </span>
+        </button>
+      {%- endform -%}
+
+      <p class="moneyback-guarantee-text">
+        <strong>30 Day Money-Back-Guarantee.</strong> Try ProvenWell risk-free. If you don’t love your results, contact
+        us within 30 days for your money back.
+      </p>
+
+      <!-- Warning Stock Box -->
+      <div class="warning-stock-box">
+        <div class="warning-icon-col">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#111827"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+        <div class="warning-content-col">
+          <h3 class="warning-title">WARNING: Low Stock Notice</h3>
+          <p class="warning-desc">
+            This product sold out <strong>11 times</strong> last year. We encourage you to take advantage of the
+            <strong>Limited Fall Sale</strong> and buy now.
+          </p>
+          <p class="warning-ps">
+            <strong>PS:</strong> Only available here, don't buy <strong>fakes on Amazon/eBay</strong>
+          </p>
+        </div>
+      </div>
+
+      <!-- Trust Badges -->
+      <div class="trust-grid-box">
+        <div class="trust-card">
+          <div class="trust-icon-wrap">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16.2963 1.396C24.4783 1.396 31.1111 8.02881 31.1111 16.2108C31.1111 24.3928 24.4783 31.0256 16.2963 31.0256C8.11426 31.0256 1.48145 24.3928 1.48145 16.2108C1.48145 8.02881 8.11426 1.396 16.2963 1.396Z" fill="white" stroke="#5E3A58" stroke-width="1.18519"/>
+              <path d="M16.2964 3.29785C9.16495 3.29785 3.38379 9.07901 3.38379 16.2104C3.38379 23.3417 9.16495 29.1231 16.2964 29.1231C23.4279 29.1231 29.209 23.3419 29.209 16.2105C29.209 9.07913 23.4279 3.29785 16.2964 3.29785Z" fill="white"/>
+              <path d="M16.2964 3.29785C9.16495 3.29785 3.38379 9.07901 3.38379 16.2104C3.38379 23.3417 9.16495 29.1231 16.2964 29.1231C23.4279 29.1231 29.209 23.3419 29.209 16.2105C29.209 9.07913 23.4279 3.29785 16.2964 3.29785Z" stroke="#5E3A58" stroke-width="0.592593"/>
+              <path d="M23.7912 15.6081C23.5574 13.7542 22.6628 12.0469 21.2717 10.7994C19.8806 9.55196 18.0862 8.84804 16.218 8.81682L16.7505 8.28867C16.789 8.25095 16.8197 8.20601 16.8408 8.15641C16.8619 8.10681 16.873 8.05353 16.8734 7.99966C16.8738 7.94576 16.8636 7.89229 16.8432 7.84237C16.8228 7.79245 16.7928 7.74706 16.7549 7.70877C16.717 7.67051 16.6718 7.64015 16.6221 7.61938C16.5723 7.59866 16.5189 7.58794 16.465 7.58789C16.4112 7.58789 16.3578 7.59852 16.308 7.6192C16.2582 7.63987 16.213 7.67019 16.175 7.70841L14.8807 8.99228C14.8426 9.03004 14.8123 9.07498 14.7915 9.12445C14.7708 9.17396 14.76 9.22706 14.7598 9.2807C14.7595 9.33434 14.77 9.38753 14.7902 9.43718C14.8106 9.48683 14.8405 9.532 14.8783 9.57012L16.1726 10.8751C16.2103 10.9136 16.2552 10.9444 16.3049 10.9654C16.3544 10.9865 16.4078 10.9976 16.4616 10.998C16.5155 10.9985 16.569 10.9882 16.6189 10.9679C16.6689 10.9475 16.7143 10.9175 16.7525 10.8796C16.7908 10.8416 16.8212 10.7964 16.8419 10.7467C16.8626 10.697 16.8733 10.6436 16.8734 10.5897C16.8734 10.5358 16.8628 10.4824 16.842 10.4326C16.8214 10.3828 16.7911 10.3377 16.7529 10.2996L16.0929 9.63408C17.5318 9.63511 18.9349 10.0829 20.1084 10.9156C21.2818 11.7484 22.1678 12.925 22.6439 14.2828C23.1198 15.6407 23.1625 17.1131 22.7659 18.4962C22.3691 19.8793 21.5528 21.1052 20.4295 22.0044C20.345 22.0722 20.2908 22.1708 20.2788 22.2786C20.273 22.3319 20.2778 22.3859 20.2927 22.4374C20.3076 22.4889 20.3326 22.5371 20.3663 22.5789C20.3998 22.6207 20.4413 22.6556 20.4884 22.6814C20.5354 22.7073 20.5871 22.7236 20.6403 22.7295C20.748 22.7414 20.8561 22.71 20.9406 22.6422C23.0661 20.9378 24.1319 18.3082 23.7912 15.6081Z" fill="#5E3A58"/>
+              <path d="M16.0058 22.2843C15.9681 22.2458 15.9232 22.215 15.8737 22.194C15.824 22.1729 15.7708 22.1618 15.7169 22.1614C15.6629 22.161 15.6095 22.1713 15.5596 22.1915C15.5096 22.2119 15.4642 22.2419 15.426 22.2798C15.3876 22.3178 15.3573 22.363 15.3365 22.4127C15.3158 22.4625 15.3051 22.5158 15.3051 22.5697C15.305 22.6237 15.3157 22.677 15.3364 22.7268C15.357 22.7765 15.3874 22.8217 15.4257 22.8597L16.0856 23.5251C14.6468 23.5242 13.2438 23.0765 12.0704 22.244C10.8969 21.4114 10.0109 20.235 9.53481 18.8774C9.05864 17.5197 9.01581 16.0477 9.41219 14.6645C9.80858 13.2814 10.6247 12.0555 11.7477 11.1561C11.8322 11.0883 11.8863 10.9896 11.8982 10.8819C11.9099 10.7741 11.8785 10.6662 11.8107 10.5816C11.7428 10.4971 11.6442 10.4429 11.5364 10.4311C11.4287 10.4193 11.3206 10.4508 11.2361 10.5186C9.1117 12.2232 8.04661 14.8523 8.38724 17.5513C8.621 19.4052 9.51556 21.1127 10.9067 22.3601C12.298 23.6075 14.0923 24.3114 15.9608 24.3423L15.4279 24.8708C15.3894 24.9085 15.3587 24.9535 15.3376 25.003C15.3165 25.0526 15.3055 25.1059 15.305 25.1598C15.3046 25.2138 15.3148 25.2672 15.3352 25.3171C15.3555 25.367 15.3856 25.4124 15.4235 25.4507C15.4614 25.489 15.5066 25.5193 15.5564 25.54C15.6062 25.5608 15.6595 25.5716 15.7134 25.5716C15.7672 25.5716 15.8207 25.5609 15.8705 25.5403C15.9202 25.5195 15.9654 25.4893 16.0034 25.451L17.2978 24.167C17.3358 24.1293 17.3662 24.0844 17.3869 24.0349C17.4076 23.9854 17.4184 23.9323 17.4187 23.8786C17.4189 23.825 17.4085 23.7719 17.3882 23.7222C17.3678 23.6725 17.338 23.6274 17.3001 23.5892L16.0058 22.2843Z" fill="#5E3A58"/>
+              <path d="M16.4138 16.2561C16.3557 16.2337 16.3013 16.2132 16.2544 16.1926C16.2028 16.1698 16.1412 16.1462 16.0732 16.1204C15.6863 15.9734 15.4764 15.8573 15.4764 15.6651C15.4764 15.5802 15.5671 15.4484 15.74 15.3608C15.8626 15.2988 16.305 15.1291 16.8689 15.5436C16.9122 15.5757 16.9612 15.599 17.0135 15.6122C17.0658 15.6252 17.1202 15.628 17.1734 15.62C17.2267 15.612 17.2779 15.5936 17.324 15.5657C17.3702 15.538 17.4103 15.5013 17.4423 15.4579C17.4742 15.4145 17.4972 15.3652 17.51 15.3128C17.5228 15.2606 17.525 15.2062 17.5167 15.1529C17.5084 15.0997 17.4897 15.0486 17.4616 15.0027C17.4335 14.9567 17.3965 14.9167 17.3529 14.8851C17.0992 14.6958 16.8075 14.5637 16.4979 14.4973V14.1274C16.497 14.0197 16.4535 13.9168 16.3769 13.8409C16.3004 13.7652 16.197 13.7227 16.0894 13.7227C15.9817 13.7227 15.8783 13.7652 15.8019 13.8409C15.7253 13.9168 15.6818 14.0197 15.6807 14.1274V14.5166C15.5738 14.5443 15.4701 14.5827 15.3711 14.6315C14.9319 14.8537 14.6592 15.2498 14.6592 15.6651C14.6592 16.4576 15.4182 16.7459 15.7831 16.8845C15.836 16.9044 15.8842 16.9225 15.9244 16.9403C15.9829 16.966 16.0501 16.992 16.1221 17.0195C16.5234 17.1727 16.7024 17.2739 16.7024 17.4677C16.7024 17.5526 16.6117 17.6844 16.4388 17.7718C16.3162 17.8337 15.8739 18.0037 15.3099 17.5891C15.2226 17.5248 15.1133 17.4981 15.0061 17.5144C14.899 17.5308 14.8028 17.589 14.7386 17.6763C14.6744 17.7637 14.6475 17.8728 14.6639 17.98C14.6802 18.0871 14.7385 18.1833 14.8258 18.2476C15.0795 18.4376 15.3711 18.5708 15.6809 18.6381V19.031C15.6818 19.1387 15.7253 19.2416 15.8019 19.3173C15.8783 19.3932 15.9818 19.4357 16.0894 19.4357C16.1971 19.4357 16.3005 19.3932 16.3769 19.3173C16.4535 19.2416 16.497 19.1387 16.4981 19.031V18.6178C16.605 18.5895 16.7087 18.5504 16.8077 18.5012C17.2469 18.279 17.5196 17.883 17.5196 17.4678C17.5196 16.6785 16.8003 16.4037 16.4138 16.2561Z" fill="#5E3A58"/>
+              <path d="M16.0892 12.085C15.2002 12.085 14.3311 12.3485 13.5919 12.8424C12.8527 13.3364 12.2766 14.0384 11.9364 14.8597C11.5962 15.681 11.5072 16.5849 11.6806 17.4568C11.8541 18.3288 12.2822 19.1297 12.9108 19.7583C13.5394 20.3869 14.3403 20.815 15.2123 20.9884C16.0842 21.1619 16.988 21.0729 17.8094 20.7327C18.6307 20.3924 19.3327 19.8164 19.8267 19.0772C20.3206 18.338 20.5841 17.4689 20.5841 16.5799C20.5828 15.3882 20.1088 14.2457 19.2661 13.403C18.4234 12.5603 17.2809 12.0863 16.0892 12.085ZM16.0892 20.2576C15.3617 20.2576 14.6507 20.0419 14.0459 19.6378C13.4411 19.2336 12.9698 18.6593 12.6914 17.9873C12.4131 17.3153 12.3402 16.5759 12.4822 15.8624C12.6241 15.149 12.9743 14.4937 13.4887 13.9794C14.0029 13.465 14.6583 13.1148 15.3717 12.9729C16.0852 12.8309 16.8246 12.9038 17.4966 13.1821C18.1686 13.4605 18.743 13.9318 19.1471 14.5366C19.5512 15.1414 19.767 15.8525 19.767 16.5799C19.7658 17.5549 19.3779 18.4897 18.6884 19.1791C17.999 19.8687 17.0643 20.2565 16.0892 20.2576Z" fill="#5E3A58"/>
+            </svg>
+          </div>
+          <strong class="trust-title">30-Day Money Back</strong
+          ><span class="trust-subtitle">Hassle-free money-back option</span>
+        </div>
+        <div class="trust-card">
+          <div class="trust-icon-wrap">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15.7035 1.396C23.8855 1.396 30.5183 8.02881 30.5183 16.2108C30.5183 24.3928 23.8855 31.0256 15.7035 31.0256C7.52149 31.0256 0.888673 24.3928 0.888672 16.2108C0.888672 8.02881 7.52149 1.396 15.7035 1.396Z" fill="white" stroke="#5E3A58" stroke-width="1.18519"/>
+              <path d="M15.7031 3.29785C8.57168 3.29785 2.79053 9.07901 2.79053 16.2104C2.79053 23.3419 8.57168 29.123 15.7031 29.123C22.8345 29.123 28.6157 23.3419 28.6157 16.2104C28.6157 9.07901 22.8345 3.29785 15.7031 3.29785Z" fill="white"/>
+              <path d="M15.7031 3.29785C8.57168 3.29785 2.79053 9.07901 2.79053 16.2104C2.79053 23.3419 8.57168 29.123 15.7031 29.123C22.8345 29.123 28.6157 23.3419 28.6157 16.2104C28.6157 9.07901 22.8345 3.29785 15.7031 3.29785Z" stroke="#5E3A58" stroke-width="0.592593"/>
+              <path d="M18.0256 19.7388H14.7739V19.2185H18.0256C18.241 19.2185 18.4159 19.0436 18.4159 18.8283V11.5443C18.4159 11.329 18.241 11.154 18.0256 11.154H15.2941L9.70429 11.1052H9.70102C9.59765 11.1052 9.5001 11.1456 9.42659 11.2184C9.35182 11.2926 9.31084 11.3907 9.31084 11.4955V14.2212H8.79053V11.4955C8.79053 11.2509 8.88615 11.0214 9.05981 10.849C9.23149 10.6786 9.4591 10.585 9.70039 10.585H9.70821L15.2954 10.6338H18.0244C18.5265 10.6338 18.9349 11.0422 18.9349 11.5443V18.8283C18.9349 19.3304 18.5277 19.7388 18.0256 19.7388Z" fill="#5E3A58"/>
+              <path d="M21.5377 21.2993C20.5336 21.2993 19.7168 20.4825 19.7168 19.4783C19.7168 18.4742 20.5336 17.6572 21.5377 17.6572C22.5419 17.6572 23.3588 18.4742 23.3588 19.4783C23.3588 20.4825 22.5419 21.2993 21.5377 21.2993ZM21.5377 18.1775C20.8204 18.1775 20.2371 18.761 20.2371 19.4783C20.2371 20.1957 20.8204 20.779 21.5377 20.779C22.2551 20.779 22.8386 20.1957 22.8386 19.4783C22.8386 18.761 22.2551 18.1775 21.5377 18.1775Z" fill="#5E3A58"/>
+              <path d="M19.9765 19.2183H16.9849V19.7386H19.9765V19.2183Z" fill="#5E3A58"/>
+              <path d="M23.7486 19.7388H23.0983V19.2185H23.7486C23.9638 19.2185 24.1389 19.0436 24.1389 18.8284V16.3499C24.1389 16.2523 24.1024 16.158 24.0361 16.0857L21.5387 13.3615C21.4652 13.2808 21.3599 13.2347 21.2513 13.2347H18.6758V12.7144H21.2513C21.5055 12.7144 21.7507 12.8223 21.9225 13.0096L24.4198 15.734C24.574 15.9024 24.6592 16.1209 24.6592 16.3492V18.8278C24.6592 19.3298 24.2507 19.7388 23.7486 19.7388Z" fill="#5E3A58"/>
+              <path d="M24.3997 16.3573H21.1479C20.6458 16.3573 20.2373 15.9488 20.2373 15.4468V13.7559H20.7576V15.4468C20.7576 15.662 20.9325 15.837 21.1479 15.837H24.3997V16.3573Z" fill="#5E3A58"/>
+              <path d="M10.8712 21.376C9.00657 21.376 7.48926 19.8588 7.48926 17.9941C7.48926 16.1296 9.00657 14.6123 10.8712 14.6123C12.7357 14.6123 14.253 16.1296 14.253 17.9941C14.253 19.8588 12.7357 21.376 10.8712 21.376ZM10.8712 15.1326C9.29338 15.1326 8.00957 16.4164 8.00957 17.9941C8.00957 19.5719 9.29338 20.8557 10.8712 20.8557C12.4489 20.8557 13.7327 19.5719 13.7327 17.9941C13.7327 16.4164 12.4489 15.1326 10.8712 15.1326Z" fill="#5E3A58"/>
+              <path d="M10.8715 21.376C10.0176 21.376 9.5708 19.6747 9.5708 17.9941C9.5708 16.3136 10.0176 14.6123 10.8715 14.6123C11.7255 14.6123 12.1722 16.3136 12.1722 17.9941C12.1722 19.6747 11.7255 21.376 10.8715 21.376ZM10.8715 15.1326C10.6068 15.1326 10.0911 16.1426 10.0911 17.9941C10.0911 19.8457 10.6068 20.8557 10.8715 20.8557C11.1362 20.8557 11.652 19.8457 11.652 17.9941C11.652 16.1426 11.1362 15.1326 10.8715 15.1326Z" fill="#5E3A58"/>
+              <path d="M10.8718 17.311C9.75059 17.311 8.71712 17.1173 8.10645 16.7928L8.35097 16.3335C8.88168 16.6158 9.84747 16.7907 10.8718 16.7907C11.8961 16.7907 12.862 16.6158 13.3927 16.3335L13.6372 16.7928C13.0271 17.1173 11.9931 17.311 10.8718 17.311Z" fill="#5E3A58"/>
+              <path d="M13.3927 19.6547C12.862 19.3725 11.8961 19.1975 10.8718 19.1975C9.84747 19.1975 8.88105 19.3725 8.35097 19.6547L8.10645 19.1955C8.7165 18.871 9.75059 18.6772 10.8718 18.6772C11.9931 18.6772 13.0271 18.871 13.6372 19.1955L13.3927 19.6547Z" fill="#5E3A58"/>
+            </svg>
+          </div>
+          <strong class="trust-title">Insured & Fast Shipping</strong
+          ><span class="trust-subtitle">Worldwide delivery to your door</span>
+        </div>
+        <div class="trust-card">
+          <div class="trust-icon-wrap">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16.2963 1.396C24.4783 1.396 31.1111 8.02881 31.1111 16.2108C31.1111 24.3928 24.4783 31.0256 16.2963 31.0256C8.11426 31.0256 1.48145 24.3928 1.48145 16.2108C1.48145 8.02881 8.11426 1.396 16.2963 1.396Z" fill="white" stroke="#5E3A58" stroke-width="1.18519"/>
+              <path d="M16.2959 3.29785C9.16446 3.29785 3.3833 9.07901 3.3833 16.2104C3.3833 23.3417 9.16446 29.1231 16.2959 29.1231C23.4273 29.1231 29.2085 23.3419 29.2085 16.2105C29.2085 9.07913 23.4273 3.29785 16.2959 3.29785Z" fill="white"/>
+              <path d="M16.2959 3.29785C9.16446 3.29785 3.3833 9.07901 3.3833 16.2104C3.3833 23.3417 9.16446 29.1231 16.2959 29.1231C23.4273 29.1231 29.2085 23.3419 29.2085 16.2105C29.2085 9.07913 23.4273 3.29785 16.2959 3.29785Z" stroke="#5E3A58" stroke-width="0.592593"/>
+              <path d="M10.7207 18.5745C10.7207 18.5944 10.7207 18.5944 10.7207 18.5745L15.812 21.1101C15.832 21.1101 15.832 21.1301 15.852 21.1301H15.8719C15.8919 21.1301 15.9118 21.1301 15.9318 21.1301C15.9517 21.1301 15.9718 21.1301 15.9917 21.1301H16.0117C16.0316 21.1301 16.0515 21.1301 16.0515 21.1101L21.1229 18.5745H21.1429L21.1629 18.5545L21.1828 18.5346L21.2028 18.5145L21.2227 18.4946L21.2428 18.4747C21.2428 18.4747 21.2428 18.4547 21.2627 18.4547C21.2627 18.4547 21.2627 18.4347 21.2826 18.4347V18.4147V18.3948C21.2826 18.3748 21.2826 18.3748 21.2826 18.3549V18.3349V13.2636C21.2826 13.2437 21.2826 13.2037 21.2627 13.1837V13.1638C21.2627 13.1438 21.2428 13.1238 21.2428 13.1038C21.2428 13.1038 21.2428 13.1038 21.2428 13.0839C21.2227 13.0639 21.2227 13.044 21.2028 13.0239C21.2028 13.0239 21.2028 13.0239 21.1828 13.004C21.1629 12.9841 21.1429 12.9841 21.1229 12.9641L16.0716 10.4484C15.9917 10.4085 15.8919 10.4085 15.812 10.4484L10.7207 12.9841C10.7008 12.9841 10.6808 13.004 10.6608 13.0239C10.6608 13.0239 10.6608 13.0239 10.6409 13.044C10.6209 13.0639 10.601 13.0839 10.601 13.1038C10.601 13.1038 10.601 13.1038 10.601 13.1238C10.601 13.1438 10.581 13.1638 10.581 13.1837V13.2037C10.581 13.2236 10.561 13.2437 10.561 13.2835V18.3549V18.3748C10.561 18.3948 10.561 18.3948 10.561 18.4147V18.4347V18.4547C10.561 18.4547 10.561 18.4747 10.581 18.4747C10.581 18.4747 10.581 18.4946 10.601 18.4946L10.6209 18.5145L10.6409 18.5346L10.6608 18.5545L10.6808 18.5745C10.7008 18.5745 10.7008 18.5745 10.7207 18.5745ZM18.4674 16.7976C18.6272 16.7976 18.7669 16.6577 18.7669 16.4981V14.7011L20.7036 13.7427V18.1353L16.2313 20.3714V15.979L18.168 15.0206V16.518C18.168 16.6577 18.3078 16.7976 18.4674 16.7976ZM15.6323 20.3714L11.16 18.1353V13.7427L15.6323 15.979V20.3714ZM15.9318 11.0673L20.3242 13.2636L18.4674 14.202L14.075 12.0057L15.9318 11.0673ZM13.3961 12.3251L17.7887 14.5214L15.9318 15.4598L11.5393 13.2636L13.3961 12.3251Z" fill="#5E3A58"/>
+              <path d="M24.1376 15.799C24.1376 15.6394 23.9978 15.4995 23.8381 15.4995C23.6783 15.4995 23.5386 15.6394 23.5386 15.799C23.5386 19.8122 20.404 23.1265 16.4507 23.3861L17.5888 22.827C17.7285 22.7472 17.7884 22.5675 17.7285 22.4276C17.6487 22.2879 17.469 22.228 17.3293 22.2879L14.9933 23.4459C14.8933 23.5059 14.8335 23.6057 14.8335 23.7055C14.8335 23.8053 14.8933 23.9251 14.9933 23.9651L17.3293 25.1231C17.3691 25.143 17.409 25.163 17.469 25.163C17.5888 25.163 17.6886 25.1031 17.7285 25.0033C17.8084 24.8635 17.7485 24.6839 17.5888 24.604L16.3908 24.005C20.7034 23.7454 24.1376 20.1715 24.1376 15.799Z" fill="#5E3A58"/>
+              <path d="M14.2739 8.91036C14.1341 8.99025 14.0742 9.16996 14.1341 9.30971C14.194 9.40955 14.2938 9.46942 14.3937 9.46942C14.4336 9.46942 14.4736 9.44946 14.5334 9.42951L16.8694 8.27149C16.9692 8.21157 17.0291 8.11178 17.0291 8.01194C17.0291 7.91211 16.9692 7.79231 16.8694 7.75239L14.5533 6.61433C14.4136 6.53445 14.2339 6.59437 14.1541 6.75409C14.0742 6.89383 14.1341 7.07355 14.2938 7.15337L15.2521 7.6326C11.0394 7.97198 7.7251 11.506 7.7251 15.7986C7.7251 15.9583 7.86484 16.0981 8.02456 16.0981C8.18431 16.0981 8.32407 15.9583 8.32407 15.7986C8.32407 11.6657 11.6184 8.3114 15.7114 8.19161L14.2739 8.91036Z" fill="#5E3A58"/>
+            </svg>
+          </div>
+          <strong class="trust-title">Returns Accepted</strong
+          ><span class="trust-subtitle">Easy and simple return process</span>
+        </div>
+        <div class="trust-card">
+          <div class="trust-icon-wrap">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15.7035 1.396C23.8855 1.396 30.5183 8.02881 30.5183 16.2108C30.5183 24.3928 23.8855 31.0256 15.7035 31.0256C7.52149 31.0256 0.888673 24.3928 0.888672 16.2108C0.888672 8.02881 7.52149 1.396 15.7035 1.396Z" fill="white" stroke="#5E3A58" stroke-width="1.18519"/>
+              <path d="M15.7031 3.29785C8.57168 3.29785 2.79053 9.07901 2.79053 16.2104C2.79053 23.3417 8.57168 29.1231 15.7031 29.1231C22.8345 29.1231 28.6157 23.3419 28.6157 16.2105C28.6157 9.07913 22.8345 3.29785 15.7031 3.29785Z" fill="white"/>
+              <path d="M15.7031 3.29785C8.57168 3.29785 2.79053 9.07901 2.79053 16.2104C2.79053 23.3417 8.57168 29.1231 15.7031 29.1231C22.8345 29.1231 28.6157 23.3419 28.6157 16.2105C28.6157 9.07913 22.8345 3.29785 15.7031 3.29785Z" stroke="#5E3A58" stroke-width="0.592593"/>
+              <path d="M23.4796 11.4455L20.3624 10.1986C20.288 10.1688 20.2049 10.1688 20.1305 10.1986L17.0132 11.4455C16.9555 11.4687 16.9059 11.5086 16.8711 11.5601C16.8361 11.6117 16.8175 11.6725 16.8175 11.7348V14.9567C16.8191 15.5487 16.9731 16.1303 17.2648 16.6455C17.5565 17.1607 17.9759 17.5921 18.4827 17.8981L20.0862 18.86C20.1346 18.8891 20.19 18.9045 20.2464 18.9045C20.3029 18.9045 20.3583 18.8891 20.4066 18.86L21.805 18.0209V21.5122C21.8049 21.6477 21.751 21.7777 21.6551 21.8735C21.5592 21.9694 21.4293 22.0233 21.2937 22.0234H9.224C9.08847 22.0233 8.95853 21.9694 8.86269 21.8735C8.76685 21.7777 8.71294 21.6477 8.71276 21.5122V14.5403H15.8823C15.965 14.5403 16.0443 14.5074 16.1027 14.449C16.1612 14.3906 16.194 14.3113 16.194 14.2286C16.194 14.1458 16.1612 14.0665 16.1027 14.0081C16.0443 13.9497 15.965 13.9169 15.8823 13.9169H8.71276V13.1811C8.71294 13.0456 8.76685 12.9157 8.86269 12.8198C8.95853 12.7241 9.08847 12.67 9.224 12.6699H15.8823C15.965 12.6699 16.0443 12.6371 16.1027 12.5787C16.1612 12.5202 16.194 12.4409 16.194 12.3582C16.194 12.2755 16.1612 12.1962 16.1027 12.1378C16.0443 12.0793 15.965 12.0465 15.8823 12.0465H9.224C8.92311 12.0466 8.63459 12.1662 8.42187 12.379C8.20909 12.5918 8.08949 12.8803 8.08936 13.1811V21.5103C8.08949 21.8113 8.20909 22.0997 8.42187 22.3125C8.63459 22.5252 8.92311 22.6448 9.224 22.645H21.2937C21.5947 22.6448 21.8833 22.5252 22.096 22.3125C22.3087 22.0997 22.4283 21.8113 22.4284 21.5103V17.5951C22.8168 17.2732 23.1297 16.8699 23.3452 16.4138C23.5606 15.9577 23.6734 15.4598 23.6754 14.9556V11.7348C23.6754 11.6725 23.6566 11.6117 23.6218 11.5601C23.587 11.5086 23.5374 11.4687 23.4796 11.4455ZM23.052 14.9567C23.0507 15.4411 22.9246 15.917 22.6859 16.3385C22.4472 16.7601 22.1038 17.1129 21.689 17.3633L20.2464 18.2292L18.8038 17.3633C18.389 17.1129 18.0457 16.7601 17.807 16.3385C17.5683 15.917 17.4422 15.4411 17.4409 14.9567V11.9455L20.2464 10.8233L23.052 11.9455V14.9567Z" fill="#5E3A58"/>
+              <path d="M19.2196 14.0614C19.1907 14.0324 19.1563 14.0094 19.1185 13.9938C19.0806 13.978 19.0401 13.9699 18.9992 13.9699C18.9582 13.9699 18.9176 13.9779 18.8797 13.9935C18.8419 14.0092 18.8075 14.0322 18.7785 14.0611C18.7496 14.09 18.7266 14.1245 18.7108 14.1623C18.6952 14.2001 18.687 14.2406 18.687 14.2817C18.687 14.3225 18.6951 14.3632 18.7107 14.401C18.7264 14.4388 18.7494 14.4733 18.7783 14.5022L19.6099 15.3333C19.6683 15.3917 19.7476 15.4245 19.8304 15.4245C19.913 15.4245 19.9923 15.3917 20.0507 15.3333L21.7134 13.6706C21.7718 13.612 21.8046 13.5326 21.8046 13.45C21.8045 13.3672 21.7717 13.2879 21.713 13.2294C21.6546 13.171 21.5752 13.1382 21.4925 13.1382C21.4097 13.1383 21.3304 13.1713 21.272 13.2298L19.83 14.6724L19.2196 14.0614Z" fill="#5E3A58"/>
+              <path d="M10.2707 20.1509C10.188 20.1509 10.1087 20.1837 10.0503 20.2423C9.99181 20.3007 9.95898 20.38 9.95898 20.4626C9.95898 20.5453 9.99181 20.6246 10.0503 20.683C10.1087 20.7415 10.188 20.7743 10.2707 20.7743H12.7644C12.8471 20.7743 12.9264 20.7415 12.9848 20.683C13.0434 20.6246 13.0762 20.5453 13.0762 20.4626C13.0762 20.38 13.0434 20.3007 12.9848 20.2423C12.9264 20.1837 12.8471 20.1509 12.7644 20.1509H10.2707Z" fill="#5E3A58"/>
+            </svg>
+          </div>
+          <strong class="trust-title">Secure Payment</strong
+          ><span class="trust-subtitle">Protected and safe transactions</span>
+        </div>
+      </div>
+
+      <!-- Mobile-Only Featured Review Card (Caroline T.) -->
+      <div class="mobile-featured-review-card">
+        <div class="review-media">
+          <img src="{{ 'spotlight-caroline.png' | asset_url }}" alt="Before and After Results" class="review-img">
+          <div class="split-badges">
+            <span class="pill-badge before-pill">BEFORE</span>
+            <span class="pill-badge after-pill">AFTER</span>
+          </div>
+        </div>
+        <div class="review-body">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <h4 class="review-headline">I Feel Like Myself Again</h4>
+          <p class="review-quote">
+            &ldquo;I look and feel like my younger self again. It’s nice having color that looks natural and not fake or
+            harsh.&rdquo;
+          </p>
+          <div class="review-author-row">
+            <span class="review-author">Caroline T., Austin, TX</span>
+            <span class="review-verified">&#10003; Verified Buyer</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- UGC Social Proof Section: Happy Customers Have Made The Switch -->
+      <div class="ugc-customers-section">
+        <h2 class="ugc-section-heading">
+          Over 840,000+ Happy Customers<br>
+          Have Made The Switch
+        </h2>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+        <style>
+          .ugc-customers-swiper {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+          }
+          .ugc-customers-swiper .swiper-wrapper {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            box-sizing: border-box;
+          }
+          .ugc-customers-swiper .swiper-slide {
+            flex-shrink: 0 !important;
+            box-sizing: border-box;
+          }
+          @media (max-width: 768px) {
+            .ugc-customers-swiper .swiper-slide {
+              width: calc((100% - 15px) / 2.3);
+            }
+          }
+        </style>
+        {% comment %}
+          <div class="swiper ugc-customers-swiper" id="ugcCustomersSwiper">
+            <div class="swiper-wrapper">
+              <!-- Video Card 1 -->
+              <div class="swiper-slide ugc-customer-slide">
+                <div class="ugc-video-card" data-video="{{ 'customer1.mp4' | asset_url }}">
+                  <img src="{{ 'customer_story.jpg' | asset_url }}" alt="Customer Video Review 1" class="ugc-cover-img">
+                  <button class="ugc-play-btn" aria-label="Play Customer Video">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF">
+                      <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Video Card 2 -->
+              <div class="swiper-slide ugc-customer-slide">
+                <div class="ugc-video-card" data-video="{{ 'customer1.mp4' | asset_url }}">
+                  <img src="{{ 'before_after.jpg' | asset_url }}" alt="Customer Video Review 2" class="ugc-cover-img">
+                  <button class="ugc-play-btn" aria-label="Play Customer Video">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF">
+                      <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Video Card 3 -->
+              <div class="swiper-slide ugc-customer-slide">
+                <div class="ugc-video-card" data-video="{{ 'customer1.mp4' | asset_url }}">
+                  <img src="{{ 'customer_story.jpg' | asset_url }}" alt="Customer Video Review 3" class="ugc-cover-img">
+                  <button class="ugc-play-btn" aria-label="Play Customer Video">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF">
+                      <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Video Card 4 -->
+              <div class="swiper-slide ugc-customer-slide">
+                <div class="ugc-video-card" data-video="{{ 'customer1.mp4' | asset_url }}">
+                  <img src="{{ 'before_after.jpg' | asset_url }}" alt="Customer Video Review 4" class="ugc-cover-img">
+                  <button class="ugc-play-btn" aria-label="Play Customer Video">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF">
+                      <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Video Card 5 -->
+              <div class="swiper-slide ugc-customer-slide">
+                <div class="ugc-video-card" data-video="{{ 'customer1.mp4' | asset_url }}">
+                  <img
+                    src="{{ 'spotlight-caroline.png' | asset_url }}"
+                    alt="Customer Video Review 5"
+                    class="ugc-cover-img"
+                  >
+                  <button class="ugc-play-btn" aria-label="Play Customer Video">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF">
+                      <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endcomment %}
+
+        <div class="swiper ugc-customers-swiper" id="ugcCustomersSwiper">
+          <div class="swiper-wrapper">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'ugc_video' -%}
+                {%- assign v = block.settings.video -%}
+                {%- assign v_src = v.sources | where: 'format', 'mp4' | sort: 'height' | last -%}
+                {%- assign cdn_url = block.settings.cdn_video_url | strip -%}
+                {%- assign final_video = cdn_url | default: v_src.url -%}
+                <div class="swiper-slide ugc-customer-slide" {{ block.shopify_attributes }}>
+                  <div class="ugc-video-card" data-video="{{ final_video | escape }}">
+                    {%- if block.settings.cover != blank -%}
+                      <img
+                        src="{{ block.settings.cover | image_url: width: 600 }}"
+                        alt="Customer Video Review {{ forloop.index }}"
+                        class="ugc-cover-img"
+                        loading="lazy"
+                      >
+                    {%- elsif v.preview_image != blank -%}
+                      <img
+                        src="{{ v.preview_image | image_url: width: 600 }}"
+                        alt="Customer Video Review {{ forloop.index }}"
+                        class="ugc-cover-img"
+                        loading="lazy"
+                      >
+                    {%- else -%}
+                      <img
+                        src="{{ 'customer_story.jpg' | asset_url }}"
+                        alt="Customer Video Review {{ forloop.index }}"
+                        class="ugc-cover-img"
+                        loading="lazy"
+                      >
+                    {%- endif -%}
+                    {%- if final_video != blank -%}
+                      <button class="ugc-play-btn" aria-label="Play Customer Video">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF">
+                          <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                        </svg>
+                      </button>
+                    {%- endif -%}
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+
+        <!-- Carousel Controls -->
+        <div class="ugc-nav-controls">
+          <button class="ugc-arrow prev ugc-cust-prev" aria-label="Previous customer video">
+            <svg width="10" height="16" viewBox="0 0 8 14" fill="none">
+              <path d="M7 1L1 7L7 13" stroke="#5E3A58" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+          <button class="ugc-arrow next ugc-cust-next" aria-label="Next customer video">
+            <svg width="10" height="16" viewBox="0 0 8 14" fill="none">
+              <path d="M1 1L7 7L1 13" stroke="#5E3A58" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Accordions -->
+      {% comment %}
+        <div class="product-accordions-group">
+          <div class="accordion-item active">
+            <button class="accordion-header" type="button">
+              <span class="accordion-title">Description</span>
+              <svg class="accordion-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                <path d="M1 1.5L6 6.5L11 1.5" stroke="#1E2123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="accordion-panel">
+              <p>
+                Forget mixing bowls, brushes, strong-smelling box dyes and constant salon touch-ups. ProvenWell makes
+                covering grays feel as easy as washing your hair. Apply it where you need color, let it develop, then
+                rinse.
+                <br>
+                The result is rich, natural-looking color that helps stubborn grays blend back into the hair around them.
+                No complicated routine. No obvious “just dyed” look. Just hair that looks richer, fresher and more like
+                you again.
+
+                {% comment %}
+                  {{
+                    product.description
+                    | default: 'Experience salon-grade gray coverage from the comfort of your own shower. Polar Hair Care Instant Dye Shampoo naturally covers stubborn gray hairs in under 10 minutes.'
+                  }}
+                {% endcomment %}
+              </p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header" type="button">
+              <span class="accordion-title">Ingredients</span>
+              <svg class="accordion-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                <path d="M1 1.5L6 6.5L11 1.5" stroke="#1E2123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="accordion-panel">
+              <p>
+                Aqua (Water), Argan Oil, Polygonum Multiflorum Extract, Ginseng Extract, Keratin, Ammonia-Free Plant Dye
+                Actives, Glycerin, Fragrance.
+              </p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header" type="button">
+              <span class="accordion-title">Shipping & delivery</span>
+              <svg class="accordion-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                <path d="M1 1.5L6 6.5L11 1.5" stroke="#1E2123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="accordion-panel">
+              <p>Dispatched within 24-48 hours. Free expedited shipping on 2+ bottles.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header" type="button">
+              <span class="accordion-title">Price breakdown</span>
+              <svg class="accordion-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                <path d="M1 1.5L6 6.5L11 1.5" stroke="#1E2123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="accordion-panel"><p>Up to 15 full uses per bottle = as low as $2.33 / Rs. 195 per use.</p></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header" type="button">
+              <span class="accordion-title">How To Use</span>
+              <svg class="accordion-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                <path d="M1 1.5L6 6.5L11 1.5" stroke="#1E2123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="accordion-panel">
+              <p>1. Put on gloves. 2. Pump into damp hair. 3. Massage 3-5 mins. 4. Wait 10 mins. 5. Rinse until clear.</p>
+            </div>
+          </div>
+          {%- if product.metafields.shopify['application-type'] != blank
+            or product.metafields.shopify['hair-color-formulation'] != blank
+            or product.metafields.shopify['product-form'] != blank
+            or product.metafields.shopify.material != blank
+            or product.metafields.shopify.application_type != blank
+            or product.metafields.shopify.hair_color_formulation != blank
+            or product.metafields.shopify.product_form != blank
+          -%}
+            <div class="accordion-item">
+              <button class="accordion-header" type="button">
+                <span class="accordion-title">Product Specifications</span>
+                <svg class="accordion-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                  <path d="M1 1.5L6 6.5L11 1.5" stroke="#1E2123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <div class="accordion-panel">
+                <div class="metafield-specs-grid">
+                  {%- if product.metafields.shopify['application-type'] != blank
+                    or product.metafields.shopify.application_type != blank
+                  -%}
+                    <div class="spec-item">
+                      <span class="spec-label">Application Type</span
+                      ><strong class="spec-val">
+                        {{-
+                          product.metafields.shopify['application-type'].value
+                          | default: product.metafields.shopify.application_type.value
+                          | default: product.metafields.shopify['application-type']
+                        -}}
+                      </strong>
+                    </div>
+                  {%- endif -%}
+                  {%- if product.metafields.shopify['hair-color-formulation'] != blank
+                    or product.metafields.shopify.hair_color_formulation != blank
+                  -%}
+                    <div class="spec-item">
+                      <span class="spec-label">Hair Color Formulation</span
+                      ><strong class="spec-val">
+                        {{-
+                          product.metafields.shopify['hair-color-formulation'].value
+                          | default: product.metafields.shopify.hair_color_formulation.value
+                          | default: product.metafields.shopify['hair-color-formulation']
+                        -}}
+                      </strong>
+                    </div>
+                  {%- endif -%}
+                  {%- if product.metafields.shopify['product-form'] != blank
+                    or product.metafields.shopify.product_form != blank
+                  -%}
+                    <div class="spec-item">
+                      <span class="spec-label">Product Form</span
+                      ><strong class="spec-val">
+                        {{-
+                          product.metafields.shopify['product-form'].value
+                          | default: product.metafields.shopify.product_form.value
+                          | default: product.metafields.shopify['product-form']
+                        -}}
+                      </strong>
+                    </div>
+                  {%- endif -%}
+                  {%- if product.metafields.shopify.material != blank -%}
+                    <div class="spec-item">
+                      <span class="spec-label">Material</span
+                      ><strong class="spec-val">
+                        {{- product.metafields.shopify.material.value | default: product.metafields.shopify.material -}}
+                      </strong>
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      {% endcomment %}
+
+      <!-- Dynamic Product Accordions -->
+      <div class="product-accordions-group">
+        {% for block in section.blocks %}
+          {% if block.type == 'accordion' %}
+            <div
+              class="accordion-item{% if block.settings.open_by_default %} active{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              <button
+                class="accordion-header"
+                type="button"
+                aria-expanded="{{ block.settings.open_by_default }}"
+              >
+                <span class="accordion-title">
+                  {{ block.settings.title | escape }}
+                </span>
+
+                <svg
+                  class="accordion-arrow"
+                  width="12"
+                  height="8"
+                  viewBox="0 0 12 8"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M1 1.5L6 6.5L11 1.5"
+                    stroke="#1E2123"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+
+              <div class="accordion-panel">
+                <div class="accordion-content">
+                  {{ block.settings.content }}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    function initMainProduct() {
+      var section = document.getElementById('productSection');
+      if (!section) return;
+
+      // 1. Accordion Toggle
+      var accordionHeaders = section.querySelectorAll('.accordion-header');
+      accordionHeaders.forEach(function (header) {
+        header.addEventListener('click', function (e) {
+          e.preventDefault();
+          var item = header.closest('.accordion-item');
+          if (item) {
+            item.classList.toggle('active');
+          }
+        });
+      });
+
+      // 2. Product Main Image Swiper Carousel & Thumbnails Sync
+      var productSwiperInstance = null;
+
+      function initProductGallerySwiper() {
+        var gallerySwiperEl = section.querySelector('#mainProductSwiper');
+        if (!gallerySwiperEl || typeof Swiper === 'undefined') return;
+
+        var thumbBtns = section.querySelectorAll('.thumb-item');
+        var galleryCurrentIndex = section.querySelector('#galleryCurrentIndex');
+        var galleryTotalCount = section.querySelector('#galleryTotalCount');
+        var prevBtn = section.querySelector('.thumb-nav-btn.prev');
+        var nextBtn = section.querySelector('.thumb-nav-btn.next');
+
+        if (galleryTotalCount && thumbBtns.length > 0) {
+          galleryTotalCount.textContent = thumbBtns.length;
+        }
+
+        if (productSwiperInstance) {
+          try {
+            productSwiperInstance.destroy(true, true);
+          } catch (err) {}
+          productSwiperInstance = null;
+        }
+
+        function syncThumbnails(activeIndex) {
+          if (galleryCurrentIndex) {
+            galleryCurrentIndex.textContent = activeIndex + 1;
+          }
+          thumbBtns.forEach(function (thumb, i) {
+            if (i === activeIndex) {
+              thumb.classList.add('active');
+              thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            } else {
+              thumb.classList.remove('active');
+            }
+          });
+        }
+
+        productSwiperInstance = new Swiper(gallerySwiperEl, {
+          slidesPerView: 1,
+          spaceBetween: 0,
+          speed: 350,
+          grabCursor: true,
+          rewind: true,
+          watchOverflow: true,
+          touchRatio: 1,
+          threshold: 5,
+          resistanceRatio: 0.85,
+          on: {
+            init: function () {
+              syncThumbnails(this.activeIndex);
+            },
+            slideChange: function () {
+              syncThumbnails(this.activeIndex);
+            },
+          },
+        });
+
+        // Prev Button click handler
+        if (prevBtn) {
+          prevBtn.onclick = function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (productSwiperInstance) {
+              productSwiperInstance.slidePrev();
+            }
+          };
+        }
+
+        // Next Button click handler
+        if (nextBtn) {
+          nextBtn.onclick = function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (productSwiperInstance) {
+              productSwiperInstance.slideNext();
+            }
+          };
+        }
+
+        // Thumbnail Items click handler
+        thumbBtns.forEach(function (thumb, idx) {
+          thumb.onclick = function (e) {
+            e.preventDefault();
+            if (productSwiperInstance) {
+              productSwiperInstance.slideTo(idx);
+            }
+          };
+        });
+      }
+
+      // 3. Color Swatches (Category Metafield)
+      var colorSwatches = section.querySelectorAll('.color-swatch-btn');
+      var selectedColorName = section.querySelector('#selectedColorName');
+      var shadeBadgeText = section.querySelector('#shadeBadgeText');
+      var selectedColorProperty = section.querySelector('#selectedColorProperty');
+
+      colorSwatches.forEach(function (swatch) {
+        swatch.addEventListener('click', function (e) {
+          e.preventDefault();
+          colorSwatches.forEach(function (s) {
+            s.classList.remove('active');
+          });
+          swatch.classList.add('active');
+          var color = swatch.getAttribute('data-color');
+          if (selectedColorName && color) selectedColorName.textContent = color;
+          if (shadeBadgeText && color) shadeBadgeText.textContent = 'NATURAL ' + color.toUpperCase();
+          if (selectedColorProperty && color) selectedColorProperty.value = color;
+        });
+      });
+
+      // 4. Bundle Quantity & Rewards Unlock (Variants)
+      var bundleCards = section.querySelectorAll('.bundle-card');
+      var currentPriceEl = section.querySelector('#currentPrice');
+      var comparePriceEl = section.querySelector('#comparePrice');
+      var discountPills = section.querySelectorAll('.discount-pill');
+      var selectedVariantId = section.querySelector('#selectedVariantId');
+      var selectedQuantityInput = section.querySelector('#selectedQuantityInput');
+      var addToCartBtn = section.querySelector('#addToCartBtn');
+      var rewardsStatusText = section.querySelector('#rewardsStatusText');
+      var rewardsProgressFill = section.querySelector('#rewardsProgressFill');
+      var rewardsHintText = section.querySelector('#rewardsHintText');
+      var rewardShipping = section.querySelector('#rewardShipping');
+      var rewardConditioner = section.querySelector('#rewardConditioner');
+      var milestoneShipping = section.querySelector('#milestoneShipping');
+      var milestoneConditioner = section.querySelector('#milestoneConditioner');
+
+      function formatPrice(centsOrValue) {
+        if (!centsOrValue) return '';
+        var num = Number(centsOrValue);
+        if (num > 10000) num = num / 100;
+        return 'Rs. ' + Math.round(num).toLocaleString('en-IN') + '.00';
+      }
+
+      bundleCards.forEach(function (card) {
+        card.addEventListener('click', function (e) {
+          e.preventDefault();
+          bundleCards.forEach(function (c) {
+            c.classList.remove('active');
+          });
+          card.classList.add('active');
+
+          var variantId = card.getAttribute('data-variant-id');
+          var qty = parseInt(card.getAttribute('data-qty') || '1', 10);
+          var price = card.getAttribute('data-price');
+          var compare = card.getAttribute('data-compare');
+          var save = card.getAttribute('data-save');
+          var isAvailable = card.getAttribute('data-available') !== 'false';
+
+          if (selectedVariantId && variantId) selectedVariantId.value = variantId;
+          var hasSameVariantIds =
+            bundleCards.length > 1 &&
+            bundleCards[0].getAttribute('data-variant-id') === bundleCards[1].getAttribute('data-variant-id');
+          if (selectedQuantityInput) {
+            selectedQuantityInput.value = hasSameVariantIds ? qty : 1;
+          }
+          if (currentPriceEl && price) currentPriceEl.textContent = formatPrice(price);
+          if (comparePriceEl && compare) comparePriceEl.textContent = formatPrice(compare);
+          if (discountPills.length > 0 && save) {
+            discountPills.forEach(function (pill) {
+              pill.textContent = 'FALL SALE | SAVE ' + save;
+            });
+          }
+
+          if (addToCartBtn) {
+            var btnSpan = addToCartBtn.querySelector('span') || addToCartBtn;
+            if (!isAvailable) {
+              btnSpan.textContent = 'SOLD OUT';
+              addToCartBtn.disabled = true;
+            } else {
+              btnSpan.textContent = 'ADD TO CART';
+              addToCartBtn.disabled = false;
+            }
+          }
+
+          if (qty === 1) {
+            if (rewardsStatusText) rewardsStatusText.textContent = '0 of 2 unlocked';
+            if (rewardsProgressFill) rewardsProgressFill.style.width = '15%';
+            if (rewardShipping) rewardShipping.classList.remove('unlocked');
+            if (rewardConditioner) rewardConditioner.classList.remove('unlocked');
+            if (milestoneShipping) milestoneShipping.classList.remove('unlocked');
+            if (milestoneConditioner) milestoneConditioner.classList.remove('unlocked');
+            if (rewardsHintText) rewardsHintText.textContent = 'Add 1 more bottle to unlock free shipping';
+          } else if (qty === 2) {
+            if (rewardsStatusText) rewardsStatusText.textContent = '1 of 2 unlocked';
+            if (rewardsProgressFill) rewardsProgressFill.style.width = '55%';
+            if (rewardShipping) rewardShipping.classList.add('unlocked');
+            if (rewardConditioner) rewardConditioner.classList.remove('unlocked');
+            if (milestoneShipping) milestoneShipping.classList.add('unlocked');
+            if (milestoneConditioner) milestoneConditioner.classList.remove('unlocked');
+            if (rewardsHintText) rewardsHintText.textContent = 'Add 1 more bottle to unlock free conditioner';
+          } else if (qty >= 3) {
+            if (rewardsStatusText) rewardsStatusText.textContent = '2 of 2 unlocked 🎉';
+            if (rewardsProgressFill) rewardsProgressFill.style.width = '100%';
+            if (rewardShipping) rewardShipping.classList.add('unlocked');
+            if (rewardConditioner) rewardConditioner.classList.add('unlocked');
+            if (milestoneShipping) milestoneShipping.classList.add('unlocked');
+            if (milestoneConditioner) milestoneConditioner.classList.add('unlocked');
+            if (rewardsHintText)
+              rewardsHintText.textContent = 'All rewards unlocked! You qualify for Free Shipping & Conditioner!';
+          }
+        });
+      });
+
+      // 5. URL Parameter Handling / Initial Auto-Selection
+      try {
+        var urlParams = new URLSearchParams(window.location.search);
+        var urlVariantId = urlParams.get('variant');
+        var urlQty = urlParams.get('qty') || urlParams.get('quantity') || urlParams.get('bundle');
+        var urlColor = urlParams.get('color') || urlParams.get('shade');
+
+        var cardToSelect = null;
+        if (urlVariantId) {
+          cardToSelect = section.querySelector('.bundle-card[data-variant-id="' + urlVariantId + '"]');
+        }
+        if (!cardToSelect && urlQty) {
+          cardToSelect = section.querySelector('.bundle-card[data-qty="' + urlQty + '"]');
+        }
+        if (!cardToSelect) {
+          cardToSelect = section.querySelector('.bundle-card.active') || bundleCards[0];
+        }
+
+        if (cardToSelect) {
+          cardToSelect.click();
+        }
+
+        if (urlColor) {
+          var targetSwatch = section.querySelector('.color-swatch-btn[data-color="' + urlColor + '"]');
+          if (targetSwatch) {
+            targetSwatch.click();
+          }
+        }
+      } catch (err) {
+        console.warn('PDP URL param selection error:', err);
+      }
 
       async function refreshCartDrawer() {
         try {

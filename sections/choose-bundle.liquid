@@ -594,6 +594,11 @@
         assign bundle_product = collections.all.products.first
       endif
 
+      assign pdp_base_url = bundle_product.url | default: '/products/instant-dye-shampoo'
+      if pdp_base_url == blank
+        assign pdp_base_url = '/products/instant-dye-shampoo'
+      endif
+
       assign v1 = nil
       assign v2 = nil
       assign v3 = nil
@@ -854,19 +859,19 @@
           </li>
         </ul>
 
-        <button
-          type="button"
-          class="bundle-btn bundle-btn-primary"
+        <a
+          href="{{ pdp_base_url }}?variant={{ v1.id }}&qty=1"
+          class="bundle-btn bundle-btn-primary{% if v1 != blank and v1.available == false %} disabled{% endif %}"
           data-variant-id="{{ v1.id }}"
-          data-bundle-qty="{{ v1_add_qty }}"
+          data-bundle-qty="1"
           data-bundle-price="{{ v1_total }}"
           data-bundle-compare="{{ v1_compare_total }}"
           {% if default_bundle_color != blank %}data-bundle-color="{{ default_bundle_color | escape }}"{% endif %}
-          aria-label="Add {{ bundle_1_title | escape }} bundle to cart"
-          {% if v1 != blank and v1.available == false %}disabled{% endif %}
+          aria-label="Buy {{ bundle_1_title | escape }} bundle now"
+          {% if v1 != blank and v1.available == false %}aria-disabled="true" tabindex="-1"{% endif %}
         >
-          <span>{% if v1 != blank and v1.available == false %}SOLD OUT{% else %}ADD TO CART{% endif %}</span>
-        </button>
+          <span>{% if v1 != blank and v1.available == false %}SOLD OUT{% else %}BUY NOW{% endif %}</span>
+        </a>
       </div>
 
       <!-- Bundle Card 2: 2 Bottles (Featured / Most Popular) -->
@@ -950,19 +955,19 @@
           </li>
         </ul>
 
-        <button
-          type="button"
-          class="bundle-btn bundle-btn-inverse"
+        <a
+          href="{{ pdp_base_url }}?variant={{ v2.id | default: v1.id }}&qty=2"
+          class="bundle-btn bundle-btn-inverse{% if v2 != blank and v2.available == false %} disabled{% endif %}"
           data-variant-id="{{ v2.id | default: v1.id }}"
-          data-bundle-qty="{{ v2_add_qty }}"
+          data-bundle-qty="2"
           data-bundle-price="{{ v2_total }}"
           data-bundle-compare="{{ v2_compare_total }}"
           {% if default_bundle_color != blank %}data-bundle-color="{{ default_bundle_color | escape }}"{% endif %}
-          aria-label="Add {{ bundle_2_title | escape }} bundle to cart"
-          {% if v2 != blank and v2.available == false %}disabled{% endif %}
+          aria-label="Buy {{ bundle_2_title | escape }} bundle now"
+          {% if v2 != blank and v2.available == false %}aria-disabled="true" tabindex="-1"{% endif %}
         >
-          <span>{% if v2 != blank and v2.available == false %}SOLD OUT{% else %}ADD TO CART{% endif %}</span>
-        </button>
+          <span>{% if v2 != blank and v2.available == false %}SOLD OUT{% else %}BUY NOW{% endif %}</span>
+        </a>
       </div>
 
       <!-- Bundle Card 3: 3 Bottles (Best Value) -->
@@ -1044,19 +1049,19 @@
           </li>
         </ul>
 
-        <button
-          type="button"
-          class="bundle-btn bundle-btn-primary"
+        <a
+          href="{{ pdp_base_url }}?variant={{ v3.id | default: v1.id }}&qty=3"
+          class="bundle-btn bundle-btn-primary{% if v3 != blank and v3.available == false %} disabled{% endif %}"
           data-variant-id="{{ v3.id | default: v1.id }}"
-          data-bundle-qty="{{ v3_add_qty }}"
+          data-bundle-qty="3"
           data-bundle-price="{{ v3_total }}"
           data-bundle-compare="{{ v3_compare_total }}"
           {% if default_bundle_color != blank %}data-bundle-color="{{ default_bundle_color | escape }}"{% endif %}
-          aria-label="Add {{ bundle_3_title | escape }} bundle to cart"
-          {% if v3 != blank and v3.available == false %}disabled{% endif %}
+          aria-label="Buy {{ bundle_3_title | escape }} bundle now"
+          {% if v3 != blank and v3.available == false %}aria-disabled="true" tabindex="-1"{% endif %}
         >
-          <span>{% if v3 != blank and v3.available == false %}SOLD OUT{% else %}ADD TO CART{% endif %}</span>
-        </button>
+          <span>{% if v3 != blank and v3.available == false %}SOLD OUT{% else %}BUY NOW{% endif %}</span>
+        </a>
       </div>
     </div>
 
@@ -1151,7 +1156,7 @@
 
 <script>
   (function () {
-    function initBundleCart() {
+    function initChooseBundleRedirect() {
       var section =
         document.getElementById('bundleOfferSection') ||
         document.getElementById('chooseBundle') ||
@@ -1160,128 +1165,77 @@
 
       var bundleButtons = section.querySelectorAll('.bundle-btn');
       bundleButtons.forEach(function (btn) {
-        if (btn._bundleCartBound) return;
-        btn._bundleCartBound = true;
+        if (btn._bundleBuyNowBound) return;
+        btn._bundleBuyNowBound = true;
 
-        btn.addEventListener('click', async function (e) {
-          e.preventDefault();
-          var variantId = btn.getAttribute('data-variant-id');
-          var qty = parseInt(btn.getAttribute('data-bundle-qty') || '1', 10);
-          if (!variantId) {
-            console.warn('Bundle cart: No variant ID found on button');
+        btn.addEventListener('click', function (e) {
+          if (btn.classList.contains('disabled') || btn.getAttribute('aria-disabled') === 'true') {
+            e.preventDefault();
             return;
           }
 
-          var btnSpan = btn.querySelector('span');
-          var originalText = btnSpan ? btnSpan.textContent : btn.textContent;
-          btn.disabled = true;
-          if (btnSpan) btnSpan.textContent = 'ADDING...';
+          var variantId = btn.getAttribute('data-variant-id');
+          var qty = btn.getAttribute('data-bundle-qty') || '1';
+          var color = btn.getAttribute('data-bundle-color');
 
-          try {
-            var formData = new FormData();
-            formData.append('id', variantId);
-            formData.append('quantity', qty);
+          // Check if the PDP main product section already exists on the current page
+          var pdpSection =
+            document.querySelector('.product-main-container') ||
+            document.querySelector('.bundles-grid') ||
+            document.querySelector('#product-form');
 
-            var colorProp = btn.getAttribute('data-bundle-color');
-            if (colorProp) {
-              formData.append('properties[Color]', colorProp);
+          if (pdpSection) {
+            e.preventDefault();
+
+            // Find matching card on this page and trigger click to select variant and update rewards
+            var targetCard = null;
+            if (variantId) {
+              targetCard = document.querySelector('.bundle-card[data-variant-id="' + variantId + '"]');
+            }
+            if (!targetCard && qty) {
+              targetCard = document.querySelector('.bundle-card[data-qty="' + qty + '"]');
             }
 
-            var addUrl = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root)
-              ? window.Shopify.routes.root + 'cart/add.js'
-              : (window.routes && window.routes.cart_add_url ? window.routes.cart_add_url : '/cart/add.js');
-
-            var res = await fetch(addUrl, {
-              method: 'POST',
-              headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                Accept: 'application/json',
-              },
-              body: formData,
-            });
-
-            var data = await res.json();
-            if (!res.ok || (data.status && data.status >= 400)) {
-              throw new Error(data.description || data.message || 'Unable to add bundle to cart');
+            if (targetCard) {
+              targetCard.click();
             }
 
-            // 1. Refresh cart drawer HTML if Horizon theme drawer exists
-            try {
-              var drawerRes = await fetch(window.location.pathname + '?sections=cart-drawer');
-              var drawerJson = await drawerRes.json();
-              var drawerHtml = drawerJson && drawerJson['cart-drawer'];
-              if (drawerHtml) {
-                var drawerEl = document.querySelector('#cart-drawer');
-                if (drawerEl) {
-                  var parser = new DOMParser();
-                  var doc = parser.parseFromString(drawerHtml, 'text/html');
-                  var newDrawer = doc.querySelector('#cart-drawer');
-                  if (newDrawer) drawerEl.innerHTML = newDrawer.innerHTML;
-                }
-              }
-            } catch (err) {
-              console.warn('Failed to refresh cart-drawer HTML:', err);
+            if (color) {
+              var targetColorSwatch = document.querySelector('.color-swatch-btn[data-color="' + color + '"]');
+              if (targetColorSwatch) targetColorSwatch.click();
             }
 
-            // 2. Fetch fresh cart count & dispatch update event
-            try {
-              var cartUrl = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root)
-                ? window.Shopify.routes.root + 'cart.js'
-                : '/cart.js';
-              var cartRes = await fetch(cartUrl);
-              var cart = await cartRes.json();
-              document.dispatchEvent(
-                new CustomEvent('cart:update', {
-                  bubbles: true,
-                  detail: { data: { itemCount: cart.item_count, source: 'choose-bundle' } },
-                })
-              );
-            } catch (err) {
-              console.warn('Failed to fetch cart.js:', err);
-            }
+            // Smooth scroll to product buy area
+            var scrollTarget =
+              document.querySelector('#product-form') ||
+              document.querySelector('.quantity-bundles-wrapper') ||
+              document.querySelector('.product-info') ||
+              pdpSection;
 
-            // 3. Open cart drawer
-            var drawer = document.querySelector('#cart-drawer');
-            if (drawer && typeof drawer.open === 'function') {
-              drawer.open();
-            } else if (drawer && typeof drawer.show === 'function') {
-              drawer.show();
-            } else if (typeof window.openShopifyCartDrawer === 'function') {
-              window.openShopifyCartDrawer(data, btn);
-            } else {
-              var cartDrawer =
-                document.querySelector('cart-drawer') ||
-                document.querySelector('#CartDrawer') ||
-                document.querySelector('cart-notification');
-              if (cartDrawer && typeof cartDrawer.renderContents === 'function') {
-                cartDrawer.renderContents(data);
-              } else if (cartDrawer && typeof cartDrawer.open === 'function') {
-                cartDrawer.open(btn);
-              } else if (cartDrawer && cartDrawer.classList) {
-                cartDrawer.classList.add('animate', 'active');
-                document.body.classList.add('overflow-hidden');
-              } else {
-                var bubble =
-                  document.querySelector('#cart-icon-bubble') ||
-                  document.querySelector('.header__icon--cart');
-                if (bubble) bubble.click();
-              }
+            if (scrollTarget) {
+              scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
-          } catch (err) {
-            console.error('Bundle add to cart error:', err);
-            alert(err.message || 'Error adding bundle to cart.');
-          } finally {
-            btn.disabled = false;
-            if (btnSpan) btnSpan.textContent = originalText;
+            return;
+          }
+
+          // If not currently on PDP page, let the standard link redirect to the PDP page with variant & qty params.
+          var currentHref = btn.getAttribute('href');
+          if (!currentHref || currentHref === '#' || currentHref.indexOf('javascript') === 0) {
+            e.preventDefault();
+            var targetUrl = '{{ pdp_base_url }}' + '?variant=' + encodeURIComponent(variantId) + '&qty=' + encodeURIComponent(qty);
+            if (color) {
+              targetUrl += '&color=' + encodeURIComponent(color);
+            }
+            window.location.href = targetUrl;
           }
         });
       });
     }
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initBundleCart);
+      document.addEventListener('DOMContentLoaded', initChooseBundleRedirect);
     } else {
-      initBundleCart();
+      initChooseBundleRedirect();
     }
 
     document.addEventListener('shopify:section:load', function (e) {
@@ -1291,7 +1245,7 @@
           e.target.querySelector('#chooseBundle') ||
           e.target.querySelector('.bundle-offer-section'))
       ) {
-        initBundleCart();
+        initChooseBundleRedirect();
       }
     });
   })();
