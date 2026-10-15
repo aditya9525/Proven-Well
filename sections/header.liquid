@@ -505,7 +505,7 @@
       <a href="{{ routes.root_url }}" class="header-logo" aria-label="ProvenWell">
         {%- if section.settings.logo != blank -%}
           <img
-            src="{{ section.settings.logo | image_url: width: 300 }}"
+            src="{{ 'provenwellLogo.svg' | asset_url }}"
             alt="{{ section.settings.logo.alt | default: shop.name | escape }}"
             loading="eager"
             class="brand-logo-img"
@@ -514,7 +514,7 @@
           >
         {%- else -%}
           <img
-            src="{{ 'provenwellLogo.png' | asset_url }}"
+            src="{{ 'provenwellLogo.svg' | asset_url }}"
             alt="ProvenWell"
             loading="eager"
             class="brand-logo-img"
