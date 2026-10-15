@@ -4849,7 +4849,7 @@ body {
 @media (max-width: 768px) {
   .guarantee-section {
     padding: 48px 16px 24px;
-    background: #FFFFFF;
+    background: transparent !important;
   }
 
   .guarantee-banner-card {
