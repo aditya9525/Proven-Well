@@ -216,7 +216,7 @@
         "eyebrow_text": "FALL SALE | SAVE 29%",
         "heading": "Cover your grays in<br>10 minutes —<br>naturally.",
         "subheading": "Just shampoo it in, wait 10 minutes and rinse. Natural-looking, ammonia-free color with no mixing, no gloves and no stains — loved by 840,000+ customers.",
-        "primary_btn_text": "Shop Now — From Rs. 2,333",
+        "primary_btn_text": "Shop Now — From Rs. 15,00",
         "primary_btn_link": "shopify://products/instant-dye-shampoo",
         "secondary_btn_text": "See Real Results",
         "secondary_btn_link": "",
@@ -266,6 +266,7 @@
       "type": "product-overview",
       "name": "Product Overview",
       "settings": {
+        "product": "",
         "image": "shopify://shop_images/78d6accdf0de29d9dd2142d891d524cd3b608a83.png",
         "eyebrow": "THE PRODUCT",
         "heading": "Instant Dye Shampoo — one bottle, 15 full applications.",
