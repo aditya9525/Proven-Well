@@ -266,7 +266,8 @@
       </div>
 
       <h1 class="product-main-title">{{ product.title | default: 'Instant Dye Shampoo' }}</h1>
-      <h2 class="product-subtitle">THE EASIEST WAY TO COVER GRAYS NATURALLY</h2>
+      {% comment %} <h2 class="product-subtitle">THE EASIEST WAY TO COVER GRAYS NATURALLY</h2> {% endcomment %}
+      <h2 class="product-subtitle">{{ product.description | default: 'THE EASIEST WAY TO COVER GRAYS NATURALLY' }}</h2>
 
       <hr class="product-divider">
       <!-- Pricing Row -->
