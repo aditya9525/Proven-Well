@@ -530,31 +530,29 @@
         "ugc_video_npE8yE": {
           "type": "ugc_video",
           "settings": {
-            "cdn_video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4"
+            "cdn_video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4",
+            "cover": "shopify://shop_images/aede531b80c9179f60ec8b869ae0cdb1e3ca4520_1.jpg"
           }
         },
         "ugc_video_MBgPm3": {
           "type": "ugc_video",
           "settings": {
-            "cdn_video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4"
+            "cdn_video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4",
+            "cover": "shopify://shop_images/magnific__using-the-uploaded-reference-images-edit-image-1-b__58893_1.png"
           }
         },
         "ugc_video_G9XWr4": {
           "type": "ugc_video",
           "settings": {
-            "cdn_video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4"
+            "cdn_video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4",
+            "cover": "shopify://shop_images/eef18626df78a760091bdc8046000c29b252a827_1.jpg"
           }
         },
         "ugc_video_KrtzHr": {
           "type": "ugc_video",
           "settings": {
-            "cdn_video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4"
-          }
-        },
-        "ugc_video_bJwrHA": {
-          "type": "ugc_video",
-          "settings": {
-            "cdn_video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4"
+            "cdn_video_url": "https://cdn.shopify.com/videos/c/o/v/dc4e196b25e04e7e8967f437a049d84b.mp4",
+            "cover": "shopify://shop_images/a3a5cd79b13fcd810c2bc01aa7c8d57af8fc6d74_1.jpg"
           }
         }
       },
@@ -567,8 +565,7 @@
         "ugc_video_npE8yE",
         "ugc_video_MBgPm3",
         "ugc_video_G9XWr4",
-        "ugc_video_KrtzHr",
-        "ugc_video_bJwrHA"
+        "ugc_video_KrtzHr"
       ],
       "name": "Main Product",
       "settings": {
