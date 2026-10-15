@@ -327,7 +327,9 @@
               <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
           </span>
-          <div class="feature-text"><span>Natural-looking color that</span><strong>doesn’t look obviously dyed</strong></div>
+          <div class="feature-text">
+            <span>Natural-looking color that</span><strong>doesn’t look obviously dyed</strong>
+          </div>
         </div>
         <div class="feature-item">
           <span class="feature-check-icon">
@@ -529,7 +531,7 @@
                     {%- if qty == 2 -%}+ Free Shipping{%- elsif qty >= 3 -%}Best Value{%- endif -%}
                   </span>
                 </div>
-               <span class="bundle-price-each">{{ var_price | divided_by: qty | money }} Each</span>
+                <span class="bundle-price-each">{{ var_price | divided_by: qty | money }} Each</span>
               </div>
             {%- endfor -%}
           {%- else -%}
@@ -682,7 +684,8 @@
       {%- endform -%}
 
       <p class="moneyback-guarantee-text">
-        <strong>30 Day Money-Back-Guarantee.</strong> Try ProvenWell risk-free. If you don’t love your results, contact us within 30 days for your money back.
+        <strong>30 Day Money-Back-Guarantee.</strong> Try ProvenWell risk-free. If you don’t love your results, contact
+        us within 30 days for your money back.
       </p>
 
       <!-- Warning Stock Box -->
@@ -977,10 +980,18 @@
           </button>
           <div class="accordion-panel">
             <p>
-              {{
-                product.description
-                | default: 'Experience salon-grade gray coverage from the comfort of your own shower. Polar Hair Care Instant Dye Shampoo naturally covers stubborn gray hairs in under 10 minutes.'
-              }}
+              Forget mixing bowls, brushes, strong-smelling box dyes and constant salon touch-ups. ProvenWell makes
+              covering grays feel as easy as washing your hair. Apply it where you need color, let it develop, then
+              rinse. The result is rich, natural-looking color that helps stubborn grays blend back into the hair around
+              them. No complicated routine. No obvious “just dyed” look. Just hair that looks richer, fresher and more
+              like you again.
+
+              {% comment %}
+                {{
+                  product.description
+                  | default: 'Experience salon-grade gray coverage from the comfort of your own shower. Polar Hair Care Instant Dye Shampoo naturally covers stubborn gray hairs in under 10 minutes.'
+                }}
+              {% endcomment %}
             </p>
           </div>
         </div>
