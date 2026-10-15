@@ -14,7 +14,7 @@
   endif
 
   # Target 1 Bottle Variant
-  assign v1 = nil
+  assign v1 = null
   if overview_product != blank and overview_product.variants.size > 0
     for variant in overview_product.variants
       assign v_title_lower = variant.title | downcase
@@ -23,7 +23,7 @@
         break
       endif
     endfor
-    if v1 == nil
+    if v1 == null
       assign v1 = overview_product.selected_or_first_available_variant | default: overview_product.variants[0]
     endif
   endif
@@ -108,21 +108,22 @@
 
 <section class="product-overview-section" id="productOverview-{{ section.id }}" aria-label="Product Solution Overview">
   <div class="product-overview-container">
-
     <!-- Left Column: Product Feature Callouts Visual Card -->
     <div class="product-overview-visual-col">
       <div class="product-overview-card">
         {%- if section.settings.image != blank -%}
-          {{ section.settings.image | image_url: width: 1120 | image_tag: 
-            class: 'product-overview-card-img', 
-            loading: 'lazy', 
-            alt: section.settings.heading | default: 'Polar Instant Dye Shampoo Feature Callouts' 
+          {{
+            section.settings.image
+            | image_url: width: 1120
+            | image_tag: class: 'product-overview-card-img', loading: 'lazy', alt: section.settings.heading
+            | default: 'Polar Instant Dye Shampoo Feature Callouts'
           }}
         {%- elsif overview_product.featured_image != blank -%}
-          {{ overview_product.featured_image | image_url: width: 1120 | image_tag:
-            class: 'product-overview-card-img',
-            loading: 'lazy',
-            alt: overview_product.title | escape
+          {{
+            overview_product.featured_image
+            | image_url: width: 1120
+            | image_tag: class: 'product-overview-card-img', loading: 'lazy', alt: overview_product.title
+            | escape
           }}
         {%- else -%}
           <img
@@ -139,7 +140,6 @@
 
     <!-- Right Column: Product Copy, Checklist, Specs, Swatches & CTAs -->
     <div class="product-overview-copy-col">
-
       <!-- Eyebrow -->
       {%- if section.settings.eyebrow != blank -%}
         <p class="product-overview-eyebrow">{{ section.settings.eyebrow | escape }}</p>
@@ -152,7 +152,10 @@
 
       <!-- Description Body -->
       <p class="product-overview-desc">
-        {{ section.settings.description | default: "A color-depositing shampoo powered by botanicals like Ganoderma (reishi), black sesame, ginseng and fo-ti. Apply to dry hair, wait 10 minutes, rinse — that's it." }}
+        {{
+          section.settings.description
+          | default: "A color-depositing shampoo powered by botanicals like Ganoderma (reishi), black sesame, ginseng and fo-ti. Apply to dry hair, wait 10 minutes, rinse — that's it."
+        }}
       </p>
 
       <!-- Feature Checklist (6 items) -->
@@ -163,7 +166,9 @@
               <polyline points="1.5 5 4.5 8 10.5 2"></polyline>
             </svg>
           </span>
-          <span class="product-overview-check-text">{{ section.settings.feature_1 | default: 'Full gray coverage' }}</span>
+          <span class="product-overview-check-text">
+            {{- section.settings.feature_1 | default: 'Full gray coverage' -}}
+          </span>
         </li>
 
         <li class="product-overview-check-item">
@@ -172,7 +177,9 @@
               <polyline points="1.5 5 4.5 8 10.5 2"></polyline>
             </svg>
           </span>
-          <span class="product-overview-check-text">{{ section.settings.feature_2 | default: 'Results in just 10 minutes' }}</span>
+          <span class="product-overview-check-text">
+            {{- section.settings.feature_2 | default: 'Results in just 10 minutes' -}}
+          </span>
         </li>
 
         <li class="product-overview-check-item">
@@ -181,7 +188,9 @@
               <polyline points="1.5 5 4.5 8 10.5 2"></polyline>
             </svg>
           </span>
-          <span class="product-overview-check-text">{{ section.settings.feature_3 | default: 'No stains, gloves or mixing' }}</span>
+          <span class="product-overview-check-text">
+            {{- section.settings.feature_3 | default: 'No stains, gloves or mixing' -}}
+          </span>
         </li>
 
         <li class="product-overview-check-item">
@@ -190,7 +199,9 @@
               <polyline points="1.5 5 4.5 8 10.5 2"></polyline>
             </svg>
           </span>
-          <span class="product-overview-check-text">{{ section.settings.feature_4 | default: 'Gentle on scalp, ammonia-free' }}</span>
+          <span class="product-overview-check-text">
+            {{- section.settings.feature_4 | default: 'Gentle on scalp, ammonia-free' -}}
+          </span>
         </li>
 
         <li class="product-overview-check-item">
@@ -199,7 +210,9 @@
               <polyline points="1.5 5 4.5 8 10.5 2"></polyline>
             </svg>
           </span>
-          <span class="product-overview-check-text">{{ section.settings.feature_5 | default: 'Color lasts 4–6 weeks' }}</span>
+          <span class="product-overview-check-text">
+            {{- section.settings.feature_5 | default: 'Color lasts 4–6 weeks' -}}
+          </span>
         </li>
 
         <li class="product-overview-check-item">
@@ -208,7 +221,9 @@
               <polyline points="1.5 5 4.5 8 10.5 2"></polyline>
             </svg>
           </span>
-          <span class="product-overview-check-text">{{ section.settings.feature_6 | default: 'Works on hair and beards' }}</span>
+          <span class="product-overview-check-text">
+            {{- section.settings.feature_6 | default: 'Works on hair and beards' -}}
+          </span>
         </li>
       </ul>
 
@@ -216,18 +231,24 @@
       <div class="product-overview-spec-table">
         <div class="product-overview-spec-cell">
           <span class="product-overview-spec-label">{{ section.settings.spec_1_label | default: 'SIZE' }}</span>
-          <span class="product-overview-spec-val">{{ section.settings.spec_1_val | default: '200 ml / 6.76 fl oz' }}</span>
+          <span class="product-overview-spec-val">
+            {{- section.settings.spec_1_val | default: '200 ml / 6.76 fl oz' -}}
+          </span>
         </div>
 
         <div class="product-overview-spec-cell">
-          <span class="product-overview-spec-label">{{ section.settings.spec_2_label | default: 'USES / BOTTLE' }}</span>
+          <span class="product-overview-spec-label">
+            {{- section.settings.spec_2_label | default: 'USES / BOTTLE' -}}
+          </span>
           <span class="product-overview-spec-val">{{ section.settings.spec_2_val | default: '15' }}</span>
         </div>
 
         <div class="product-overview-spec-cell">
           <span class="product-overview-spec-label">{{ section.settings.spec_3_label | default: 'SHADES' }}</span>
           <span class="product-overview-spec-val">
-            {%- if section.settings.spec_3_val != blank and section.settings.spec_3_val != 'Black · Dark · Med. Brown' -%}
+            {%- if section.settings.spec_3_val != blank
+              and section.settings.spec_3_val != 'Black · Dark · Med. Brown'
+            -%}
               {{ section.settings.spec_3_val }}
             {%- elsif dynamic_shades_list != blank -%}
               {{ dynamic_shades_list }}
@@ -245,7 +266,9 @@
 
       <!-- Shade Swatches (Dynamic Category Metafield & Swatches) -->
       <div class="product-overview-shades-wrapper">
-        <p class="product-overview-shades-heading">{{ section.settings.shades_heading | default: 'Choose your shade' }}</p>
+        <p class="product-overview-shades-heading">
+          {{ section.settings.shades_heading | default: 'Choose your shade' }}
+        </p>
         <div class="product-overview-swatches" role="radiogroup" aria-label="Select Hair Shade">
           {%- if cat_colors != blank -%}
             {%- for item in cat_colors -%}
@@ -306,7 +329,10 @@
                       loading="lazy"
                     >
                   {%- elsif c_hex != blank -%}
-                    <span class="swatch-hex-circle" style="background-color: {{ c_hex }}; width: 100%; height: 100%; display: block; border-radius: 6px;"></span>
+                    <span
+                      class="swatch-hex-circle"
+                      style="background-color: {{ c_hex }}; width: 100%; height: 100%; display: block; border-radius: 6px;"
+                    ></span>
                   {%- else -%}
                     <img
                       src="{{ 'swatch-dark-brown.png' | asset_url }}"
@@ -333,7 +359,14 @@
               data-color-name="Dark Brown"
             >
               <span class="product-swatch-thumb-wrap">
-                <img src="{{ 'swatch-dark-brown.png' | asset_url }}" alt="Dark Brown Shade Swatch" class="product-swatch-img" width="74" height="74" loading="lazy">
+                <img
+                  src="{{ 'swatch-dark-brown.png' | asset_url }}"
+                  alt="Dark Brown Shade Swatch"
+                  class="product-swatch-img"
+                  width="74"
+                  height="74"
+                  loading="lazy"
+                >
               </span>
               <span class="product-swatch-title">Dark Brown</span>
             </button>
@@ -348,7 +381,14 @@
               data-color-name="Medium Brown"
             >
               <span class="product-swatch-thumb-wrap">
-                <img src="{{ 'swatch-medium-brown.png' | asset_url }}" alt="Medium Brown Shade Swatch" class="product-swatch-img" width="74" height="74" loading="lazy">
+                <img
+                  src="{{ 'swatch-medium-brown.png' | asset_url }}"
+                  alt="Medium Brown Shade Swatch"
+                  class="product-swatch-img"
+                  width="74"
+                  height="74"
+                  loading="lazy"
+                >
               </span>
               <span class="product-swatch-title">Medium Brown</span>
             </button>
@@ -363,7 +403,14 @@
               data-color-name="Black"
             >
               <span class="product-swatch-thumb-wrap">
-                <img src="{{ 'swatch-black.png' | asset_url }}" alt="Black Shade Swatch" class="product-swatch-img" width="74" height="74" loading="lazy">
+                <img
+                  src="{{ 'swatch-black.png' | asset_url }}"
+                  alt="Black Shade Swatch"
+                  class="product-swatch-img"
+                  width="74"
+                  height="74"
+                  loading="lazy"
+                >
               </span>
               <span class="product-swatch-title">Black</span>
             </button>
@@ -387,23 +434,23 @@
           {{ section.settings.btn_2_text | default: 'Find Your Shade' }}
         </a>
       </div>
-
     </div>
-
   </div>
 </section>
 
 <script>
-  (function() {
-    var sectionEl = document.getElementById('productOverview-{{ section.id }}') || document.querySelector('.product-overview-section');
+  (function () {
+    var sectionEl =
+      document.getElementById('productOverview-{{ section.id }}') ||
+      document.querySelector('.product-overview-section');
     if (!sectionEl) return;
 
     var swatchBtns = sectionEl.querySelectorAll('.product-swatch-btn');
     var addBtn = sectionEl.querySelector('.product-overview-add-cart-btn');
 
-    swatchBtns.forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        swatchBtns.forEach(function(b) {
+    swatchBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        swatchBtns.forEach(function (b) {
           b.classList.remove('is-active');
           b.setAttribute('aria-checked', 'false');
         });
@@ -418,7 +465,7 @@
     });
 
     if (addBtn) {
-      addBtn.addEventListener('click', async function(e) {
+      addBtn.addEventListener('click', async function (e) {
         e.preventDefault();
         var variantId = addBtn.getAttribute('data-variant-id');
         var selectedColor = addBtn.getAttribute('data-selected-color');
@@ -432,9 +479,17 @@
 
         if (addBtn.disabled) return;
         addBtn.disabled = true;
-        if (btnTextEl) btnTextEl.textContent = 'Adding...';
+        if (btnTextEl) btnTextEl.textContent = 'Redirecting...';
+
+        var root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
 
         try {
+          // Purana cart clear karo taaki checkout mein sirf yahi item aaye
+          await fetch(root + 'cart/clear.js', {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+          });
+
           var formData = new FormData();
           formData.append('id', variantId);
           formData.append('quantity', '1');
@@ -442,17 +497,13 @@
             formData.append('properties[Color]', selectedColor);
           }
 
-          var addUrl = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root)
-            ? window.Shopify.routes.root + 'cart/add.js'
-            : (window.routes && window.routes.cart_add_url ? window.routes.cart_add_url : '/cart/add.js');
-
-          var res = await fetch(addUrl, {
+          var res = await fetch(root + 'cart/add.js', {
             method: 'POST',
             headers: {
               'X-Requested-With': 'XMLHttpRequest',
-              'Accept': 'application/json'
+              Accept: 'application/json',
             },
-            body: formData
+            body: formData,
           });
 
           var data = await res.json();
@@ -460,61 +511,14 @@
             throw new Error(data.description || data.message || 'Unable to add to cart');
           }
 
-          if (btnTextEl) btnTextEl.textContent = 'Added to Cart ✓';
-
-          // Refresh cart drawer HTML if exists
-          try {
-            var drawerRes = await fetch(window.location.pathname + '?sections=cart-drawer');
-            var drawerJson = await drawerRes.json();
-            var drawerHtml = drawerJson && drawerJson['cart-drawer'];
-            if (drawerHtml) {
-              var drawerEl = document.querySelector('#cart-drawer');
-              if (drawerEl) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(drawerHtml, 'text/html');
-                var newDrawer = doc.querySelector('#cart-drawer');
-                if (newDrawer) drawerEl.innerHTML = newDrawer.innerHTML;
-              }
-            }
-          } catch (err) {
-            console.warn('Cart drawer refresh warning:', err);
-          }
-
-          // Fetch fresh cart count & update badges
-          try {
-            var cartUrl = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root)
-              ? window.Shopify.routes.root + 'cart.js'
-              : '/cart.js';
-            var cartRes = await fetch(cartUrl);
-            var cart = await cartRes.json();
-            document.querySelectorAll('.cart-count').forEach(function(badge) {
-              badge.textContent = cart.item_count;
-            });
-            document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: cart } }));
-          } catch (err) {}
-
-          // Open cart drawer
-          var cartDrawer = document.querySelector('cart-drawer') || document.querySelector('#CartDrawer') || document.querySelector('#cart-drawer');
-          var nativeBubble = document.querySelector('#cart-icon-bubble');
-          if (typeof window.openShopifyCartDrawer === 'function') {
-            window.openShopifyCartDrawer(null, addBtn);
-          } else if (cartDrawer && typeof cartDrawer.open === 'function') {
-            cartDrawer.open(addBtn);
-          } else if (cartDrawer && cartDrawer.classList) {
-            cartDrawer.classList.add('animate', 'active');
-            document.body.classList.add('overflow-hidden');
-          } else if (nativeBubble) {
-            nativeBubble.click();
-          }
-
+          // Direct checkout
+          window.location.href = root + 'checkout';
         } catch (error) {
-          console.error('Add to cart error:', error);
-          window.location.href = '/cart/add?id=' + encodeURIComponent(variantId) + '&quantity=1' + (selectedColor ? '&properties[Color]=' + encodeURIComponent(selectedColor) : '');
-        } finally {
-          setTimeout(function() {
-            addBtn.disabled = false;
-            if (btnTextEl) btnTextEl.textContent = originalText;
-          }, 1800);
+          console.error('Buy now error:', error);
+          // Fallback: permalink (color property nahi jayegi, par checkout khulega)
+          window.location.href = root + 'cart/' + encodeURIComponent(variantId) + ':1';
+          addBtn.disabled = false;
+          if (btnTextEl) btnTextEl.textContent = originalText;
         }
       });
     }
