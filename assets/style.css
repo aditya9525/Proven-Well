@@ -2927,6 +2927,8 @@ body {
   width: 100%;
   background: #FFFFFF;
   padding: clamp(48px, 6vw, 80px) 0 clamp(40px, 5vw, 60px);
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .results-carousel-container {
