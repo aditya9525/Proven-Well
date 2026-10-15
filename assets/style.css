@@ -4873,7 +4873,7 @@ body {
     height: 320px;
     overflow: hidden;
     position: relative;
-    background-color: #F8F9FB;
+    /* background-color: #F8F9FB; */
   }
 
   .guarantee-mob-img {
