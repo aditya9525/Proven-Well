@@ -4,39 +4,17 @@
   4-column spec table, shade swatch selectors, and primary & secondary CTA buttons.
 {%- endcomment -%}
 
-{%- liquid
-  assign p = section.settings.product | default: product
-  assign one_bottle = p.selected_or_first_available_variant
-  for v in p.variants
-    if v.title contains '1'
-      assign one_bottle = v
-      break
-    endif
-  endfor
-
-  assign cat_colors = p.metafields.shopify['color-pattern'].value
-  if cat_colors == blank
-    assign cat_colors = p.metafields.shopify.color.value
-  endif
-  if cat_colors == blank
-    assign cat_colors = p.metafields.shopify['hair-color'].value
-  endif
-  if cat_colors == blank
-    assign cat_colors = p.metafields.custom.color.value
-  endif
--%}
-
-<section class="product-overview-section" id="productOverview-{{ section.id }}" aria-label="Product Solution Overview">
+<section class="product-overview-section" aria-label="Product Solution Overview">
   <div class="product-overview-container">
+
     <!-- Left Column: Product Feature Callouts Visual Card -->
     <div class="product-overview-visual-col">
       <div class="product-overview-card">
         {%- if section.settings.image != blank -%}
-          {{
-            section.settings.image
-            | image_url: width: 1120
-            | image_tag: class: 'product-overview-card-img', loading: 'lazy', alt: section.settings.heading
-            | default: 'Polar Instant Dye Shampoo Feature Callouts'
+          {{ section.settings.image | image_url: width: 1120 | image_tag: 
+            class: 'product-overview-card-img', 
+            loading: 'lazy', 
+            alt: section.settings.heading | default: 'Polar Instant Dye Shampoo Feature Callouts' 
           }}
         {%- else -%}
           <img
@@ -53,6 +31,7 @@
 
     <!-- Right Column: Product Copy, Checklist, Specs, Swatches & CTAs -->
     <div class="product-overview-copy-col">
+
       <!-- Eyebrow -->
       {%- if section.settings.eyebrow != blank -%}
         <p class="product-overview-eyebrow">{{ section.settings.eyebrow | escape }}</p>
@@ -65,10 +44,7 @@
 
       <!-- Description Body -->
       <p class="product-overview-desc">
-        {{
-          section.settings.description
-          | default: "A color-depositing shampoo powered by botanicals like Ganoderma (reishi), black sesame, ginseng and fo-ti. Apply to dry hair, wait 10 minutes, rinse — that's it."
-        }}
+        {{ section.settings.description | default: "A color-depositing shampoo powered by botanicals like Ganoderma (reishi), black sesame, ginseng and fo-ti. Apply to dry hair, wait 10 minutes, rinse — that's it." }}
       </p>
 
       <!-- Feature Checklist (6 items) -->
@@ -79,9 +55,7 @@
               <polyline points="1.5 5 4.5 8 10.5 2"></polyline>
             </svg>
           </span>
-          <span class="product-overview-check-text">
-            {{- section.settings.feature_1 | default: 'Full gray coverage' -}}
-          </span>
+          <span class="product-overview-check-text">{{ section.settings.feature_1 | default: 'Full gray coverage' }}</span>
         </li>
 
         <li class="product-overview-check-item">
@@ -90,9 +64,7 @@
               <polyline points="1.5 5 4.5 8 10.5 2"></polyline>
             </svg>
           </span>
-          <span class="product-overview-check-text">
-            {{- section.settings.feature_2 | default: 'Results in just 10 minutes' -}}
-          </span>
+          <span class="product-overview-check-text">{{ section.settings.feature_2 | default: 'Results in just 10 minutes' }}</span>
         </li>
 
         <li class="product-overview-check-item">
@@ -101,9 +73,7 @@
               <polyline points="1.5 5 4.5 8 10.5 2"></polyline>
             </svg>
           </span>
-          <span class="product-overview-check-text">
-            {{- section.settings.feature_3 | default: 'No stains, gloves or mixing' -}}
-          </span>
+          <span class="product-overview-check-text">{{ section.settings.feature_3 | default: 'No stains, gloves or mixing' }}</span>
         </li>
 
         <li class="product-overview-check-item">
@@ -112,9 +82,7 @@
               <polyline points="1.5 5 4.5 8 10.5 2"></polyline>
             </svg>
           </span>
-          <span class="product-overview-check-text">
-            {{- section.settings.feature_4 | default: 'Gentle on scalp, ammonia-free' -}}
-          </span>
+          <span class="product-overview-check-text">{{ section.settings.feature_4 | default: 'Gentle on scalp, ammonia-free' }}</span>
         </li>
 
         <li class="product-overview-check-item">
@@ -123,9 +91,7 @@
               <polyline points="1.5 5 4.5 8 10.5 2"></polyline>
             </svg>
           </span>
-          <span class="product-overview-check-text">
-            {{- section.settings.feature_5 | default: 'Color lasts 4–6 weeks' -}}
-          </span>
+          <span class="product-overview-check-text">{{ section.settings.feature_5 | default: 'Color lasts 4–6 weeks' }}</span>
         </li>
 
         <li class="product-overview-check-item">
@@ -134,9 +100,7 @@
               <polyline points="1.5 5 4.5 8 10.5 2"></polyline>
             </svg>
           </span>
-          <span class="product-overview-check-text">
-            {{- section.settings.feature_6 | default: 'Works on hair and beards' -}}
-          </span>
+          <span class="product-overview-check-text">{{ section.settings.feature_6 | default: 'Works on hair and beards' }}</span>
         </li>
       </ul>
 
@@ -144,23 +108,17 @@
       <div class="product-overview-spec-table">
         <div class="product-overview-spec-cell">
           <span class="product-overview-spec-label">{{ section.settings.spec_1_label | default: 'SIZE' }}</span>
-          <span class="product-overview-spec-val">
-            {{- section.settings.spec_1_val | default: '200 ml / 6.76 fl oz' -}}
-          </span>
+          <span class="product-overview-spec-val">{{ section.settings.spec_1_val | default: '200 ml / 6.76 fl oz' }}</span>
         </div>
 
         <div class="product-overview-spec-cell">
-          <span class="product-overview-spec-label">
-            {{- section.settings.spec_2_label | default: 'USES / BOTTLE' -}}
-          </span>
+          <span class="product-overview-spec-label">{{ section.settings.spec_2_label | default: 'USES / BOTTLE' }}</span>
           <span class="product-overview-spec-val">{{ section.settings.spec_2_val | default: '15' }}</span>
         </div>
 
         <div class="product-overview-spec-cell">
           <span class="product-overview-spec-label">{{ section.settings.spec_3_label | default: 'SHADES' }}</span>
-          <span class="product-overview-spec-val">
-            {{- section.settings.spec_3_val | default: 'Black · Dark · Med. Brown' -}}
-          </span>
+          <span class="product-overview-spec-val">{{ section.settings.spec_3_val | default: 'Black · Dark · Med. Brown' }}</span>
         </div>
 
         <div class="product-overview-spec-cell">
@@ -171,178 +129,51 @@
 
       <!-- Shade Swatches -->
       <div class="product-overview-shades-wrapper">
-        <p class="product-overview-shades-heading">
-          {{ section.settings.shades_heading | default: 'Choose your shade' }}
-        </p>
+        <p class="product-overview-shades-heading">{{ section.settings.shades_heading | default: 'Choose your shade' }}</p>
         <div class="product-overview-swatches" role="radiogroup" aria-label="Select Hair Shade">
-          {%- if cat_colors != blank -%}
-            {%- for item in cat_colors -%}
-              {%- liquid
-                assign c_name = item.label | default: item.name | default: item.value | default: item | strip
-                assign c_handle = c_name | handleize
-                assign c_image = item.image
-                assign c_hex = item.color | default: item.hex
-              -%}
-              <button
-                type="button"
-                class="product-swatch-btn{% if forloop.first %} is-active{% endif %}"
-                role="radio"
-                aria-checked="{% if forloop.first %}true{% else %}false{% endif %}"
-                aria-label="Shade {{ c_name | escape }}"
-                data-shade="{{ c_name | escape }}"
-              >
-                <span class="product-swatch-thumb-wrap">
-                  {%- if c_image != blank -%}
-                    <img
-                      src="{{ c_image | image_url: width: 148 }}"
-                      alt="{{ c_name | escape }}"
-                      class="product-swatch-img"
-                      width="74"
-                      height="74"
-                      loading="lazy"
-                    >
-                  {%- elsif c_handle contains 'dark' -%}
-                    <img
-                      src="{{ 'swatch-dark-brown.png' | asset_url }}"
-                      alt="{{ c_name | escape }}"
-                      class="product-swatch-img"
-                      width="74"
-                      height="74"
-                      loading="lazy"
-                    >
-                  {%- elsif c_handle contains 'medium' -%}
-                    <img
-                      src="{{ 'swatch-medium-brown.png' | asset_url }}"
-                      alt="{{ c_name | escape }}"
-                      class="product-swatch-img"
-                      width="74"
-                      height="74"
-                      loading="lazy"
-                    >
-                  {%- elsif c_handle contains 'black' -%}
-                    <img
-                      src="{{ 'swatch-black.png' | asset_url }}"
-                      alt="{{ c_name | escape }}"
-                      class="product-swatch-img"
-                      width="74"
-                      height="74"
-                      loading="lazy"
-                    >
-                  {%- elsif c_hex != blank -%}
-                    <span
-                      class="product-swatch-img"
-                      style="display:block;border-radius:50%;background:{{ c_hex }};"
-                    ></span>
-                  {%- endif -%}
-                </span>
-                <span class="product-swatch-title">{{ c_name }}</span>
-              </button>
-            {%- endfor -%}
-          {%- else -%}
-            {%- comment -%} yahan purane 3 hardcoded buttons (Black / Dark Brown / Medium Brown) as-is rehne do {%- endcomment -%}
-          {%- endif -%}
+          <button type="button" class="product-swatch-btn is-active" role="radio" aria-checked="true" aria-label="Shade Black" data-shade="black">
+            <span class="product-swatch-thumb-wrap">
+              <img src="{{ 'swatch-black.png' | asset_url }}" alt="Black Shade Swatch" class="product-swatch-img" width="74" height="74" loading="lazy">
+            </span>
+            <span class="product-swatch-title">Black</span>
+          </button>
+
+          <button type="button" class="product-swatch-btn" role="radio" aria-checked="false" aria-label="Shade Dark Brown" data-shade="dark-brown">
+            <span class="product-swatch-thumb-wrap">
+              <img src="{{ 'swatch-dark-brown.png' | asset_url }}" alt="Dark Brown Shade Swatch" class="product-swatch-img" width="74" height="74" loading="lazy">
+            </span>
+            <span class="product-swatch-title">Dark Brown</span>
+          </button>
+
+          <button type="button" class="product-swatch-btn" role="radio" aria-checked="false" aria-label="Shade Medium Brown" data-shade="medium-brown">
+            <span class="product-swatch-thumb-wrap">
+              <img src="{{ 'swatch-medium-brown.png' | asset_url }}" alt="Medium Brown Shade Swatch" class="product-swatch-img" width="74" height="74" loading="lazy">
+            </span>
+            <span class="product-swatch-title">Medium Brown</span>
+          </button>
         </div>
       </div>
 
       <!-- CTAs Row -->
       <div class="product-overview-ctas">
-        <button
-          type="button"
-          class="product-overview-btn-primary"
-          data-overview-atc
-          data-variant-id="{{ one_bottle.id }}"
-          {% if p == blank or one_bottle.available == false %}
-            disabled
-          {% endif %}
-        >
-          {%- if p == blank -%}
-            Select a product
-          {%- elsif one_bottle.available -%}
-            {{ section.settings.btn_1_text | default: 'Add to Cart' }} — {{ one_bottle.price | money }}
-          {%- else -%}
-            Sold Out
-          {%- endif -%}
-        </button>
+        <a href="{{ section.settings.btn_1_link | default: routes.all_products_collection_url }}" class="product-overview-btn-primary">
+          {{ section.settings.btn_1_text | default: 'Add to Cart — Rs. 3,500' }}
+        </a>
 
         <a href="{{ section.settings.btn_2_link | default: '#shade-guide' }}" class="product-overview-btn-secondary">
           {{ section.settings.btn_2_text | default: 'Find Your Shade' }}
         </a>
       </div>
+
     </div>
+
   </div>
 </section>
-
-<script>
-  (function () {
-    function init() {
-      var root = document.getElementById('productOverview-{{ section.id }}');
-      if (!root) return;
-
-      var swatches = root.querySelectorAll('.product-swatch-btn');
-      var btn = root.querySelector('[data-overview-atc]');
-      var selectedColor = swatches.length ? swatches[0].getAttribute('data-shade') : '';
-
-      swatches.forEach(function (s) {
-        s.addEventListener('click', function () {
-          swatches.forEach(function (x) {
-            x.classList.remove('is-active');
-            x.setAttribute('aria-checked', 'false');
-          });
-          s.classList.add('is-active');
-          s.setAttribute('aria-checked', 'true');
-          selectedColor = s.getAttribute('data-shade');
-        });
-      });
-
-      if (!btn) return;
-      var root_url = window.Shopify && Shopify.routes ? Shopify.routes.root : '/';
-
-      btn.addEventListener('click', async function () {
-        var variantId = Number(btn.getAttribute('data-variant-id'));
-        if (!variantId) return;
-        btn.disabled = true;
-
-        try {
-          await fetch(root_url + 'cart/clear.js', { method: 'POST' });
-
-          var item = { id: variantId, quantity: 1 };
-          if (selectedColor) item.properties = { Color: selectedColor };
-
-          var res = await fetch(root_url + 'cart/add.js', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify({ items: [item] }),
-          });
-          var data = await res.json();
-          if (!res.ok) throw new Error(data.description || 'Unable to add product');
-
-          window.location.href = root_url + 'checkout';
-        } catch (err) {
-          console.error('Add to cart failed:', err);
-          alert(err.message || 'Something went wrong.');
-          btn.disabled = false;
-        }
-      });
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
-    document.addEventListener('shopify:section:load', init);
-  })();
-</script>
 
 {% schema %}
 {
   "name": "Product Overview",
   "settings": [
-    {
-      "type": "product",
-      "id": "product",
-      "label": "Product (leave empty to use the current product page)"
-    },
     {
       "type": "image_picker",
       "id": "image",
@@ -476,7 +307,12 @@
       "type": "text",
       "id": "btn_1_text",
       "label": "Primary Button Text",
-      "default": "Add to Cart"
+      "default": "Add to Cart — Rs. 3,500"
+    },
+    {
+      "type": "url",
+      "id": "btn_1_link",
+      "label": "Primary Button Link"
     },
     {
       "type": "text",
