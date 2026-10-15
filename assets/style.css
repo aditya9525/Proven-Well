@@ -1938,6 +1938,9 @@ body {
     text-decoration: none;
     background: transparent;
   }
+  .main-product-swiper {
+    border-radius: 0px;
+  }
 
   .cart-icon-wrapper {
     width: 24px;
