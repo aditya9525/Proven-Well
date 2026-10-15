@@ -255,7 +255,9 @@
             disabled
           {% endunless %}
         >
-          {%- if one_bottle.available -%}
+          {%- if p == blank -%}
+            Select a product
+          {%- elsif one_bottle.available -%}
             {{ section.settings.btn_1_text | default: 'Add to Cart' }} — {{ one_bottle.price | money }}
           {%- else -%}
             Sold Out
