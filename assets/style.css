@@ -9798,6 +9798,7 @@ input:not([type=checkbox],[type=radio]) {
 }
 
 .final-cta-container {
+
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -9997,6 +9998,9 @@ input:not([type=checkbox],[type=radio]) {
 
 .final-cta-banner:hover .final-cta-bottles-img {
   transform: translateY(-4px) scale(1.02);
+}
+.final-cta-container{
+  position: relative;
 }
 
 .moneyback-guarantee-text {
