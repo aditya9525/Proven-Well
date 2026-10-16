@@ -769,6 +769,87 @@
     },
     "superior_choice_GphCAh": {
       "type": "superior-choice",
+      "blocks": {
+        "row_XQEbbP": {
+          "type": "row",
+          "settings": {
+            "label": "Application",
+            "polar_val": "Shampoo-like",
+            "polar_icon": "check",
+            "regular_val": "Multi-step",
+            "regular_icon": "cross"
+          }
+        },
+        "row_FDpgjf": {
+          "type": "row",
+          "settings": {
+            "label": "Mixing",
+            "polar_val": "None",
+            "polar_icon": "check",
+            "regular_val": "Usually required",
+            "regular_icon": "cross"
+          }
+        },
+        "row_z863pE": {
+          "type": "row",
+          "settings": {
+            "label": "Gray Coverage",
+            "polar_val": "Yes",
+            "polar_icon": "check",
+            "regular_val": "Yes",
+            "regular_icon": "cross"
+          }
+        },
+        "row_WHigDy": {
+          "type": "row",
+          "settings": {
+            "label": "No Ammonia",
+            "polar_val": "Yes",
+            "polar_icon": "check",
+            "regular_val": "Often no",
+            "regular_icon": "cross"
+          }
+        },
+        "row_cKFXeM": {
+          "type": "row",
+          "settings": {
+            "label": "No PPD",
+            "polar_val": "Yes",
+            "polar_icon": "check",
+            "regular_val": "Often no",
+            "regular_icon": "cross"
+          }
+        },
+        "row_VwMbEe": {
+          "type": "row",
+          "settings": {
+            "label": "Routine",
+            "polar_val": "Apply, develop, rinse",
+            "polar_icon": "check",
+            "regular_val": "Mix, section, brush, develop, clean up",
+            "regular_icon": "cross"
+          }
+        },
+        "row_6kDGaJ": {
+          "type": "row",
+          "settings": {
+            "label": "Experience",
+            "polar_val": "Simple at home",
+            "polar_icon": "check",
+            "regular_val": "More mess and cleanup",
+            "regular_icon": "cross"
+          }
+        }
+      },
+      "block_order": [
+        "row_XQEbbP",
+        "row_FDpgjf",
+        "row_z863pE",
+        "row_WHigDy",
+        "row_cKFXeM",
+        "row_VwMbEe",
+        "row_6kDGaJ"
+      ],
       "name": "06 — Superior Choice",
       "settings": {
         "enable_section": true,
@@ -777,19 +858,25 @@
         "mobile_heading": "Polar vs. regular hair dye",
         "description": "It’s been over a 100 years since the first dyes were created, but we haven't seen any sort of significant change since then. Polar Haircare is here to change that.",
         "mobile_description": "It’s been over 100 years since the first dyes were created, with no significant change. Until now.",
+        "polar_logo_width": 220,
+        "polar_logo_width_mobile": 90,
+        "polar_logo_text_main": "POLAR®",
+        "polar_logo_text_sub": "HAIR CARE",
         "polar_image": "shopify://shop_images/2c6656e5e66cf0ca3b7febd2122233a237839907.png",
-        "polar_val_1": "15 applications",
-        "polar_val_2": "10 minutes",
-        "polar_val_3": "$2.33",
-        "polar_val_4": "Ammonia-free",
-        "label_1": "Application",
-        "label_2": "APPLICATION TIME",
-        "label_3": "COST PER USE",
-        "label_4": "INGREDIENTS",
+        "regular_logo_width": 220,
+        "regular_logo_width_mobile": 90,
         "regular_title": "Regular Hair Dye",
+        "label_1": "Application",
+        "polar_val_1": "15 applications",
         "regular_val_1": "1 application",
+        "label_2": "APPLICATION TIME",
+        "polar_val_2": "10 minutes",
         "regular_val_2": "40-60 minutes",
+        "label_3": "COST PER USE",
+        "polar_val_3": "$2.33",
         "regular_val_3": "$15",
+        "label_4": "INGREDIENTS",
+        "polar_val_4": "Ammonia-free",
         "regular_val_4": "Synthetic"
       }
     },
