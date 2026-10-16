@@ -2060,6 +2060,10 @@ input:not([type=checkbox],[type=radio]) {
     z-index: 5;
   }
 
+  .site-header {
+    height: 53px;
+  }
+
   .thumbnails-container {
     width: 100%;
     padding: 0;
