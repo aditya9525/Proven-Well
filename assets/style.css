@@ -6912,7 +6912,7 @@ input:not([type=checkbox],[type=radio]) {
   line-height: 16px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: #5B6B82;
+  color: #7E4C74;
   margin: 0 0 14px 0;
 }
 
@@ -6970,14 +6970,14 @@ input:not([type=checkbox],[type=radio]) {
   font-weight: 700;
   font-size: clamp(32px, 3.2vw, 42px);
   line-height: 1.1;
-  color: #2C3452;
+  color: #4A2346;
   letter-spacing: -0.5px;
 }
 
 .why-stat-line {
   width: 36px;
   height: 3px;
-  background: #2C3452;
+  background: #4A2346;
   border-radius: 2px;
   margin: 12px 0 14px 0;
 }
