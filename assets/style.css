@@ -9985,7 +9985,7 @@ input:not([type=checkbox],[type=radio]) {
 }
 
 .final-cta-bottles-img {
-  max-width: 100%;
+  max-width: fit-content;
   max-height: 420px;
   width: auto;
   height: auto;
