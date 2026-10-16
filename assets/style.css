@@ -9536,7 +9536,7 @@ input:not([type=checkbox],[type=radio]) {
 
 .ugc-videos-header {
   width: 100%;
-  max-width: 1011px;
+  /* max-width: 1011px; */
   display: flex;
   flex-direction: column;
   align-items: center;
