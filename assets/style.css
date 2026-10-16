@@ -5093,7 +5093,7 @@ input:not([type=checkbox],[type=radio]) {
   padding: 0px;
   flex: 1;
   min-width: 0;
-  border-top: 1px solid #1E2123;
+  /* border-top: 1px solid #1E2123; */
   box-sizing: border-box;
 }
 
