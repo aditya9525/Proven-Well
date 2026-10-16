@@ -215,12 +215,7 @@
               </svg>
             </button>
 
-            {%- if form.posted_successfully? -%}
-              <p class="footer-newsletter-msg">Thanks for subscribing!</p>
-            {%- endif -%}
-            {%- if form.errors -%}
-              <p class="footer-newsletter-msg">{{ form.errors | default_errors }}</p>
-            {%- endif -%}
+            <p class="footer-newsletter-msg" role="status" aria-live="polite" hidden></p>
           {%- endform -%}
         </div>
       </div>
@@ -380,6 +375,48 @@
     </div>
   </div>
 </footer>
+
+
+<script>
+  (function () {
+    var form = document.getElementById('FooterNewsletterForm');
+    if (!form) return;
+    var btn = form.querySelector('.footer-newsletter-btn');
+    var msg = form.querySelector('.footer-newsletter-msg');
+
+    function show(text, isError) {
+      msg.textContent = text;
+      msg.hidden = false;
+      msg.classList.toggle('is-error', !!isError);
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      btn.disabled = true;
+
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'text/html' }
+      })
+        .then(function (res) {
+          // Shopify success par ?customer_posted=true par redirect karta hai
+          if (res.ok && res.url.indexOf('customer_posted=true') > -1) {
+            form.reset();
+            show('Thanks for subscribing!', false);
+          } else {
+            show('Something went wrong. Please try again.', true);
+          }
+        })
+        .catch(function () {
+          show('Network error. Please try again.', true);
+        })
+        .finally(function () {
+          btn.disabled = false;
+        });
+    });
+  })();
+</script>
 
 {% schema %}
 {
