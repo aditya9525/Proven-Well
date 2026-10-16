@@ -2300,6 +2300,10 @@ body {
     display: block;
   }
 
+  .product-right-col .product-subtitle:nth-of-type(n + 2) {
+    display: none !important;
+  }
+
   /* 5. Choose Color */
   .color-selection-wrapper {
     width: 100%;
