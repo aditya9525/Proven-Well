@@ -6,58 +6,74 @@
 <footer class="site-footer" role="contentinfo">
   <div class="footer-container">
     
-    <!-- Top Block: Brand Info & Contact -->
-    <div class="footer-top-block">
-      <div class="footer-brand-logo-wrap">
-        {%- if section.settings.logo != blank -%}
-          <img
-            src="{{ section.settings.logo | image_url: width: 300 }}"
-            alt="{{ section.settings.logo.alt | default: shop.name | escape }}"
-            loading="lazy"
-            class="brand-logo-img"
-            style="max-width: {{ section.settings.logo_width | default: 150 }}px;"
-          >
-        {%- else -%}
-          <svg class="footer-logo-svg" viewBox="0 0 150 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="Polar Hair Care">
-            <text x="0" y="19" font-family="'Lato', sans-serif" font-size="20" font-weight="300" letter-spacing="4.5" fill="#FFFFFF">POLAR</text>
-            <text x="2" y="29" font-family="'Lato', sans-serif" font-size="6.5" font-weight="400" letter-spacing="4.2" fill="#FFFFFF">HAIR CARE</text>
-          </svg>
-        {%- endif -%}
-      </div>
+    <!-- Main Row: Left Brand/Contact & Right Nav/Newsletter -->
+    <div class="footer-main-row">
+      
+      <!-- Left Column: Brand Info & Contact (Desktop Frame 17) -->
+      <div class="footer-brand-col">
+        <div class="footer-brand-logo-wrap">
+          {%- if section.settings.logo != blank -%}
+            <img
+              src="{{ section.settings.logo | image_url: width: 300 }}"
+              alt="{{ section.settings.logo.alt | default: shop.name | escape }}"
+              loading="lazy"
+              class="brand-logo-img"
+              style="max-width: {{ section.settings.logo_width | default: 150 }}px;"
+            >
+          {%- else -%}
+            <!-- Desktop ProvenWell Logo -->
+            <img
+              src="{{ 'provenwellLogo.png' | asset_url }}"
+              alt="ProvenWell"
+              loading="lazy"
+              class="footer-logo-desktop"
+              width="141"
+              height="49"
+            >
+            <!-- Mobile Polar Logo -->
+            <div class="footer-logo-mobile">
+              <svg class="footer-logo-svg" viewBox="0 0 150 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Polar Hair Care">
+                <text x="0" y="20" font-family="'Lato', 'Red Hat Display', sans-serif" font-size="22" font-weight="300" letter-spacing="5" fill="#FFFFFF">POLAR</text>
+                <text x="2" y="30" font-family="'Lato', 'Red Hat Display', sans-serif" font-size="7" font-weight="400" letter-spacing="4.8" fill="#FFFFFF">HAIR CARE</text>
+              </svg>
+            </div>
+          {%- endif -%}
+        </div>
 
-      <p class="footer-about-text">
-        {{ section.settings.about_text | default: "At Polar, we prioritize naturally vibrant hair. Our instant dye shampoo covers grays in 10 minutes without the mess, damage, or chemicals of traditional dyes. When you choose Polar, you're committing to effortless confidence." }}
-      </p>
+        <p class="footer-about-text">
+          {{ section.settings.about_text | default: "At Polar, we prioritize naturally vibrant hair. Our instant dye shampoo covers grays in 10 minutes without the mess, damage, or chemicals of traditional dyes. When you choose Polar, you're committing to effortless confidence." }}
+        </p>
 
-      <p class="footer-service-hours">
-        {{ section.settings.service_hours | default: "Our customer service team is available 24/7, Monday through Saturday." }}
-      </p>
+        <ul class="footer-contact-list">
+          <li class="footer-contact-item">
+            <span class="footer-contact-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                <path d="M22 6L12 13L2 6"></path>
+              </svg>
+            </span>
+            <a href="mailto:{{ section.settings.email | default: 'customers@polarhaircare.com' }}" class="footer-contact-link">
+              {{ section.settings.email | default: 'customers@polarhaircare.com' }}
+            </a>
+          </li>
 
-      <ul class="footer-contact-list">
-        <li class="footer-contact-item">
-          <span class="footer-contact-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-              <path d="M22 6L12 13L2 6"></path>
-            </svg>
-          </span>
-          <a href="mailto:{{ section.settings.email | default: 'customers@polarhaircare.com' }}" class="footer-contact-link">
-            {{ section.settings.email | default: 'customers@polarhaircare.com' }}
-          </a>
-        </li>
+          <li class="footer-contact-item">
+            <span class="footer-contact-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </span>
+            <a href="tel:{{ section.settings.phone_link | default: '+18334240123' }}" class="footer-contact-link">
+              {{ section.settings.phone | default: '+1 (833) 424-0123' }}
+            </a>
+          </li>
+        </ul>
 
-        <li class="footer-contact-item">
-          <span class="footer-contact-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-            </svg>
-          </span>
-          <a href="tel:{{ section.settings.phone_link | default: '+18334240123' }}" class="footer-contact-link">
-            {{ section.settings.phone | default: '+1 (833) 424-0123' }}
-          </a>
-        </li>
+        <p class="footer-service-hours">
+          {{ section.settings.service_hours | default: "Our customer service team is available 24/7, Monday through Saturday." }}
+        </p>
 
-        <li class="footer-contact-item">
+        <div class="footer-social-wrap">
           <a href="{{ section.settings.instagram_url | default: 'https://instagram.com/polarhaircare' }}" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Follow us on Instagram">
             <span class="footer-contact-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -68,106 +84,123 @@
             </span>
             <span>Instagram</span>
           </a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Middle Block: Newsletter & Navigation -->
-    <div class="footer-middle-block">
-      
-      <!-- Newsletter -->
-      <div class="footer-newsletter-col">
-        <h3 class="footer-block-heading">{{ section.settings.newsletter_heading | default: 'Subscribe to our emails' }}</h3>
-        {%- form 'customer', id: 'FooterNewsletterForm', class: 'footer-newsletter-form' -%}
-          <input type="hidden" name="contact[tags]" value="newsletter">
-          <input
-            type="email"
-            name="contact[email]"
-            class="footer-newsletter-input"
-            value="{{ form.email }}"
-            placeholder="Email"
-            aria-label="Email address"
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="email"
-            required
-          >
-          <button type="submit" class="footer-newsletter-btn" aria-label="Subscribe">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </button>
-        {%- endform -%}
-      </div>
-
-      <!-- Navigation Links -->
-      <div class="footer-nav-cols">
-        <!-- Information Links -->
-        <div class="footer-nav-col">
-          <h3 class="footer-block-heading">{{ section.settings.menu_1_heading | default: 'Information' }}</h3>
-          <ul class="footer-nav-list">
-            {%- if section.settings.menu_1 != blank -%}
-              {%- for link in linklists[section.settings.menu_1].links -%}
-                <li class="footer-nav-item">
-                  <a href="{{ link.url }}" class="footer-nav-link">{{ link.title | escape }}</a>
-                </li>
-              {%- endfor -%}
-            {%- else -%}
-              <li class="footer-nav-item"><a href="/pages/track-order" class="footer-nav-link">Track Your Order</a></li>
-              <li class="footer-nav-item"><a href="/pages/returns-exchanges" class="footer-nav-link">Returns &amp; Exchanges</a></li>
-              <li class="footer-nav-item"><a href="/pages/shipping-information" class="footer-nav-link">Shipping Information</a></li>
-              <li class="footer-nav-item"><a href="/pages/help-center" class="footer-nav-link">Help Center / FAQ</a></li>
-              <li class="footer-nav-item"><a href="/pages/contact" class="footer-nav-link">Contact Us</a></li>
-            {%- endif -%}
-          </ul>
-        </div>
-
-        <!-- More Information Links -->
-        <div class="footer-nav-col">
-          <h3 class="footer-block-heading">{{ section.settings.menu_2_heading | default: 'More Information' }}</h3>
-          <ul class="footer-nav-list">
-            {%- if section.settings.menu_2 != blank -%}
-              {%- for link in linklists[section.settings.menu_2].links -%}
-                <li class="footer-nav-item">
-                  <a href="{{ link.url }}" class="footer-nav-link">{{ link.title | escape }}</a>
-                </li>
-              {%- endfor -%}
-            {%- else -%}
-              <li class="footer-nav-item"><a href="/policies/terms-of-service" class="footer-nav-link">Terms of Service</a></li>
-              <li class="footer-nav-item"><a href="/policies/privacy-policy" class="footer-nav-link">Privacy Policy</a></li>
-              <li class="footer-nav-item"><a href="/blogs/news" class="footer-nav-link">Blog</a></li>
-            {%- endif -%}
-          </ul>
         </div>
       </div>
 
+      <!-- Right Column: Navigation & Newsletter (Desktop Container 552.13px) -->
+      <div class="footer-right-col">
+        <!-- Navigation Links -->
+        <div class="footer-nav-cols">
+          <!-- Information Links -->
+          <div class="footer-nav-col">
+            <h3 class="footer-block-heading">{{ section.settings.menu_1_heading | default: 'Information' }}</h3>
+            <ul class="footer-nav-list">
+              {%- if section.settings.menu_1 != blank -%}
+                {%- for link in linklists[section.settings.menu_1].links -%}
+                  <li class="footer-nav-item">
+                    <a href="{{ link.url }}" class="footer-nav-link">{{ link.title | escape }}</a>
+                  </li>
+                {%- endfor -%}
+              {%- else -%}
+                <li class="footer-nav-item"><a href="/pages/track-order" class="footer-nav-link">Track Your Order</a></li>
+                <li class="footer-nav-item"><a href="/pages/returns-exchanges" class="footer-nav-link">Returns &amp; Exchanges</a></li>
+                <li class="footer-nav-item"><a href="/pages/shipping-information" class="footer-nav-link">Shipping Information</a></li>
+                <li class="footer-nav-item"><a href="/pages/help-center" class="footer-nav-link">Help Center / FAQ</a></li>
+                <li class="footer-nav-item"><a href="/pages/contact" class="footer-nav-link">Contact Us</a></li>
+              {%- endif -%}
+            </ul>
+          </div>
+
+          <!-- More Information Links -->
+          <div class="footer-nav-col">
+            <h3 class="footer-block-heading">{{ section.settings.menu_2_heading | default: 'More Information' }}</h3>
+            <ul class="footer-nav-list">
+              {%- if section.settings.menu_2 != blank -%}
+                {%- for link in linklists[section.settings.menu_2].links -%}
+                  <li class="footer-nav-item">
+                    <a href="{{ link.url }}" class="footer-nav-link">{{ link.title | escape }}</a>
+                  </li>
+                {%- endfor -%}
+              {%- else -%}
+                <li class="footer-nav-item"><a href="/policies/terms-of-service" class="footer-nav-link">Terms of Service</a></li>
+                <li class="footer-nav-item"><a href="/policies/privacy-policy" class="footer-nav-link">Privacy Policy</a></li>
+                <li class="footer-nav-item"><a href="/blogs/news" class="footer-nav-link">Blog</a></li>
+              {%- endif -%}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Newsletter Column -->
+        <div class="footer-newsletter-col">
+          <h3 class="footer-block-heading">{{ section.settings.newsletter_heading | default: 'Subscribe to our emails' }}</h3>
+          {%- form 'customer', id: 'FooterNewsletterForm', class: 'footer-newsletter-form' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input
+              type="email"
+              name="contact[email]"
+              class="footer-newsletter-input"
+              value="{{ form.email }}"
+              placeholder="Email"
+              aria-label="Email address"
+              autocorrect="off"
+              autocapitalize="off"
+              autocomplete="email"
+              required
+            >
+            <button type="submit" class="footer-newsletter-btn" aria-label="Subscribe">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          {%- endform -%}
+        </div>
+      </div>
+
     </div>
 
-    <!-- Bottom Block: Payment Badges, Copyright & Currency -->
+    <!-- Mobile Divider Line -->
+    <div class="footer-divider-mobile" aria-hidden="true"></div>
+
+    <!-- Bottom Block: Localization, Copyright & Payment Badges -->
     <div class="footer-bottom-block">
       
-      <!-- Payment Method Badges -->
+      <!-- Desktop Country/Currency Selector Button -->
+      <div class="footer-desktop-localization">
+        <div class="footer-localization-box" role="button" tabindex="0" aria-label="Country and currency selector">
+          <span>India | INR &#8377;</span>
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+            <path d="M1 1L5 5L9 1" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Desktop Copyright Notice -->
+      <p class="footer-desktop-copyright">
+        Copyright &copy; {{ 'now' | date: '%Y' }} Polar Haircare
+      </p>
+
+      <!-- Payment Method Badges (13 Badges matching Figma) -->
       <ul class="footer-payment-list" aria-label="Accepted Payment Methods">
-        <!-- Amazon Pay -->
+        <!-- 1. Amazon Pay -->
         <li class="footer-payment-item" title="Amazon Pay">
           <svg viewBox="0 0 42 27" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="42" height="26.5" rx="3" fill="#FFFFFF"/>
-            <path d="M16.5 15.5c-2.8 1.8-6.8 2.2-10 .8-.4-.2-.8.2-.5.6 2.3 2.1 6.5 2.5 10 .8.4-.2.4-.8.5-1.4.1-.4-.2-.7-.5-.8z" fill="#FF9900"/>
-            <path d="M17.8 14.2c-.3-.4-.9-.3-1.3-.2.3-.5.7-1.1.9-1.8.1-.3.4-.3.6-.2.4.6.7 1.3.9 2-.4-.2-.8-.2-1.1.2z" fill="#FF9900"/>
-            <path d="M11.6 8.5c-2.4 0-3.6 1.4-3.6 3.2 0 2.2 1.5 3.3 3.5 3.3 1.1 0 2-.4 2.5-1.1v.9c0 .5.3.7.8.7.3 0 .6-.1.8-.2V10c0-1.2-.6-1.5-1.6-1.5h-2.4zm1.6 3.8c0 1.2-.6 2-1.6 2-.8 0-1.3-.5-1.3-1.4 0-1 .6-1.5 1.6-1.7l1.3-.2v1.3z" fill="#221F1F"/>
+            <path d="M14.5 16.5c-3 1.8-7 2.1-10.2.7-.4-.2-.8.2-.5.6 2.4 2 6.8 2.4 10.3.7.4-.2.4-.8.5-1.4.1-.4-.1-.6-.6-.6z" fill="#FF9900"/>
+            <path d="M15.8 15.2c-.3-.4-.9-.3-1.3-.2.3-.5.7-1.1.9-1.8.1-.3.4-.3.6-.2.4.6.7 1.3.9 2-.4-.2-.8-.2-1.1.2z" fill="#FF9900"/>
+            <path d="M9.8 9.2c-2.4 0-3.6 1.4-3.6 3.2 0 2.2 1.5 3.3 3.5 3.3 1.1 0 2-.4 2.5-1.1v.9c0 .5.3.7.8.7.3 0 .6-.1.8-.2v-4.5c0-1.2-.6-1.5-1.6-1.5H9.8zm1.6 3.8c0 1.2-.6 2-1.6 2-.8 0-1.3-.5-1.3-1.4 0-1 .6-1.5 1.6-1.7l1.3-.2v1.3z" fill="#221F1F"/>
           </svg>
         </li>
 
-        <!-- American Express -->
+        <!-- 2. American Express -->
         <li class="footer-payment-item" title="American Express">
           <svg viewBox="0 0 42 27" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="42" height="26.5" rx="3" fill="#0071CE"/>
-            <path d="M6 8.5h3.2l1.6 3.6 1.6-3.6h3.2v9H13v-5.2l-1.6 3.6h-1.2L8.6 12.3V17.5H6V8.5zm10.5 0h7.5v1.8h-5.2v1.8h4.6v1.8h-4.6v1.8H24v1.8h-7.5V8.5zm9 0h2.6l1.8 3.2 1.8-3.2h2.6l-3.1 5.2 3.3 3.8h-2.8l-2-2.5-2 2.5h-2.8l3.3-4-2.7-5z" fill="#FFFFFF"/>
+            <path d="M6 9h3.2l1.6 3.6L12.4 9h3.2v8.5H13v-4.8l-1.6 3.6h-1.2L8.6 12.7v4.8H6V9zm10.5 0H24v1.7h-5.2v1.7h4.6v1.7h-4.6v1.7H24v1.7h-7.5V9zm9 0h2.6l1.8 3.1 1.8-3.1h2.6l-3.1 5 3.3 3.5h-2.8l-2-2.3-2 2.3h-2.8l3.3-3.8-2.7-4.7z" fill="#FFFFFF"/>
           </svg>
         </li>
 
-        <!-- Apple Pay -->
+        <!-- 3. Apple Pay -->
         <li class="footer-payment-item" title="Apple Pay">
           <svg viewBox="0 0 42 27" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="42" height="26.5" rx="3" fill="#000000"/>
@@ -176,7 +209,17 @@
           </svg>
         </li>
 
-        <!-- Diners Club -->
+        <!-- 4. Bancontact -->
+        <li class="footer-payment-item" title="Bancontact">
+          <svg viewBox="0 0 42 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="42" height="26.5" rx="3" fill="#FFFFFF"/>
+            <path d="M12.5 7.5h11l-3.8 5.5h-11l3.8-5.5z" fill="#FDB913"/>
+            <path d="M8.7 13.5h11l-3.8 5.5H4.9l3.8-5.5z" fill="#00529B"/>
+            <text x="21" y="16.5" font-family="'Lato', sans-serif" font-size="6.8" font-weight="700" fill="#00529B">Bancontact</text>
+          </svg>
+        </li>
+
+        <!-- 5. Diners Club -->
         <li class="footer-payment-item" title="Diners Club">
           <svg viewBox="0 0 42 27" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="42" height="26.5" rx="3" fill="#0079BE"/>
@@ -186,7 +229,7 @@
           </svg>
         </li>
 
-        <!-- Discover -->
+        <!-- 6. Discover -->
         <li class="footer-payment-item" title="Discover">
           <svg viewBox="0 0 42 27" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="42" height="26.5" rx="3" fill="#FFFFFF"/>
@@ -195,7 +238,7 @@
           </svg>
         </li>
 
-        <!-- Google Pay -->
+        <!-- 7. Google Pay -->
         <li class="footer-payment-item" title="Google Pay">
           <svg viewBox="0 0 42 27" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="42" height="26.5" rx="3" fill="#FFFFFF"/>
@@ -207,18 +250,17 @@
           </svg>
         </li>
 
-        <!-- JCB -->
-        <li class="footer-payment-item" title="JCB">
+        <!-- 8. iDEAL / Wero -->
+        <li class="footer-payment-item" title="iDEAL / Wero">
           <svg viewBox="0 0 42 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="42" height="26.5" rx="3" fill="#FFFFFF"/>
-            <rect x="7" y="5.5" width="8.5" height="15.5" rx="3" fill="#00377B"/>
-            <rect x="16.5" y="5.5" width="8.5" height="15.5" rx="3" fill="#D9161B"/>
-            <rect x="26" y="5.5" width="8.5" height="15.5" rx="3" fill="#007934"/>
-            <path d="M13 13.5v-3h-1.5v3c0 .8-.4 1.2-1.2 1.2-.5 0-.9-.2-1.1-.5l-.8.9c.5.6 1.1.9 1.9.9 1.8 0 2.7-.9 2.7-2.5zm9.5-1.5c0-1.5-.9-2.5-2.6-2.5h-2.4v6.5h2.4c1.7 0 2.6-1 2.6-2.5v-1.5zm-1.5 1.5c0 .8-.4 1.2-1.2 1.2h-.9v-3.9h.9c.8 0 1.2.4 1.2 1.2v1.5zm11-1.5c0-1.5-.9-2.5-2.6-2.5h-2.4v6.5h2.4c1.7 0 2.6-1 2.6-2.5v-.8h-2.5v-1.1h3.9v.4z" fill="#FFFFFF"/>
+            <rect width="42" height="26.5" rx="3" fill="#FFF48D"/>
+            <circle cx="13" cy="13.25" r="5" fill="#CC0066"/>
+            <path d="M13 10.8c1.35 0 2.45 1.1 2.45 2.45s-1.1 2.45-2.45 2.45-2.45-1.1-2.45-2.45 1.1-2.45 2.45-2.45z" fill="#FFFFFF"/>
+            <text x="21" y="16.2" font-family="'Lato', sans-serif" font-size="7.5" font-weight="900" fill="#232323" letter-spacing="0.5">wero</text>
           </svg>
         </li>
 
-        <!-- Mastercard -->
+        <!-- 9. Mastercard -->
         <li class="footer-payment-item" title="Mastercard">
           <svg viewBox="0 0 42 27" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="42" height="26.5" rx="3" fill="#232323"/>
@@ -228,7 +270,7 @@
           </svg>
         </li>
 
-        <!-- MB WAY -->
+        <!-- 10. MB WAY -->
         <li class="footer-payment-item" title="MB WAY">
           <svg viewBox="0 0 42 27" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="42" height="26.5" rx="3" fill="#FFFFFF"/>
@@ -237,7 +279,7 @@
           </svg>
         </li>
 
-        <!-- PayPal -->
+        <!-- 11. PayPal -->
         <li class="footer-payment-item" title="PayPal">
           <svg viewBox="0 0 42 27" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="42" height="26.5" rx="3" fill="#FFFFFF"/>
@@ -247,7 +289,7 @@
           </svg>
         </li>
 
-        <!-- Shop Pay -->
+        <!-- 12. Shop Pay -->
         <li class="footer-payment-item" title="Shop Pay">
           <svg viewBox="0 0 42 27" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="42" height="26.5" rx="3" fill="#5A31F4"/>
@@ -256,7 +298,7 @@
           </svg>
         </li>
 
-        <!-- Visa -->
+        <!-- 13. Visa -->
         <li class="footer-payment-item" title="Visa">
           <svg viewBox="0 0 42 27" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="42" height="26.5" rx="3" fill="#142FBD"/>
@@ -266,22 +308,10 @@
         </li>
       </ul>
 
-      <!-- Sub-row: Copyright Notice & Localization Selector -->
-      <div class="footer-bottom-subrow">
-        <p class="footer-copyright">
-          &copy; {{ 'now' | date: '%Y' }} Polar Haircare
-        </p>
-
-        <div class="footer-localization">
-          <div class="footer-localization-btn" role="button" tabindex="0" aria-label="Country and currency selector">
-            <span class="footer-localization-text">India | INR &#8377;</span>
-            <span class="footer-localization-chevron" aria-hidden="true">
-              <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M1 1L5 5L9 1"/>
-              </svg>
-            </span>
-          </div>
-        </div>
+      <!-- Mobile Bottom Row: Copyright on left, Currency on right -->
+      <div class="footer-mobile-bottom-row">
+        <span class="footer-mobile-copyright">&copy; {{ 'now' | date: '%Y' }} Polar Haircare</span>
+        <span class="footer-mobile-currency">India | INR &#8377;</span>
       </div>
 
     </div>
