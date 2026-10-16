@@ -5097,7 +5097,7 @@ input:not([type=checkbox],[type=radio]) {
   box-sizing: border-box;
 }
 
-.faq-item:last-child .faq-trigger {
+.faq-item:last-child {
   border-bottom: none;
 }
 
