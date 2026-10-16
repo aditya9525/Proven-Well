@@ -396,6 +396,87 @@
     },
     "superior_choice_wY6hFk": {
       "type": "superior-choice",
+      "blocks": {
+        "row_HAPBrt": {
+          "type": "row",
+          "settings": {
+            "label": "Application",
+            "polar_val": "Shampoo-like",
+            "polar_icon": "check",
+            "regular_val": "Multi-step",
+            "regular_icon": "cross"
+          }
+        },
+        "row_ffWEhB": {
+          "type": "row",
+          "settings": {
+            "label": "Mixing",
+            "polar_val": "None",
+            "polar_icon": "check",
+            "regular_val": "Usually required",
+            "regular_icon": "cross"
+          }
+        },
+        "row_RGnQm8": {
+          "type": "row",
+          "settings": {
+            "label": "Gray Coverage",
+            "polar_val": "Yes",
+            "polar_icon": "check",
+            "regular_val": "Yes",
+            "regular_icon": "cross"
+          }
+        },
+        "row_na8dDe": {
+          "type": "row",
+          "settings": {
+            "label": "No Ammonia",
+            "polar_val": "Yes",
+            "polar_icon": "check",
+            "regular_val": "Often no",
+            "regular_icon": "cross"
+          }
+        },
+        "row_UbfbcW": {
+          "type": "row",
+          "settings": {
+            "label": "No PPD",
+            "polar_val": "Yes",
+            "polar_icon": "check",
+            "regular_val": "Often no",
+            "regular_icon": "cross"
+          }
+        },
+        "row_X7bEek": {
+          "type": "row",
+          "settings": {
+            "label": "Routine",
+            "polar_val": "Apply, develop, rinse",
+            "polar_icon": "check",
+            "regular_val": "Mix, section, brush, develop, clean up",
+            "regular_icon": "cross"
+          }
+        },
+        "row_yMAaeU": {
+          "type": "row",
+          "settings": {
+            "label": "Experience",
+            "polar_val": "Simple at home",
+            "polar_icon": "check",
+            "regular_val": "More mess and cleanup",
+            "regular_icon": "cross"
+          }
+        }
+      },
+      "block_order": [
+        "row_HAPBrt",
+        "row_ffWEhB",
+        "row_RGnQm8",
+        "row_na8dDe",
+        "row_UbfbcW",
+        "row_X7bEek",
+        "row_yMAaeU"
+      ],
       "name": "06 — Superior Choice",
       "settings": {
         "enable_section": true,
@@ -404,19 +485,26 @@
         "mobile_heading": "Polar vs. regular hair dye",
         "description": "It’s been over a 100 years since the first dyes were created, but we haven't seen any sort of significant change since then. Polar Haircare is here to change that.",
         "mobile_description": "It’s been over 100 years since the first dyes were created, with no significant change. Until now.",
+        "polar_logo": "shopify://shop_images/provenwellLogo_1_1.png",
+        "polar_logo_width": 220,
+        "polar_logo_width_mobile": 90,
+        "polar_logo_text_main": "POLAR®",
+        "polar_logo_text_sub": "HAIR CARE",
         "polar_image": "shopify://shop_images/2c6656e5e66cf0ca3b7febd2122233a237839907.png",
-        "polar_val_1": "15 applications",
-        "polar_val_2": "10 minutes",
-        "polar_val_3": "$2.33",
-        "polar_val_4": "Ammonia-free",
-        "label_1": "NUMBER OF USES",
-        "label_2": "APPLICATION TIME",
-        "label_3": "COST PER USE",
-        "label_4": "INGREDIENTS",
+        "regular_logo_width": 220,
+        "regular_logo_width_mobile": 90,
         "regular_title": "Regular Hair Dye",
+        "label_1": "NUMBER OF USES",
+        "polar_val_1": "15 applications",
         "regular_val_1": "1 application",
+        "label_2": "APPLICATION TIME",
+        "polar_val_2": "10 minutes",
         "regular_val_2": "40-60 minutes",
+        "label_3": "COST PER USE",
+        "polar_val_3": "$2.33",
         "regular_val_3": "$15",
+        "label_4": "INGREDIENTS",
+        "polar_val_4": "Ammonia-free",
         "regular_val_4": "Synthetic"
       }
     },
