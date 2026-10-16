@@ -7796,7 +7796,7 @@ input:not([type=checkbox],[type=radio]) {
   box-sizing: border-box;
   position: relative;
 }
-.proof-trust-reviews-swiper .swiper-slide {
+.who-for-swiper .swiper-slide, .proof-trust-reviews-swiper .swiper-slide {
   height: unset;
 }
 
