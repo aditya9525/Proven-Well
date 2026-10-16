@@ -5923,7 +5923,7 @@ input:not([type=checkbox],[type=radio]) {
   .footer-divider-mobile {
     display: block;
     width: 100%;
-    max-width: 358px;
+    /* max-width: 358px; */
     height: 1px;
     background: rgba(255, 255, 255, 0.12);
     margin: 0 auto;
