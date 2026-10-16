@@ -681,7 +681,8 @@
         "primary_btn_link": "shopify://products/instant-dye-shampoo",
         "ghost_btn_text": "Compare Bundles",
         "ghost_btn_link": "",
-        "review_count_text": "26,966 verified reviews"
+        "review_count_text": "26,966 verified reviews",
+        "product_image": "shopify://shop_images/magnific__background__58899_1.png"
       }
     }
   },
