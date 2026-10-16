@@ -4898,7 +4898,7 @@ input:not([type=checkbox],[type=radio]) {
     border-radius: 20px;
     overflow: hidden;
     box-sizing: border-box;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); */
   }
 
   .guarantee-mobile-visual {
