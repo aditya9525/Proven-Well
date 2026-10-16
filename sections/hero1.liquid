@@ -4,7 +4,6 @@
 {%- endcomment -%}
 
 <section class="hero-section" aria-label="Polar Instant Dye Shampoo Hero">
-  
   <!-- Wave Decors -->
   <div class="hero-decor-right" aria-hidden="true">
     <img src="{{ 'line_style.svg' | asset_url }}" alt="" width="351" height="493" loading="eager">
@@ -14,10 +13,8 @@
   </div>
 
   <div class="hero-container">
-    
     <!-- Left Column: Copy, CTAs, Social Proof & Trust Badges -->
     <div class="hero-copy-col">
-      
       <!-- Eyebrow Pill -->
       <div class="hero-eyebrow-pill">
         <span class="hero-eyebrow-text">{{ section.settings.eyebrow_text | default: 'FALL SALE | SAVE 29%' }}</span>
@@ -30,7 +27,10 @@
 
       <!-- Subheading -->
       <p class="hero-subheading">
-        {{ section.settings.subheading | default: 'Just shampoo it in, wait 10 minutes and rinse. Natural-looking, ammonia-free color with no mixing, no gloves and no stains — loved by 840,000+ customers.' }}
+        {{
+          section.settings.subheading
+          | default: 'Just shampoo it in, wait 10 minutes and rinse. Natural-looking, ammonia-free color with no mixing, no gloves and no stains — loved by 840,000+ customers.'
+        }}
       </p>
 
       <!-- CTAs Row -->
@@ -38,7 +38,10 @@
         <a href="{{ section.settings.primary_btn_link | default: '#product-form' }}" class="hero-btn-primary">
           {{ section.settings.primary_btn_text | default: 'Shop Now — From Rs. 2,333' }}
         </a>
-        <a href="{{ section.settings.secondary_btn_link | default: '#results' }}" class="hero-btn-secondary">
+        <a
+          href="#proof-trust-section-rank"
+          class="hero-btn-secondary"
+        >
           {{ section.settings.secondary_btn_text | default: 'See Real Results' }}
         </a>
       </div>
@@ -47,13 +50,29 @@
       <div class="hero-rating-row" aria-label="Customer Rating">
         <div class="hero-stars-wrap" aria-hidden="true">
           {%- if section.settings.stars_image != blank -%}
-            <img src="{{ section.settings.stars_image | image_url: width: 240 }}" alt="5 stars rating" class="hero-stars-img" width="116" height="20">
+            <img
+              src="{{ section.settings.stars_image | image_url: width: 240 }}"
+              alt="5 stars rating"
+              class="hero-stars-img"
+              width="116"
+              height="20"
+            >
           {%- else -%}
-            <img src="{{ 'stars-rating.png' | asset_url }}" alt="5 stars rating" class="hero-stars-img" width="116" height="20">
+            <img
+              src="{{ 'stars-rating.png' | asset_url }}"
+              alt="5 stars rating"
+              class="hero-stars-img"
+              width="116"
+              height="20"
+            >
           {%- endif -%}
         </div>
-        <span class="hero-verified-reviews">{{ section.settings.reviews_text | default: '26,966 verified reviews' }}</span>
-        <span class="hero-happy-customers">{{ section.settings.customers_text | default: '· 840,000+ happy customers' }}</span>
+        <span class="hero-verified-reviews">
+          {{- section.settings.reviews_text | default: '26,966 verified reviews' -}}
+        </span>
+        <span class="hero-happy-customers">
+          {{- section.settings.customers_text | default: '· 840,000+ happy customers' -}}
+        </span>
       </div>
 
       <!-- Divider -->
@@ -63,7 +82,14 @@
       <div class="hero-trust-checks">
         <div class="hero-trust-item">
           <span class="hero-trust-icon" aria-hidden="true">
-            <svg viewBox="0 0 12 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              viewBox="0 0 12 10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <polyline points="1.5 5 4.5 8 10.5 2"></polyline>
             </svg>
           </span>
@@ -72,7 +98,14 @@
 
         <div class="hero-trust-item">
           <span class="hero-trust-icon" aria-hidden="true">
-            <svg viewBox="0 0 12 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              viewBox="0 0 12 10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <polyline points="1.5 5 4.5 8 10.5 2"></polyline>
             </svg>
           </span>
@@ -81,20 +114,25 @@
 
         <div class="hero-trust-item">
           <span class="hero-trust-icon" aria-hidden="true">
-            <svg viewBox="0 0 12 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              viewBox="0 0 12 10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <polyline points="1.5 5 4.5 8 10.5 2"></polyline>
             </svg>
           </span>
           <span class="hero-trust-label">{{ section.settings.trust_3 | default: '30-day money-back guarantee' }}</span>
         </div>
       </div>
-
     </div>
 
     <!-- Right Column: Visual Card with Glowing Bottle & 3 Floating Stat Chips -->
     <div class="hero-visual-col">
       <div class="hero-visual-card">
-        
         <!-- Center Blue Glow -->
         <div class="hero-visual-glow" aria-hidden="true"></div>
 
@@ -139,12 +177,12 @@
 
         <!-- Shade Range Pill -->
         <div class="hero-shade-pill">
-          <span>{{ section.settings.shade_pill_text | default: 'Available in Black · Dark Brown · Medium Brown' }}</span>
+          <span>
+            {{- section.settings.shade_pill_text | default: 'Available in Black · Dark Brown · Medium Brown' -}}
+          </span>
         </div>
-
       </div>
     </div>
-
   </div>
 </section>
 
