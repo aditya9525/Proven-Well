@@ -5958,7 +5958,7 @@ input:not([type=checkbox],[type=radio]) {
     padding: 0;
     gap: 6px;
     width: 100%;
-    max-width: 358px;
+    /* max-width: 358px; */
   }
 
   .footer-payment-item {
