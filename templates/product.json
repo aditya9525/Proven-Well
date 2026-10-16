@@ -607,6 +607,16 @@
     "results_carousel_tVBT9p": {
       "type": "results-carousel",
       "blocks": {
+        "result_card_pinwzt": {
+          "type": "result_card",
+          "settings": {
+            "category": "men",
+            "image": "shopify://shop_images/05a8a0ab404aaf6be9047f6355a99298f0f564f4.png",
+            "quote": "“I use the black on my hair and beard. Really impressed with how natural the color looks. My beard was getting almost completely gray on the sides and now everything matches again.”",
+            "author": "Richard C.",
+            "verified": true
+          }
+        },
         "result_card_QXtdtM": {
           "type": "result_card",
           "settings": {
@@ -678,6 +688,7 @@
         }
       },
       "block_order": [
+        "result_card_pinwzt",
         "result_card_QXtdtM",
         "result_card_6eGpXH",
         "result_card_GJcMjJ",
