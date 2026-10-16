@@ -242,11 +242,12 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 1792px;
+  /* max-width: 1792px; */
   height: 79px;
   margin: 0 auto;
   padding: 18px clamp(24px, calc((100% - 1200px) / 2), 296px);
   background: #FFFFFF;
+  border-bottom: 1px solid #E5E7EB;
 }
 
 /* --- Brand Logo --- */
