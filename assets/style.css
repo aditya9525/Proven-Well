@@ -5702,7 +5702,7 @@ input:not([type=checkbox],[type=radio]) {
     padding: 40px 16px 32px;
     gap: 24px;
     width: 100%;
-    max-width: 390px;
+    /* max-width: 390px; */
     box-sizing: border-box;
   }
 
