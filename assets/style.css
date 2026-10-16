@@ -9971,7 +9971,7 @@ input:not([type=checkbox],[type=radio]) {
 
 /* Image / Product Pair Column */
 .final-cta-media {
-  position: relative;
+  position: absolute;
   right: 85px;
   bottom: 0;
   width: 100%;
@@ -9980,7 +9980,6 @@ input:not([type=checkbox],[type=radio]) {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   z-index: 1;
   box-sizing: border-box;
 }
