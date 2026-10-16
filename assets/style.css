@@ -10096,9 +10096,8 @@ input:not([type=checkbox],[type=radio]) {
   .final-cta-media {
 
     order: 3;
-    width: 100%;
-    max-width: 100%;
-    height: 180px;
+    width:314px;
+    height: 314px;
     display: flex;
     justify-content: center;
     align-items: flex-end;
