@@ -5225,7 +5225,7 @@ input:not([type=checkbox],[type=radio]) {
   .faq-title-wrap {
     align-items: center;
     text-align: center;
-    margin-bottom: 16px;
+    margin-bottom: 0;
   }
 
   .faq-title-line-1,
