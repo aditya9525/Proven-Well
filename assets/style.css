@@ -7796,6 +7796,9 @@ input:not([type=checkbox],[type=radio]) {
   box-sizing: border-box;
   position: relative;
 }
+.proof-trust-reviews-swiper .swiper-slide {
+  height: unset;
+}
 
 .proof-trust-reviews-wrapper {
   display: flex;
