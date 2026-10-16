@@ -8358,7 +8358,7 @@ input:not([type=checkbox],[type=radio]) {
   text-align: center;
   color: #1E2123;
   margin: 0;
-  max-width: 602px;
+  /* max-width: 602px; */
   width: 100%;
 }
 
