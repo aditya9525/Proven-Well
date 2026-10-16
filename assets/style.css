@@ -8954,6 +8954,9 @@ input:not([type=checkbox],[type=radio]) {
   color: #FFFFFF;
 }
 
+#resultsSwiper .swiper-slide {
+  height: unset;
+}
 /* Divider Line */
 .bundle-divider {
   width: 100%;
