@@ -10046,6 +10046,7 @@ input:not([type=checkbox],[type=radio]) {
 
       .final-cta-media {
         position: static;
+        align-self: center;
       }
 
   .final-cta-container {
