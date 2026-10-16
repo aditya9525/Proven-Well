@@ -607,6 +607,36 @@
     "results_carousel_tVBT9p": {
       "type": "results-carousel",
       "blocks": {
+        "result_card_UkEPBc": {
+          "type": "result_card",
+          "settings": {
+            "category": "men",
+            "image": "shopify://shop_images/Screenshot_2026-10-15_at_3.37.51_PM_1.png",
+            "quote": "“I bought it mostly for my beard because the gray was making it look patchy. Huge difference. The beard looks fuller and darker now, and I started using the same bottle on my hair too.”",
+            "author": "Anthony R.",
+            "verified": true
+          }
+        },
+        "result_card_gBAUnt": {
+          "type": "result_card",
+          "settings": {
+            "category": "men",
+            "image": "shopify://shop_images/Screenshot_2026-10-15_at_2.10.15_PM_1.png",
+            "quote": "“My wife bought it for me because I refused to use regular hair dye. I’ll admit she was right. Takes almost no effort and I look noticeably younger without looking dyed.”",
+            "author": "David L.",
+            "verified": true
+          }
+        },
+        "result_card_eFVzxa": {
+          "type": "result_card",
+          "settings": {
+            "category": "men",
+            "image": "shopify://shop_images/Screenshot_2026-10-15_at_2.06.38_PM_1_1.png",
+            "quote": "“Super straightforward. I mainly wanted something for the gray around my temples. Covered it way better than I expected and nobody can tell I colored my hair.”",
+            "author": "Michael D.",
+            "verified": true
+          }
+        },
         "result_card_pinwzt": {
           "type": "result_card",
           "settings": {
@@ -688,6 +718,9 @@
         }
       },
       "block_order": [
+        "result_card_UkEPBc",
+        "result_card_gBAUnt",
+        "result_card_eFVzxa",
         "result_card_pinwzt",
         "result_card_QXtdtM",
         "result_card_6eGpXH",
