@@ -2300,7 +2300,7 @@ body {
     display: block;
   }
 
-  .product-right-col .product-subtitle:nth-of-type(n + 1) {
+  .product-right-col .product-subtitle:nth-of-type(1) {
     display: none !important;
   }
 
