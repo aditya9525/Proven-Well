@@ -3969,6 +3969,10 @@ input:not([type=checkbox],[type=radio]) {
   color: #FFFFFF;
   flex-shrink: 0;
 }
+.footer-newsletter-msg{
+    position: absolute;
+    bottom: -28px;
+}
 
 .benefit-step-content {
   display: flex;
