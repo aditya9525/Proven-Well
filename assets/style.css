@@ -10022,9 +10022,9 @@ input:not([type=checkbox],[type=radio]) {
   display: block;
 }
 
-.final-cta-banner:hover .final-cta-bottles-img {
+/* .final-cta-banner:hover .final-cta-bottles-img {
   transform: translateY(-4px) scale(1.02);
-}
+} */
 .final-cta-container{
   position: relative;
 }
