@@ -5097,6 +5097,10 @@ input:not([type=checkbox],[type=radio]) {
   box-sizing: border-box;
 }
 
+.faq-item:last-child .faq-trigger {
+  border-bottom: none;
+}
+
 .faq-item {
   box-sizing: border-box;
   display: flex;
