@@ -38,7 +38,10 @@
   assign formatted_v1_price = v1_price | money_without_trailing_zeros | remove: '.00'
 
   # Dynamic Color Category Metafields
-  assign cat_colors = overview_product.metafields.shopify['color-pattern'].value
+  assign cat_colors = overview_product.metafields.custom.colors.value
+  if cat_colors == blank
+    assign cat_colors = overview_product.metafields.shopify['color-pattern'].value
+  endif
   if cat_colors == blank
     assign cat_colors = overview_product.metafields.shopify.color.value
   endif
@@ -76,7 +79,7 @@
   assign dynamic_shades_list = ''
   if cat_colors != blank
     for item in cat_colors
-      assign c_label = item.label | default: item.name | default: item.value | default: item | strip
+      assign c_label = item.label.value | default: item.label | default: item.name | default: item.value | default: item | strip
       assign c_handle_test = c_label | handleize
       if forloop.first
         assign dynamic_shades_list = c_label
@@ -273,10 +276,10 @@
           {%- if cat_colors != blank -%}
             {%- for item in cat_colors -%}
               {%- liquid
-                assign c_name = item.label | default: item.name | default: item.value | default: item | strip
+                assign c_name = item.label.value | default: item.label | default: item.name | default: item.value | default: item | strip
                 assign c_handle = c_name | handleize
                 assign c_hex = item.color | default: item.hex | default: ''
-                assign c_image = item.image
+                assign c_image = item.swatch.value | default: item.image.value | default: item.image
                 assign is_active = false
                 if c_name == default_first_color
                   assign is_active = true
