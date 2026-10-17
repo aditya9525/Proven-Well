@@ -291,8 +291,12 @@
           <span class="compare-at-price" id="comparePrice">{{ initial_compare | money }}</span>
           <span class="current-price" id="currentPrice">{{ initial_price | money }}</span>
         {% endcomment %}
-        <span class="compare-at-price" id="comparePrice">Rs. {{ initial_compare | money_without_currency }}</span>
-        <span class="current-price" id="currentPrice">Rs. {{ initial_price | money_without_currency }}</span>
+        <span class="compare-at-price" id="comparePrice">
+          {{ initial_compare | money }}
+        </span>
+        <span class="current-price" id="currentPrice">
+          {{ initial_price | money }}
+        </span>
         <div class="discount-pill desktop-view" id="discountPill">FALL SALE | SAVE {{ initial_save }}%</div>
         <div class="discount-pill mobile-view">FALL SALE | SAVE {{ initial_save }}%</div>
       </div>
