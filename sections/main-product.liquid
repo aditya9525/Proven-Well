@@ -415,13 +415,6 @@
         endif
       -%}
 
-      <pre style="font-size:12px;background:#fff;color:#000;padding:8px">
-colors found: {{ product.metafields.custom.colors.value.size | default: 0 }}
-{% for mf in product.metafields.custom %}
-  {{ mf[0] }} => {{ mf[1].type }}
-{% endfor %}
-</pre>
-
       <!-- Color Swatches (Dynamic Category Metafield) -->
       <div class="color-selection-wrapper">
         <div class="section-label-row">
