@@ -1771,6 +1771,9 @@ input:not([type=checkbox],[type=radio]) {
   margin: 0;
 }
 
+.accordion-content p{
+  margin-top: 10px;
+}
 .metafield-specs-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
