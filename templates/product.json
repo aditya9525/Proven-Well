@@ -707,15 +707,6 @@
             "author": "Karen T.",
             "verified": true
           }
-        },
-        "result_card_dXrkBf": {
-          "type": "result_card",
-          "settings": {
-            "category": "women",
-            "quote": "\"Love the all naturalness of this hair color shampoo and ease of using it. I get compliments on my hair color actually!\"",
-            "author": "Busie L., Los Angeles, CA",
-            "verified": true
-          }
         }
       },
       "block_order": [
@@ -728,8 +719,7 @@
         "result_card_GJcMjJ",
         "result_card_UymNTp",
         "result_card_Vm97aq",
-        "result_card_NFikND",
-        "result_card_dXrkBf"
+        "result_card_NFikND"
       ],
       "name": "Results Carousel",
       "settings": {
