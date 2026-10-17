@@ -415,6 +415,13 @@
         endif
       -%}
 
+      <pre style="font-size:12px;background:#fff;color:#000;padding:8px">
+colors found: {{ product.metafields.custom.colors.value.size | default: 0 }}
+{% for item in product.metafields.custom.colors.value -%}
+{{ item.label.value }} | gallery: {{ item.gallery.value.size | default: 0 }}
+{% endfor %}
+</pre>
+
       <!-- Color Swatches (Dynamic Category Metafield) -->
       <div class="color-selection-wrapper">
         <div class="section-label-row">
