@@ -417,8 +417,8 @@
 
       <pre style="font-size:12px;background:#fff;color:#000;padding:8px">
 colors found: {{ product.metafields.custom.colors.value.size | default: 0 }}
-{% for item in product.metafields.custom.colors.value -%}
-{{ item.label.value }} | gallery: {{ item.gallery.value.size | default: 0 }}
+{% for mf in product.metafields.custom %}
+  {{ mf[0] }} => {{ mf[1].type }}
 {% endfor %}
 </pre>
 
@@ -446,7 +446,7 @@ colors found: {{ product.metafields.custom.colors.value.size | default: 0 }}
               >
                 <div class="swatch-img-box">
                   {%- if c_image != blank -%}
-                    <img src="{{ c_image | image_url: width: 160 }}"  alt="{{ c_name | escape }}" class="swatch-img">
+                    <img src="{{ c_image | image_url: width: 160 }}" alt="{{ c_name | escape }}" class="swatch-img">
                   {%- elsif c_handle contains 'dark-brown' or c_handle contains 'dark' -%}
                     <img src="{{ 'swatch-dark-brown.png' | asset_url }}" alt="{{ c_name | escape }}" class="swatch-img">
                   {%- elsif c_handle contains 'medium-brown' or c_handle contains 'medium' -%}
@@ -679,8 +679,7 @@ colors found: {{ product.metafields.custom.colors.value.size | default: 0 }}
                 </div>
               </div>
               <div class="reward-text-col">
-                <span class="reward-name">Free Conditioner</span
-                ><span class="reward-req">3 Bottles · $ 2,300.00</span>
+                <span class="reward-name">Free Conditioner</span><span class="reward-req">3 Bottles · $ 2,300.00</span>
               </div>
             </div>
           </div>
@@ -1192,508 +1191,508 @@ colors found: {{ product.metafields.custom.colors.value.size | default: 0 }}
 </section>
 
 <script>
-    (function () {
-      function initMainProduct() {
-        var section = document.getElementById('productSection');
-        if (!section) return;
+  (function () {
+    function initMainProduct() {
+      var section = document.getElementById('productSection');
+      if (!section) return;
 
-        // 1. Accordion Toggle
-        var accordionHeaders = section.querySelectorAll('.accordion-header');
-        accordionHeaders.forEach(function (header) {
-          header.addEventListener('click', function (e) {
-            e.preventDefault();
-            var item = header.closest('.accordion-item');
-            if (item) {
-              item.classList.toggle('active');
+      // 1. Accordion Toggle
+      var accordionHeaders = section.querySelectorAll('.accordion-header');
+      accordionHeaders.forEach(function (header) {
+        header.addEventListener('click', function (e) {
+          e.preventDefault();
+          var item = header.closest('.accordion-item');
+          if (item) {
+            item.classList.toggle('active');
+          }
+        });
+      });
+
+      // 2. Product Main Image Swiper Carousel & Thumbnails Sync
+      var productSwiperInstance = null;
+
+      function initProductGallerySwiper() {
+        var gallerySwiperEl = section.querySelector('#mainProductSwiper');
+        if (!gallerySwiperEl || typeof Swiper === 'undefined') return;
+
+        var thumbBtns = section.querySelectorAll('.thumb-item');
+        var galleryCurrentIndex = section.querySelector('#galleryCurrentIndex');
+        var galleryTotalCount = section.querySelector('#galleryTotalCount');
+        var prevBtn = section.querySelector('.thumb-nav-btn.prev');
+        var nextBtn = section.querySelector('.thumb-nav-btn.next');
+
+        if (galleryTotalCount && thumbBtns.length > 0) {
+          galleryTotalCount.textContent = thumbBtns.length;
+        }
+
+        if (productSwiperInstance) {
+          try {
+            productSwiperInstance.destroy(true, true);
+          } catch (err) {}
+          productSwiperInstance = null;
+        }
+
+        function syncThumbnails(activeIndex) {
+          if (galleryCurrentIndex) {
+            galleryCurrentIndex.textContent = activeIndex + 1;
+          }
+          thumbBtns.forEach(function (thumb, i) {
+            if (i === activeIndex) {
+              thumb.classList.add('active');
+              thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            } else {
+              thumb.classList.remove('active');
             }
           });
+        }
+
+        productSwiperInstance = new Swiper(gallerySwiperEl, {
+          slidesPerView: 1,
+          spaceBetween: 0,
+          speed: 350,
+          grabCursor: true,
+          rewind: true,
+          watchOverflow: true,
+          touchRatio: 1,
+          threshold: 5,
+          resistanceRatio: 0.85,
+          on: {
+            init: function () {
+              syncThumbnails(this.activeIndex);
+            },
+            slideChange: function () {
+              syncThumbnails(this.activeIndex);
+            },
+          },
         });
 
-        // 2. Product Main Image Swiper Carousel & Thumbnails Sync
-        var productSwiperInstance = null;
-
-        function initProductGallerySwiper() {
-          var gallerySwiperEl = section.querySelector('#mainProductSwiper');
-          if (!gallerySwiperEl || typeof Swiper === 'undefined') return;
-
-          var thumbBtns = section.querySelectorAll('.thumb-item');
-          var galleryCurrentIndex = section.querySelector('#galleryCurrentIndex');
-          var galleryTotalCount = section.querySelector('#galleryTotalCount');
-          var prevBtn = section.querySelector('.thumb-nav-btn.prev');
-          var nextBtn = section.querySelector('.thumb-nav-btn.next');
-
-          if (galleryTotalCount && thumbBtns.length > 0) {
-            galleryTotalCount.textContent = thumbBtns.length;
-          }
-
-          if (productSwiperInstance) {
-            try {
-              productSwiperInstance.destroy(true, true);
-            } catch (err) {}
-            productSwiperInstance = null;
-          }
-
-          function syncThumbnails(activeIndex) {
-            if (galleryCurrentIndex) {
-              galleryCurrentIndex.textContent = activeIndex + 1;
+        // Prev Button click handler
+        if (prevBtn) {
+          prevBtn.onclick = function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (productSwiperInstance) {
+              productSwiperInstance.slidePrev();
             }
-            thumbBtns.forEach(function (thumb, i) {
-              if (i === activeIndex) {
-                thumb.classList.add('active');
-                thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-              } else {
-                thumb.classList.remove('active');
-              }
+          };
+        }
+
+        // Next Button click handler
+        if (nextBtn) {
+          nextBtn.onclick = function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (productSwiperInstance) {
+              productSwiperInstance.slideNext();
+            }
+          };
+        }
+
+        // Thumbnail Items click handler
+        thumbBtns.forEach(function (thumb, idx) {
+          thumb.onclick = function (e) {
+            e.preventDefault();
+            if (productSwiperInstance) {
+              productSwiperInstance.slideTo(idx);
+            }
+          };
+        });
+      }
+
+      // 3. Color Swatches (Category Metafield)
+      var colorSwatches = section.querySelectorAll('.color-swatch-btn');
+      var selectedColorName = section.querySelector('#selectedColorName');
+      var shadeBadgeText = section.querySelector('#shadeBadgeText');
+      var selectedColorProperty = section.querySelector('#selectedColorProperty');
+      function renderGallery(list) {
+        var wrapper = section.querySelector('#mainProductSwiper .swiper-wrapper');
+        var thumbsEl = section.querySelector('#thumbnailsSlider');
+        if (!wrapper || !thumbsEl || !list || !list.length) return;
+        wrapper.innerHTML = '';
+        thumbsEl.innerHTML = '';
+        list.forEach(function (g, i) {
+          var slide = document.createElement('div');
+          slide.className = 'swiper-slide main-product-slide';
+          var img = document.createElement('img');
+          img.src = g.m;
+          img.alt = g.a || '';
+          img.className = 'main-product-img';
+          slide.appendChild(img);
+          wrapper.appendChild(slide);
+
+          var t = document.createElement('button');
+          t.type = 'button';
+          t.className = 'thumb-item' + (i === 0 ? ' active' : '');
+          t.setAttribute('data-index', i + 1);
+          var ti = document.createElement('img');
+          ti.src = g.t;
+          ti.alt = g.a || '';
+          t.appendChild(ti);
+          thumbsEl.appendChild(t);
+        });
+        initProductGallerySwiper();
+      }
+
+      colorSwatches.forEach(function (swatch) {
+        swatch.addEventListener('click', function (e) {
+          e.preventDefault();
+          colorSwatches.forEach(function (s) {
+            s.classList.remove('active');
+          });
+          swatch.classList.add('active');
+          var color = swatch.getAttribute('data-color');
+          if (selectedColorName && color) selectedColorName.textContent = color;
+          if (shadeBadgeText && color) shadeBadgeText.textContent = 'NATURAL ' + color.toUpperCase();
+          if (selectedColorProperty && color) selectedColorProperty.value = color;
+          try {
+            renderGallery(JSON.parse(swatch.getAttribute('data-gallery') || '[]'));
+          } catch (err) {}
+        });
+      });
+      // page load par pehle color ki gallery dikhao
+      var activeSwatch = section.querySelector('.color-swatch-btn.active');
+      if (activeSwatch) {
+        try {
+          renderGallery(JSON.parse(activeSwatch.getAttribute('data-gallery') || '[]'));
+        } catch (err) {}
+      }
+
+      // 4. Bundle Quantity & Rewards Unlock (Variants)
+      var bundleCards = section.querySelectorAll('.bundle-card');
+      var currentPriceEl = section.querySelector('#currentPrice');
+      var comparePriceEl = section.querySelector('#comparePrice');
+      var discountPills = section.querySelectorAll('.discount-pill');
+      var selectedVariantId = section.querySelector('#selectedVariantId');
+      var selectedQuantityInput = section.querySelector('#selectedQuantityInput');
+      var addToCartBtn = section.querySelector('#addToCartBtn');
+      var rewardsStatusText = section.querySelector('#rewardsStatusText');
+      var rewardsProgressFill = section.querySelector('#rewardsProgressFill');
+      var rewardsHintText = section.querySelector('#rewardsHintText');
+      var rewardShipping = section.querySelector('#rewardShipping');
+      var rewardConditioner = section.querySelector('#rewardConditioner');
+      var milestoneShipping = section.querySelector('#milestoneShipping');
+      var milestoneConditioner = section.querySelector('#milestoneConditioner');
+
+      function formatPrice(centsOrValue) {
+        if (centsOrValue == null || centsOrValue === '') return '';
+
+        var num = Number(centsOrValue) / 100;
+
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }).format(num);
+      }
+
+      bundleCards.forEach(function (card) {
+        card.addEventListener('click', function (e) {
+          e.preventDefault();
+          bundleCards.forEach(function (c) {
+            c.classList.remove('active');
+          });
+          card.classList.add('active');
+
+          var variantId = card.getAttribute('data-variant-id');
+          var qty = parseInt(card.getAttribute('data-qty') || '1', 10);
+          var price = card.getAttribute('data-price');
+          var compare = card.getAttribute('data-compare');
+          var save = card.getAttribute('data-save');
+          var isAvailable = card.getAttribute('data-available') !== 'false';
+
+          if (selectedVariantId && variantId) selectedVariantId.value = variantId;
+          var hasSameVariantIds =
+            bundleCards.length > 1 &&
+            bundleCards[0].getAttribute('data-variant-id') === bundleCards[1].getAttribute('data-variant-id');
+          if (selectedQuantityInput) {
+            selectedQuantityInput.value = hasSameVariantIds ? qty : 1;
+          }
+          if (currentPriceEl && price) currentPriceEl.textContent = formatPrice(price);
+          if (comparePriceEl && compare) comparePriceEl.textContent = formatPrice(compare);
+          if (discountPills.length > 0 && save) {
+            discountPills.forEach(function (pill) {
+              pill.textContent = 'FALL SALE | SAVE ' + save;
             });
           }
 
-          productSwiperInstance = new Swiper(gallerySwiperEl, {
-            slidesPerView: 1,
-            spaceBetween: 0,
-            speed: 350,
-            grabCursor: true,
-            rewind: true,
-            watchOverflow: true,
-            touchRatio: 1,
-            threshold: 5,
-            resistanceRatio: 0.85,
-            on: {
-              init: function () {
-                syncThumbnails(this.activeIndex);
+          if (addToCartBtn) {
+            var btnSpan = addToCartBtn.querySelector('span') || addToCartBtn;
+            if (!isAvailable) {
+              btnSpan.textContent = 'SOLD OUT';
+              addToCartBtn.disabled = true;
+            } else {
+              btnSpan.textContent = 'ADD TO CART';
+              addToCartBtn.disabled = false;
+            }
+          }
+
+          if (qty === 1) {
+            if (rewardsStatusText) rewardsStatusText.textContent = '0 of 2 unlocked';
+            if (rewardsProgressFill) rewardsProgressFill.style.width = '15%';
+            if (rewardShipping) rewardShipping.classList.remove('unlocked');
+            if (rewardConditioner) rewardConditioner.classList.remove('unlocked');
+            if (milestoneShipping) milestoneShipping.classList.remove('unlocked');
+            if (milestoneConditioner) milestoneConditioner.classList.remove('unlocked');
+            if (rewardsHintText) rewardsHintText.textContent = 'Add 1 more bottle to unlock free shipping';
+          } else if (qty === 2) {
+            if (rewardsStatusText) rewardsStatusText.textContent = '1 of 2 unlocked';
+            if (rewardsProgressFill) rewardsProgressFill.style.width = '55%';
+            if (rewardShipping) rewardShipping.classList.add('unlocked');
+            if (rewardConditioner) rewardConditioner.classList.remove('unlocked');
+            if (milestoneShipping) milestoneShipping.classList.add('unlocked');
+            if (milestoneConditioner) milestoneConditioner.classList.remove('unlocked');
+            if (rewardsHintText) rewardsHintText.textContent = 'Add 1 more bottle to unlock free conditioner';
+          } else if (qty >= 3) {
+            if (rewardsStatusText) rewardsStatusText.textContent = '2 of 2 unlocked 🎉';
+            if (rewardsProgressFill) rewardsProgressFill.style.width = '100%';
+            if (rewardShipping) rewardShipping.classList.add('unlocked');
+            if (rewardConditioner) rewardConditioner.classList.add('unlocked');
+            if (milestoneShipping) milestoneShipping.classList.add('unlocked');
+            if (milestoneConditioner) milestoneConditioner.classList.add('unlocked');
+            if (rewardsHintText)
+              rewardsHintText.textContent = 'All rewards unlocked! You qualify for Free Shipping & Conditioner!';
+          }
+        });
+      });
+
+      // 5. URL Parameter Handling / Initial Auto-Selection
+      try {
+        var urlParams = new URLSearchParams(window.location.search);
+        var urlVariantId = urlParams.get('variant');
+        var urlQty = urlParams.get('qty') || urlParams.get('quantity') || urlParams.get('bundle');
+        var urlColor = urlParams.get('color') || urlParams.get('shade');
+
+        var cardToSelect = null;
+        if (urlVariantId) {
+          cardToSelect = section.querySelector('.bundle-card[data-variant-id="' + urlVariantId + '"]');
+        }
+        if (!cardToSelect && urlQty) {
+          cardToSelect = section.querySelector('.bundle-card[data-qty="' + urlQty + '"]');
+        }
+        if (!cardToSelect) {
+          cardToSelect = section.querySelector('.bundle-card.active') || bundleCards[0];
+        }
+
+        if (cardToSelect) {
+          cardToSelect.click();
+        }
+
+        if (urlColor) {
+          var targetSwatch = section.querySelector('.color-swatch-btn[data-color="' + urlColor + '"]');
+          if (targetSwatch) {
+            targetSwatch.click();
+          }
+        }
+      } catch (err) {
+        console.warn('PDP URL param selection error:', err);
+      }
+
+      async function refreshCartDrawer() {
+        try {
+          // Section Rendering API: current page ke saath cart-drawer ka HTML maango
+          var res = await fetch(window.location.pathname + '?sections=cart-drawer');
+          var json = await res.json();
+          var html = json['cart-drawer'];
+          if (!html) return;
+
+          var doc = new DOMParser().parseFromString(html, 'text/html');
+          var newDrawer = doc.querySelector('#cart-drawer');
+          var oldDrawer = document.querySelector('#cart-drawer');
+
+          if (newDrawer && oldDrawer) {
+            // Sirf inner content swap, taaki drawer ka open/close logic na toote
+            oldDrawer.innerHTML = newDrawer.innerHTML;
+          }
+        } catch (err) {
+          console.warn('Cart drawer refresh failed:', err);
+        }
+      }
+
+      var productForm = section.querySelector('#product-form');
+
+      if (productForm) {
+        productForm.addEventListener('submit', async function (e) {
+          e.preventDefault();
+
+          if (!selectedVariantId || !selectedVariantId.value) return;
+
+          if (addToCartBtn) addToCartBtn.disabled = true;
+
+          try {
+            var formData = new FormData(productForm);
+
+            await fetch(window.Shopify.routes.root + 'cart/clear.js', {
+              method: 'POST',
+              headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            });
+
+            var response = await fetch(window.Shopify.routes.root + 'cart/add.js', {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
               },
-              slideChange: function () {
-                syncThumbnails(this.activeIndex);
+              body: formData,
+            });
+
+            var data = await response.json();
+
+            if (!response.ok) {
+              throw new Error(data.description || 'Unable to add product');
+            }
+            window.location.href = window.Shopify.routes.root + 'checkout';
+            return; // redirect ke time button enabled na ho (double-click se bachne ke liye)
+          } catch (error) {
+            console.error('Add to cart failed:', error);
+            alert(error.message || 'Something went wrong.');
+            if (addToCartBtn) addToCartBtn.disabled = false;
+          }
+
+            {% comment %} var cartResponse = await fetch(window.Shopify.routes.root + 'cart.js');
+            var cart = await cartResponse.json();
+
+            // 1. Drawer ka fresh HTML fetch karke swap karo
+            await refreshCartDrawer();
+
+            // 2. Theme ke baaki listeners (cart count bubble etc.) ko notify karo
+            document.dispatchEvent(
+              new CustomEvent('cart:update', {
+                bubbles: true,
+                detail: { data: { itemCount: cart.item_count, source: 'product-form-component' } },
+              })
+            );
+
+            // 3. Ab drawer open karo (sirf ek baar)
+            var drawer = document.querySelector('#cart-drawer');
+            if (drawer && typeof drawer.open === 'function') {
+              drawer.open();
+            } else if (drawer && typeof drawer.show === 'function') {
+              drawer.show();
+            } else {
+              console.warn('Cart added, but drawer opener was not found.');
+            }
+          } catch (error) {
+            console.error('Add to cart failed:', error);
+            alert(error.message || 'Something went wrong.');
+          } finally {
+            if (addToCartBtn) addToCartBtn.disabled = false;
+          } {% endcomment %}
+        });
+      }
+
+      // UGC video play (ek time pe sirf ek video, pause pe thumbnail wapas)
+      var ugcCards = section.querySelectorAll('.ugc-video-card');
+
+      function resetUgcCard(card) {
+        var video = card.querySelector('video.ugc-inline-video');
+        var btn = card.querySelector('.ugc-play-btn');
+        var thumb = card._thumbEl;
+        if (video) {
+          video.pause();
+          video.replaceWith(thumb);
+        }
+        if (btn) btn.style.display = '';
+      }
+
+      ugcCards.forEach(function (card) {
+        var btn = card.querySelector('.ugc-play-btn');
+        var src = card.getAttribute('data-video');
+        var thumb = card.querySelector('.ugc-cover-img');
+        if (!btn || !src || !thumb) return;
+
+        card._thumbEl = thumb; // original thumbnail save
+
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          // baaki sab cards reset (pause + thumbnail)
+          ugcCards.forEach(function (other) {
+            if (other !== card) resetUgcCard(other);
+          });
+
+          var video = document.createElement('video');
+          video.src = src;
+          video.controls = true;
+          video.autoplay = true;
+          video.playsInline = true;
+          video.setAttribute('playsinline', '');
+          video.className = 'ugc-cover-img ugc-inline-video';
+          video.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+
+          // pause ya end pe thumbnail wapas
+          video.addEventListener('pause', function () {
+            if (!video.ended && video.seeking) return; // seek ke time pause ignore
+            resetUgcCard(card);
+          });
+          video.addEventListener('ended', function () {
+            resetUgcCard(card);
+          });
+
+          thumb.replaceWith(video);
+          btn.style.display = 'none';
+          video.play().catch(function () {});
+        });
+      });
+
+      // 5. UGC Video Carousel Swiper
+      function initUgcSwiper() {
+        var ugcCustomersSwiperEl = section.querySelector('#ugcCustomersSwiper');
+        if (!ugcCustomersSwiperEl) return;
+        if (typeof Swiper !== 'undefined') {
+          new Swiper(ugcCustomersSwiperEl, {
+            slidesPerView: 2.3,
+            spaceBetween: 10,
+            grabCursor: true,
+            watchOverflow: true,
+            navigation: {
+              nextEl: section.querySelector('.ugc-customers-section .ugc-cust-next'),
+              prevEl: section.querySelector('.ugc-customers-section .ugc-cust-prev'),
+            },
+            breakpoints: {
+              769: {
+                slidesPerView: 2.3,
+                spaceBetween: 16,
               },
             },
           });
-
-          // Prev Button click handler
-          if (prevBtn) {
-            prevBtn.onclick = function (e) {
-              e.preventDefault();
-              e.stopPropagation();
-              if (productSwiperInstance) {
-                productSwiperInstance.slidePrev();
-              }
-            };
-          }
-
-          // Next Button click handler
-          if (nextBtn) {
-            nextBtn.onclick = function (e) {
-              e.preventDefault();
-              e.stopPropagation();
-              if (productSwiperInstance) {
-                productSwiperInstance.slideNext();
-              }
-            };
-          }
-
-          // Thumbnail Items click handler
-          thumbBtns.forEach(function (thumb, idx) {
-            thumb.onclick = function (e) {
-              e.preventDefault();
-              if (productSwiperInstance) {
-                productSwiperInstance.slideTo(idx);
-              }
-            };
-          });
-        }
-
-        // 3. Color Swatches (Category Metafield)
-        var colorSwatches = section.querySelectorAll('.color-swatch-btn');
-        var selectedColorName = section.querySelector('#selectedColorName');
-        var shadeBadgeText = section.querySelector('#shadeBadgeText');
-        var selectedColorProperty = section.querySelector('#selectedColorProperty');
-        function renderGallery(list) {
-          var wrapper = section.querySelector('#mainProductSwiper .swiper-wrapper');
-          var thumbsEl = section.querySelector('#thumbnailsSlider');
-          if (!wrapper || !thumbsEl || !list || !list.length) return;
-          wrapper.innerHTML = '';
-          thumbsEl.innerHTML = '';
-          list.forEach(function (g, i) {
-            var slide = document.createElement('div');
-            slide.className = 'swiper-slide main-product-slide';
-            var img = document.createElement('img');
-            img.src = g.m;
-            img.alt = g.a || '';
-            img.className = 'main-product-img';
-            slide.appendChild(img);
-            wrapper.appendChild(slide);
-
-            var t = document.createElement('button');
-            t.type = 'button';
-            t.className = 'thumb-item' + (i === 0 ? ' active' : '');
-            t.setAttribute('data-index', i + 1);
-            var ti = document.createElement('img');
-            ti.src = g.t;
-            ti.alt = g.a || '';
-            t.appendChild(ti);
-            thumbsEl.appendChild(t);
-          });
-          initProductGallerySwiper();
-        }
-
-        colorSwatches.forEach(function (swatch) {
-          swatch.addEventListener('click', function (e) {
-            e.preventDefault();
-            colorSwatches.forEach(function (s) {
-              s.classList.remove('active');
-            });
-            swatch.classList.add('active');
-            var color = swatch.getAttribute('data-color');
-            if (selectedColorName && color) selectedColorName.textContent = color;
-            if (shadeBadgeText && color) shadeBadgeText.textContent = 'NATURAL ' + color.toUpperCase();
-            if (selectedColorProperty && color) selectedColorProperty.value = color;
-            try {
-              renderGallery(JSON.parse(swatch.getAttribute('data-gallery') || '[]'));
-            } catch (err) {}
-          });
-        });
-        // page load par pehle color ki gallery dikhao
-        var activeSwatch = section.querySelector('.color-swatch-btn.active');
-        if (activeSwatch) {
-          try {
-            renderGallery(JSON.parse(activeSwatch.getAttribute('data-gallery') || '[]'));
-          } catch (err) {}
-        }
-
-        // 4. Bundle Quantity & Rewards Unlock (Variants)
-        var bundleCards = section.querySelectorAll('.bundle-card');
-        var currentPriceEl = section.querySelector('#currentPrice');
-        var comparePriceEl = section.querySelector('#comparePrice');
-        var discountPills = section.querySelectorAll('.discount-pill');
-        var selectedVariantId = section.querySelector('#selectedVariantId');
-        var selectedQuantityInput = section.querySelector('#selectedQuantityInput');
-        var addToCartBtn = section.querySelector('#addToCartBtn');
-        var rewardsStatusText = section.querySelector('#rewardsStatusText');
-        var rewardsProgressFill = section.querySelector('#rewardsProgressFill');
-        var rewardsHintText = section.querySelector('#rewardsHintText');
-        var rewardShipping = section.querySelector('#rewardShipping');
-        var rewardConditioner = section.querySelector('#rewardConditioner');
-        var milestoneShipping = section.querySelector('#milestoneShipping');
-        var milestoneConditioner = section.querySelector('#milestoneConditioner');
-
-        function formatPrice(centsOrValue) {
-          if (centsOrValue == null || centsOrValue === '') return '';
-
-          var num = Number(centsOrValue) / 100;
-
-          return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          }).format(num);
-        }
-
-        bundleCards.forEach(function (card) {
-          card.addEventListener('click', function (e) {
-            e.preventDefault();
-            bundleCards.forEach(function (c) {
-              c.classList.remove('active');
-            });
-            card.classList.add('active');
-
-            var variantId = card.getAttribute('data-variant-id');
-            var qty = parseInt(card.getAttribute('data-qty') || '1', 10);
-            var price = card.getAttribute('data-price');
-            var compare = card.getAttribute('data-compare');
-            var save = card.getAttribute('data-save');
-            var isAvailable = card.getAttribute('data-available') !== 'false';
-
-            if (selectedVariantId && variantId) selectedVariantId.value = variantId;
-            var hasSameVariantIds =
-              bundleCards.length > 1 &&
-              bundleCards[0].getAttribute('data-variant-id') === bundleCards[1].getAttribute('data-variant-id');
-            if (selectedQuantityInput) {
-              selectedQuantityInput.value = hasSameVariantIds ? qty : 1;
-            }
-            if (currentPriceEl && price) currentPriceEl.textContent = formatPrice(price);
-            if (comparePriceEl && compare) comparePriceEl.textContent = formatPrice(compare);
-            if (discountPills.length > 0 && save) {
-              discountPills.forEach(function (pill) {
-                pill.textContent = 'FALL SALE | SAVE ' + save;
-              });
-            }
-
-            if (addToCartBtn) {
-              var btnSpan = addToCartBtn.querySelector('span') || addToCartBtn;
-              if (!isAvailable) {
-                btnSpan.textContent = 'SOLD OUT';
-                addToCartBtn.disabled = true;
-              } else {
-                btnSpan.textContent = 'ADD TO CART';
-                addToCartBtn.disabled = false;
-              }
-            }
-
-            if (qty === 1) {
-              if (rewardsStatusText) rewardsStatusText.textContent = '0 of 2 unlocked';
-              if (rewardsProgressFill) rewardsProgressFill.style.width = '15%';
-              if (rewardShipping) rewardShipping.classList.remove('unlocked');
-              if (rewardConditioner) rewardConditioner.classList.remove('unlocked');
-              if (milestoneShipping) milestoneShipping.classList.remove('unlocked');
-              if (milestoneConditioner) milestoneConditioner.classList.remove('unlocked');
-              if (rewardsHintText) rewardsHintText.textContent = 'Add 1 more bottle to unlock free shipping';
-            } else if (qty === 2) {
-              if (rewardsStatusText) rewardsStatusText.textContent = '1 of 2 unlocked';
-              if (rewardsProgressFill) rewardsProgressFill.style.width = '55%';
-              if (rewardShipping) rewardShipping.classList.add('unlocked');
-              if (rewardConditioner) rewardConditioner.classList.remove('unlocked');
-              if (milestoneShipping) milestoneShipping.classList.add('unlocked');
-              if (milestoneConditioner) milestoneConditioner.classList.remove('unlocked');
-              if (rewardsHintText) rewardsHintText.textContent = 'Add 1 more bottle to unlock free conditioner';
-            } else if (qty >= 3) {
-              if (rewardsStatusText) rewardsStatusText.textContent = '2 of 2 unlocked 🎉';
-              if (rewardsProgressFill) rewardsProgressFill.style.width = '100%';
-              if (rewardShipping) rewardShipping.classList.add('unlocked');
-              if (rewardConditioner) rewardConditioner.classList.add('unlocked');
-              if (milestoneShipping) milestoneShipping.classList.add('unlocked');
-              if (milestoneConditioner) milestoneConditioner.classList.add('unlocked');
-              if (rewardsHintText)
-                rewardsHintText.textContent = 'All rewards unlocked! You qualify for Free Shipping & Conditioner!';
-            }
-          });
-        });
-
-        // 5. URL Parameter Handling / Initial Auto-Selection
-        try {
-          var urlParams = new URLSearchParams(window.location.search);
-          var urlVariantId = urlParams.get('variant');
-          var urlQty = urlParams.get('qty') || urlParams.get('quantity') || urlParams.get('bundle');
-          var urlColor = urlParams.get('color') || urlParams.get('shade');
-
-          var cardToSelect = null;
-          if (urlVariantId) {
-            cardToSelect = section.querySelector('.bundle-card[data-variant-id="' + urlVariantId + '"]');
-          }
-          if (!cardToSelect && urlQty) {
-            cardToSelect = section.querySelector('.bundle-card[data-qty="' + urlQty + '"]');
-          }
-          if (!cardToSelect) {
-            cardToSelect = section.querySelector('.bundle-card.active') || bundleCards[0];
-          }
-
-          if (cardToSelect) {
-            cardToSelect.click();
-          }
-
-          if (urlColor) {
-            var targetSwatch = section.querySelector('.color-swatch-btn[data-color="' + urlColor + '"]');
-            if (targetSwatch) {
-              targetSwatch.click();
-            }
-          }
-        } catch (err) {
-          console.warn('PDP URL param selection error:', err);
-        }
-
-        async function refreshCartDrawer() {
-          try {
-            // Section Rendering API: current page ke saath cart-drawer ka HTML maango
-            var res = await fetch(window.location.pathname + '?sections=cart-drawer');
-            var json = await res.json();
-            var html = json['cart-drawer'];
-            if (!html) return;
-
-            var doc = new DOMParser().parseFromString(html, 'text/html');
-            var newDrawer = doc.querySelector('#cart-drawer');
-            var oldDrawer = document.querySelector('#cart-drawer');
-
-            if (newDrawer && oldDrawer) {
-              // Sirf inner content swap, taaki drawer ka open/close logic na toote
-              oldDrawer.innerHTML = newDrawer.innerHTML;
-            }
-          } catch (err) {
-            console.warn('Cart drawer refresh failed:', err);
-          }
-        }
-
-        var productForm = section.querySelector('#product-form');
-
-        if (productForm) {
-          productForm.addEventListener('submit', async function (e) {
-            e.preventDefault();
-
-            if (!selectedVariantId || !selectedVariantId.value) return;
-
-            if (addToCartBtn) addToCartBtn.disabled = true;
-
-            try {
-              var formData = new FormData(productForm);
-
-              await fetch(window.Shopify.routes.root + 'cart/clear.js', {
-                method: 'POST',
-                headers: { 'X-Requested-With': 'XMLHttpRequest' },
-              });
-
-              var response = await fetch(window.Shopify.routes.root + 'cart/add.js', {
-                method: 'POST',
-                headers: {
-                  Accept: 'application/json',
-                  'X-Requested-With': 'XMLHttpRequest',
-                },
-                body: formData,
-              });
-
-              var data = await response.json();
-
-              if (!response.ok) {
-                throw new Error(data.description || 'Unable to add product');
-              }
-              window.location.href = window.Shopify.routes.root + 'checkout';
-              return; // redirect ke time button enabled na ho (double-click se bachne ke liye)
-            } catch (error) {
-              console.error('Add to cart failed:', error);
-              alert(error.message || 'Something went wrong.');
-              if (addToCartBtn) addToCartBtn.disabled = false;
-            }
-
-              {% comment %} var cartResponse = await fetch(window.Shopify.routes.root + 'cart.js');
-              var cart = await cartResponse.json();
-
-              // 1. Drawer ka fresh HTML fetch karke swap karo
-              await refreshCartDrawer();
-
-              // 2. Theme ke baaki listeners (cart count bubble etc.) ko notify karo
-              document.dispatchEvent(
-                new CustomEvent('cart:update', {
-                  bubbles: true,
-                  detail: { data: { itemCount: cart.item_count, source: 'product-form-component' } },
-                })
-              );
-
-              // 3. Ab drawer open karo (sirf ek baar)
-              var drawer = document.querySelector('#cart-drawer');
-              if (drawer && typeof drawer.open === 'function') {
-                drawer.open();
-              } else if (drawer && typeof drawer.show === 'function') {
-                drawer.show();
-              } else {
-                console.warn('Cart added, but drawer opener was not found.');
-              }
-            } catch (error) {
-              console.error('Add to cart failed:', error);
-              alert(error.message || 'Something went wrong.');
-            } finally {
-              if (addToCartBtn) addToCartBtn.disabled = false;
-            } {% endcomment %}
-          });
-        }
-
-        // UGC video play (ek time pe sirf ek video, pause pe thumbnail wapas)
-        var ugcCards = section.querySelectorAll('.ugc-video-card');
-
-        function resetUgcCard(card) {
-          var video = card.querySelector('video.ugc-inline-video');
-          var btn = card.querySelector('.ugc-play-btn');
-          var thumb = card._thumbEl;
-          if (video) {
-            video.pause();
-            video.replaceWith(thumb);
-          }
-          if (btn) btn.style.display = '';
-        }
-
-        ugcCards.forEach(function (card) {
-          var btn = card.querySelector('.ugc-play-btn');
-          var src = card.getAttribute('data-video');
-          var thumb = card.querySelector('.ugc-cover-img');
-          if (!btn || !src || !thumb) return;
-
-          card._thumbEl = thumb; // original thumbnail save
-
-          btn.addEventListener('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            // baaki sab cards reset (pause + thumbnail)
-            ugcCards.forEach(function (other) {
-              if (other !== card) resetUgcCard(other);
-            });
-
-            var video = document.createElement('video');
-            video.src = src;
-            video.controls = true;
-            video.autoplay = true;
-            video.playsInline = true;
-            video.setAttribute('playsinline', '');
-            video.className = 'ugc-cover-img ugc-inline-video';
-            video.style.cssText = 'width:100%;height:100%;object-fit:cover;';
-
-            // pause ya end pe thumbnail wapas
-            video.addEventListener('pause', function () {
-              if (!video.ended && video.seeking) return; // seek ke time pause ignore
-              resetUgcCard(card);
-            });
-            video.addEventListener('ended', function () {
-              resetUgcCard(card);
-            });
-
-            thumb.replaceWith(video);
-            btn.style.display = 'none';
-            video.play().catch(function () {});
-          });
-        });
-
-        // 5. UGC Video Carousel Swiper
-        function initUgcSwiper() {
-          var ugcCustomersSwiperEl = section.querySelector('#ugcCustomersSwiper');
-          if (!ugcCustomersSwiperEl) return;
-          if (typeof Swiper !== 'undefined') {
-            new Swiper(ugcCustomersSwiperEl, {
-              slidesPerView: 2.3,
-              spaceBetween: 10,
-              grabCursor: true,
-              watchOverflow: true,
-              navigation: {
-                nextEl: section.querySelector('.ugc-customers-section .ugc-cust-next'),
-                prevEl: section.querySelector('.ugc-customers-section .ugc-cust-prev'),
-              },
-              breakpoints: {
-                769: {
-                  slidesPerView: 2.3,
-                  spaceBetween: 16,
-                },
-              },
-            });
-          }
-        }
-
-        function initAllSwipers() {
-          initProductGallerySwiper();
-          initUgcSwiper();
-        }
-
-        if (typeof Swiper === 'undefined') {
-          var existingScript = document.querySelector('script[src*="swiper-bundle.min.js"]');
-          if (existingScript) {
-            existingScript.addEventListener('load', initAllSwipers);
-          } else {
-            var script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
-            script.onload = initAllSwipers;
-            document.head.appendChild(script);
-          }
-        } else {
-          initAllSwipers();
         }
       }
 
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initMainProduct);
+      function initAllSwipers() {
+        initProductGallerySwiper();
+        initUgcSwiper();
+      }
+
+      if (typeof Swiper === 'undefined') {
+        var existingScript = document.querySelector('script[src*="swiper-bundle.min.js"]');
+        if (existingScript) {
+          existingScript.addEventListener('load', initAllSwipers);
+        } else {
+          var script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+          script.onload = initAllSwipers;
+          document.head.appendChild(script);
+        }
       } else {
+        initAllSwipers();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMainProduct);
+    } else {
+      initMainProduct();
+    }
+
+    // Support Shopify Theme Customizer section reload
+    document.addEventListener('shopify:section:load', function (e) {
+      if (e.target && e.target.querySelector('#productSection')) {
         initMainProduct();
       }
-
-      // Support Shopify Theme Customizer section reload
-      document.addEventListener('shopify:section:load', function (e) {
-        if (e.target && e.target.querySelector('#productSection')) {
-          initMainProduct();
-        }
-      });
-    })();
+    });
+  })();
 </script>
 {% schema %}
 {
