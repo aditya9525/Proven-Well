@@ -1764,6 +1764,46 @@ input:not([type=checkbox],[type=radio]) {
   padding-bottom: 16px;
 }
 
+.howto-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 16px 0 8px;
+}
+.howto-step {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+}
+.howto-num {
+  flex: 0 0 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44px;
+  font-weight: 500;
+  line-height: 1;
+  color: #d1d5db;
+  border-right: 2px solid #d1d5db;
+  padding-right: 12px;
+}
+.howto-text h4 {
+  margin: 0 0 4px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #2d3142;
+}
+.howto-text p {
+  margin: 0;
+  font-size: 16px;
+  color: #1e2123;
+}
+@media (max-width: 768px) {
+  .howto-num { flex-basis: 48px; font-size: 32px; }
+  .howto-text h4 { font-size: 18px; }
+  .howto-text p { font-size: 14px; }
+}
+
 .accordion-panel p {
   font-size: 14px;
   line-height: 1.6;
