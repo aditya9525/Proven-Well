@@ -4529,7 +4529,7 @@ input:not([type=checkbox],[type=radio]) {
 
   .superior-mob-bottle-img {
     height: 104px;
-    max-width: 40px;
+    /* max-width: 40px; */
     object-fit: contain;
     filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
   }
