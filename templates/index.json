@@ -606,6 +606,14 @@
     "customer_videos_ugc_3T6BjB": {
       "type": "customer-videos-ugc",
       "blocks": {
+        "video_card_BmXHGh": {
+          "type": "video_card",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_5e9q3o5e9q3o5e9q_1.png",
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/0599ca6023a94868946330e75e0901be.mp4",
+            "aria_label": "Play Customer Video"
+          }
+        },
         "video_card_T3GEW9": {
           "type": "video_card",
           "settings": {
@@ -648,6 +656,7 @@
         }
       },
       "block_order": [
+        "video_card_BmXHGh",
         "video_card_T3GEW9",
         "video_card_PxERjL",
         "video_card_UxYUKr",
