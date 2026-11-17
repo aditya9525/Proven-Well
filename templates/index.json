@@ -638,6 +638,14 @@
             "aria_label": "Play Customer Video"
           }
         },
+        "video_card_mHgG8q": {
+          "type": "video_card",
+          "disabled": true,
+          "settings": {
+            "video_url": "",
+            "aria_label": "Play Customer Video"
+          }
+        },
         "video_card_fhiABt": {
           "type": "video_card",
           "settings": {
@@ -660,6 +668,7 @@
         "video_card_T3GEW9",
         "video_card_PxERjL",
         "video_card_UxYUKr",
+        "video_card_mHgG8q",
         "video_card_fhiABt",
         "video_card_NrQQqh"
       ],
