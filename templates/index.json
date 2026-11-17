@@ -634,7 +634,7 @@
           "type": "video_card",
           "settings": {
             "image": "shopify://shop_images/420c08912a92b20a69943c2af36c43a9c4ec4275.jpg",
-            "video_url": "",
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/f194c430af254f2793645841ed8134d6.mp4",
             "aria_label": "Play Customer Video"
           }
         },
